@@ -41,12 +41,11 @@ const signin = () => {
             col={"black"}
           >
             Don't have an account?
-            <Link href={"/(tabs)"}>
+            <Link href={"/signup"}>
               <Text
                 textDecorationLine={"underline"}
                 color={"$primary"}
                 fontWeight={"600"}
-                href="/(tabs)"
               >
                 {" "}
                 Sign up

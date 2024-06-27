@@ -1,10 +1,73 @@
-import { View, Text } from "react-native";
+import { CButton, CInput, Container, H1, Paragraph } from "components/common";
+import { Link } from "expo-router";
+import { StatusBar } from "react-native";
+import { SafeAreaView } from "react-native-safe-area-context";
+import { Text, YStack } from "tamagui";
 
 const signup = () => {
   return (
-    <View>
-      <Text>This is the signup screen</Text>
-    </View>
+    <Container backgroundColor={"$white1"} flex={1} pt={"$5"}>
+      <SafeAreaView>
+        {/* signin title */}
+        <H1 textAlign="center" text="Create Account" />
+        <Paragraph
+          color={"black"}
+          textAlign="center"
+          text="Await account approval once you create account"
+        />
+
+        <YStack mt={"$5"} gap={"$2"}>
+          {/* Name */}
+          <CInput
+            label="Full Name"
+            placeholder="Enter your name"
+            keyboardType="number-pad"
+          />
+
+          {/* Email */}
+          <CInput label="Email" placeholder="email@mail.com" />
+
+          {/*  phone */}
+          <CInput
+            label="Phone number"
+            placeholder="07XX XXX XXX"
+            keyboardType="number-pad"
+          />
+
+          {/* password */}
+          <CInput label="Password" placeholder="password" secureTextEntry />
+
+          {/* confirm password */}
+          <CInput
+            label="Confirm Password"
+            placeholder="password"
+            secureTextEntry
+          />
+
+          <CButton text="Create" mt="$4" letterSpacing={1} />
+
+          <Paragraph
+            mt={"$2"}
+            fontWeight={"500"}
+            fontSize={14}
+            textAlign="center"
+            col={"black"}
+          >
+            Have an account?
+            <Link href={"/signin"}>
+              <Text
+                textDecorationLine={"underline"}
+                color={"$primary"}
+                fontWeight={"600"}
+              >
+                {" "}
+                Sign in
+              </Text>
+            </Link>
+          </Paragraph>
+        </YStack>
+      </SafeAreaView>
+    </Container>
   );
 };
 
