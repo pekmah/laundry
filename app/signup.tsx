@@ -1,7 +1,7 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useToastController } from "@tamagui/toast";
 import { useMutation } from "@tanstack/react-query";
-import { CButton, CInput, Container, H1, Paragraph } from "components/common";
+import { CButton, Container, H1, Paragraph } from "components/common";
 import { ControlledInput } from "components/common/input";
 import { Link, useRouter } from "expo-router";
 import AuthServices from "lib/services/AuthServices";
