@@ -12,7 +12,7 @@ import {
  */
 const signIn = async (
   payload: SigninFormData
-): Promise<UserType & tokenType> => {
+): Promise<{ user: UserType; jwt: string }> => {
   try {
     const response = await axios.post("/auth/local", payload);
     return response.data;
@@ -26,7 +26,7 @@ const signIn = async (
  */
 const register = async (
   payload: RegistrationPayload
-): Promise<UserType & tokenType> => {
+): Promise<{ user: UserType; jwt: string }> => {
   try {
     const response = await axios.post("/auth/local/register", payload);
     return response.data;

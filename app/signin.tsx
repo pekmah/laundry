@@ -11,9 +11,11 @@ import { SigninFormData, SigninSchema } from "lib/types/auth";
 import AuthServices from "lib/services/AuthServices";
 import { CButton, Container, H1, Paragraph } from "components/common";
 import { ControlledInput } from "components/common/input";
+import { useAuthStore } from "lib/storage/useAuthStore";
 
 const signin = () => {
   const toast = useToastController();
+  const { saveUser } = useAuthStore();
 
   const { handleSubmit, control, reset } = useForm<SigninFormData>({
     resolver: zodResolver(SigninSchema),
@@ -22,7 +24,10 @@ const signin = () => {
   const { mutate, isPending } = useMutation({
     mutationKey: ["signin"],
     mutationFn: AuthServices.signIn,
-    onSuccess: () => {
+    onSuccess: (data) => {
+      // save user to global store
+      saveUser(data.user, data.jwt);
+      // reset form to empty
       reset();
     },
     onError: (error) => {

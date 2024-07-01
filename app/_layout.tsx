@@ -6,6 +6,7 @@ import { SplashScreen, Stack } from "expo-router";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 
 import { Provider } from "./Provider";
+import { useAuthStore } from "lib/storage/useAuthStore";
 
 export {
   // Catch any errors thrown by the Layout component.
@@ -33,6 +34,9 @@ export default function RootLayout() {
     PopinsExtraBold: require("../assets/fonts/Poppins-ExtraBold.ttf"),
     PoppinsBlack: require("../assets/fonts/Poppins-Black.ttf"),
   });
+
+  const { token, user } = useAuthStore();
+  console.log(token, user);
 
   useEffect(() => {
     if (interLoaded || interError) {

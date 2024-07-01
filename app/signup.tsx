@@ -1,17 +1,19 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useToastController } from "@tamagui/toast";
 import { useMutation } from "@tanstack/react-query";
-import { CButton, Container, H1, Paragraph } from "components/common";
-import { ControlledInput } from "components/common/input";
 import { Link, useRouter } from "expo-router";
-import AuthServices from "lib/services/AuthServices";
-import { RegistrationFormData, RegistrationSchema } from "lib/types/auth";
 import { useForm } from "react-hook-form";
 import { Keyboard } from "react-native";
 import { ScrollView, Text, YStack } from "tamagui";
 
+import { CButton, Container, H1, Paragraph } from "components/common";
+import AuthServices from "lib/services/AuthServices";
+import { RegistrationFormData, RegistrationSchema } from "lib/types/auth";
+import { ControlledInput } from "components/common/input";
+import { useAuthStore } from "lib/storage/useAuthStore";
+
 const signup = () => {
-  const router = useRouter();
+  const { saveUser } = useAuthStore();
   const toast = useToastController();
   const { handleSubmit, control, reset } = useForm<RegistrationFormData>({
     resolver: zodResolver(RegistrationSchema),
@@ -20,9 +22,9 @@ const signup = () => {
   const { mutate, isPending } = useMutation({
     mutationKey: ["signup"],
     mutationFn: AuthServices.register,
-    onSuccess: () => {
+    onSuccess: (data) => {
+      saveUser(data.user, data.jwt);
       reset();
-      router.push("/signin");
       toast.show("Success.", {
         message: "Account created successfully, awaiting approval",
         type: "success",
