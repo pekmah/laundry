@@ -1,24 +1,56 @@
-import { GetProps, Input, Label, View } from "tamagui";
+import { Control, Controller, FieldError } from "react-hook-form";
+import { GetProps, Input, Label, View, Text } from "tamagui";
 
-type Props = { label?: string } & GetProps<typeof Input>;
+type Props = { label?: string; error?: FieldError } & GetProps<typeof Input>;
 
-const CInput = ({ label, ...rest }: Props) => {
+const CInput = ({ label, error, ...rest }: Props) => {
   return (
     <View>
       {label ? (
-        <Label fontWeight={"500"} color={"black"}>
+        <Label lineHeight={"$6"} fontWeight={"500"} color={"black"}>
           {label}
         </Label>
       ) : null}
       <Input
-        backgroundColor={"$gray3Light"}
+        backgroundColor={error?.message ? "$red1Light" : "$gray3Light"}
         borderWidth={1}
-        borderColor={"$gray6Light"}
+        borderColor={error?.message ? "$red10Light" : "$gray6Light"}
         color={"black"}
         {...rest}
       />
+      <Text h={"auto"} fontSize={12} fontWeight={"500"} color={"$red10Light"}>
+        {error?.message}
+      </Text>
     </View>
   );
 };
+
+type ControlledInputProps = {
+  control: Control<any, any>;
+  rules?: any;
+  name: string;
+} & Props;
+
+export const ControlledInput = ({
+  control,
+  rules,
+  name,
+  ...rest
+}: ControlledInputProps) => (
+  <Controller
+    control={control}
+    rules={rules}
+    render={({ field: { onChange, onBlur, value }, fieldState: { error } }) => (
+      <CInput
+        {...rest}
+        onChangeText={onChange}
+        onBlur={onBlur}
+        value={value}
+        error={error}
+      />
+    )}
+    name={name}
+  />
+);
 
 export default CInput;

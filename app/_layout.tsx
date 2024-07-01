@@ -1,24 +1,18 @@
 import "../tamagui-web.css";
 
 import { useEffect } from "react";
-import { TouchableOpacity, useColorScheme } from "react-native";
-import {
-  DarkTheme,
-  DefaultTheme,
-  ThemeProvider,
-} from "@react-navigation/native";
 import { useFonts } from "expo-font";
 import { SplashScreen, Stack } from "expo-router";
-import Octicons from "@expo/vector-icons/Octicons";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 
 import { Provider } from "./Provider";
-import { Text, View } from "tamagui";
-import { ChevronLeft, Feather } from "@tamagui/lucide-icons";
 
 export {
   // Catch any errors thrown by the Layout component.
   ErrorBoundary,
 } from "expo-router";
+
+const queryClient = new QueryClient();
 
 export const unstable_settings = {
   // Ensure that reloading on `/modal` keeps a back button present.
@@ -55,51 +49,37 @@ export default function RootLayout() {
 }
 
 function RootLayoutNav() {
-  const colorScheme = useColorScheme();
-
   return (
-    <Provider>
-      <Stack
-        screenOptions={{
-          headerStyle: {
-            backgroundColor: "inherit",
-          },
-          headerShadowVisible: false,
-          headerLeft: renderHeaderLeft,
-          headerShown: false,
-        }}
-        initialRouteName="signin"
-      >
-        <Stack.Screen
-          name="(tabs)"
-          options={{
-            headerShown: false,
-          }}
-        />
+    <QueryClientProvider client={queryClient}>
+      <Provider>
+        <Stack initialRouteName="signin">
+          <Stack.Screen
+            name="(tabs)"
+            options={{
+              headerShown: false,
+            }}
+          />
 
-        <Stack.Screen
-          name="modal"
-          options={{
-            title: "Tamagui + Expo",
-            presentation: "modal",
-            animation: "slide_from_right",
-            gestureEnabled: true,
-            gestureDirection: "horizontal",
-          }}
-        />
-      </Stack>
-    </Provider>
+          <Stack.Screen
+            name="verify"
+            options={{ ...screenOptionsWithHeader, title: "" }}
+          />
+
+          <Stack.Screen name="signin" options={{ headerShown: false }} />
+          <Stack.Screen
+            name="signup"
+            options={{ ...screenOptionsWithHeader, title: "" }}
+          />
+        </Stack>
+      </Provider>
+    </QueryClientProvider>
   );
 }
 
-const renderHeaderLeft = (props) => {
-  console.log("props", props);
-  if (!props.canGoBack) return;
-  return (
-    <TouchableOpacity {...props}>
-      <View borderRadius={"$12"} padding="$2">
-        <Octicons name="arrow-left" size={24} color="black" />
-      </View>
-    </TouchableOpacity>
-  );
+export const screenOptionsWithHeader = {
+  headerStyle: {
+    backgroundColor: "white",
+  },
+  headerShadowVisible: false,
+  headerShown: true,
 };

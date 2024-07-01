@@ -7,12 +7,14 @@ type CButtonProps = {
   children?: React.ReactNode;
 } & GetProps<typeof Button>;
 
-const CButton = ({ text, children, ...rest }: CButtonProps) => {
+const CButton = ({ text, children, disabled, ...rest }: CButtonProps) => {
   return (
     <Button
       borderRadius={"$12"}
       bg={"$primary"}
       pressStyle={{ backgroundColor: "$primary", opacity: 0.8 }}
+      disabled={disabled}
+      opacity={disabled ? 0.8 : 1}
       {...rest}
     >
       {text ? (

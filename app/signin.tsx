@@ -1,10 +1,48 @@
-import { CButton, CInput, Container, H1, Paragraph } from "components/common";
 import { Link } from "expo-router";
 import { SafeAreaView } from "react-native-safe-area-context";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { Text, YStack } from "tamagui";
+import { useMutation } from "@tanstack/react-query";
+import { useToastController } from "@tamagui/toast";
+import { Keyboard } from "react-native";
 
-import { Anchor, Text, YStack } from "tamagui";
+import { SigninFormData, SigninSchema } from "lib/types/signin";
+import AuthServices from "lib/services/AuthServices";
+import { CButton, Container, H1, Paragraph } from "components/common";
+import { ControlledInput } from "components/common/input";
 
 const signin = () => {
+  const toast = useToastController();
+
+  const { handleSubmit, control, reset } = useForm<SigninFormData>({
+    resolver: zodResolver(SigninSchema),
+  });
+
+  const { mutate, isPending } = useMutation({
+    mutationKey: ["signin"],
+    mutationFn: AuthServices.signIn,
+    onSuccess: (data) => {
+      reset();
+      toast.show("Success", {
+        message: "Signin successful",
+        type: "success",
+      });
+    },
+    onError: (error) => {
+      console.error("Signin error:", error);
+      toast.show("Error signing in", {
+        message: error.message,
+        type: "error",
+      });
+    },
+  });
+
+  const onSubmit = (data: SigninFormData) => {
+    Keyboard.dismiss();
+    mutate(data);
+  };
+
   return (
     <Container backgroundColor={"$white1"} flex={1} pt={"$5"}>
       <SafeAreaView>
@@ -13,16 +51,29 @@ const signin = () => {
 
         <YStack mt={"$5"} gap={"$3"}>
           {/* email or phone */}
-          <CInput
+          <ControlledInput
+            name="identifier"
+            control={control}
             label="Email or Phone"
-            placeholder="07XX XXX XXX"
-            keyboardType="number-pad"
+            placeholder="email or phone"
           />
 
           {/* password */}
-          <CInput label="Password" placeholder="password" secureTextEntry />
+          <ControlledInput
+            name="password"
+            control={control}
+            label="Password"
+            placeholder="password"
+            secureTextEntry
+          />
 
-          <CButton text="Login" mt="$4" letterSpacing={1} />
+          <CButton
+            onPress={handleSubmit(onSubmit)}
+            text={isPending ? "signing in..." : "Login"}
+            mt="$4"
+            letterSpacing={1}
+            disabled={isPending}
+          />
 
           <Paragraph
             mt={"$2"}

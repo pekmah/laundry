@@ -1,3 +1,4 @@
+import { CONTAINER_PADDING } from "constants/variables";
 import React from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { GetProps, View } from "tamagui";
@@ -11,7 +12,7 @@ type Props = {
  */
 const Container = ({ children, ...rest }: Props) => {
   return (
-    <View bg={"$gray1"} flex={1} padding="$4" {...rest}>
+    <View bg={"$gray1"} flex={1} padding={CONTAINER_PADDING} {...rest}>
       {children}
     </View>
   );
