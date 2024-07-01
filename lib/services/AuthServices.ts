@@ -5,7 +5,7 @@ import {
   SigninFormData,
   UserType,
   tokenType,
-} from "lib/types/signin";
+} from "lib/types/auth";
 
 /**
  * signs in user

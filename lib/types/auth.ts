@@ -11,6 +11,7 @@ export const SigninSchema: ZodType<SigninFormData> = z.object({
 });
 
 export type RegistrationFormData = {
+  name: string;
   email: string;
   password: string;
   phone: string;
@@ -23,8 +24,10 @@ export type RegistrationPayload = RegistrationFormData & {
 
 export const RegistrationSchema: ZodType<RegistrationFormData> = z
   .object({
+    name: z.string().min(3),
     email: z.string().email(),
-    phone: z.string().regex(/^(07d{8}|2547d{8})$/, "Invalid phone number"),
+    phone: z.string(),
+    // .regex(/^(07d{8}|2547d{8})$/, "Invalid phone number"),
     password: z
       .string()
       .min(8, { message: "Password is too short" })

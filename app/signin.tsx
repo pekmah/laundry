@@ -7,7 +7,7 @@ import { useMutation } from "@tanstack/react-query";
 import { useToastController } from "@tamagui/toast";
 import { Keyboard } from "react-native";
 
-import { SigninFormData, SigninSchema } from "lib/types/signin";
+import { SigninFormData, SigninSchema } from "lib/types/auth";
 import AuthServices from "lib/services/AuthServices";
 import { CButton, Container, H1, Paragraph } from "components/common";
 import { ControlledInput } from "components/common/input";
@@ -22,15 +22,10 @@ const signin = () => {
   const { mutate, isPending } = useMutation({
     mutationKey: ["signin"],
     mutationFn: AuthServices.signIn,
-    onSuccess: (data) => {
+    onSuccess: () => {
       reset();
-      toast.show("Success", {
-        message: "Signin successful",
-        type: "success",
-      });
     },
     onError: (error) => {
-      console.error("Signin error:", error);
       toast.show("Error signing in", {
         message: error.message,
         type: "error",
