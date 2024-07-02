@@ -1,4 +1,4 @@
-import { Link } from "expo-router";
+import { Link, useRouter } from "expo-router";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -16,6 +16,7 @@ import { useAuthStore } from "lib/storage/useAuthStore";
 const signin = () => {
   const toast = useToastController();
   const { saveUser } = useAuthStore();
+  const router = useRouter();
 
   const { handleSubmit, control, reset } = useForm<SigninFormData>({
     resolver: zodResolver(SigninSchema),
@@ -29,6 +30,7 @@ const signin = () => {
       saveUser(data.user, data.jwt);
       // reset form to empty
       reset();
+      router.replace("/");
     },
     onError: (error) => {
       toast.show("Error signing in", {

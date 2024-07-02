@@ -2,7 +2,7 @@ import "../tamagui-web.css";
 
 import { useEffect } from "react";
 import { useFonts } from "expo-font";
-import { SplashScreen, Stack } from "expo-router";
+import { Redirect, Slot, SplashScreen, Stack } from "expo-router";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 
 import { Provider } from "./Provider";
@@ -35,8 +35,7 @@ export default function RootLayout() {
     PoppinsBlack: require("../assets/fonts/Poppins-Black.ttf"),
   });
 
-  const { token, user } = useAuthStore();
-  console.log(token, user);
+  const { removeUser } = useAuthStore();
 
   useEffect(() => {
     if (interLoaded || interError) {
@@ -56,34 +55,8 @@ function RootLayoutNav() {
   return (
     <QueryClientProvider client={queryClient}>
       <Provider>
-        <Stack initialRouteName="signin">
-          <Stack.Screen
-            name="(tabs)"
-            options={{
-              headerShown: false,
-            }}
-          />
-
-          <Stack.Screen
-            name="verify"
-            options={{ ...screenOptionsWithHeader, title: "" }}
-          />
-
-          <Stack.Screen name="signin" options={{ headerShown: false }} />
-          <Stack.Screen
-            name="signup"
-            options={{ ...screenOptionsWithHeader, title: "" }}
-          />
-        </Stack>
+        <Slot />
       </Provider>
     </QueryClientProvider>
   );
 }
-
-export const screenOptionsWithHeader = {
-  headerStyle: {
-    backgroundColor: "white",
-  },
-  headerShadowVisible: false,
-  headerShown: true,
-};
