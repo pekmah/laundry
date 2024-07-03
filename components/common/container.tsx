@@ -12,7 +12,7 @@ type Props = {
  */
 const Container = ({ children, ...rest }: Props) => {
   return (
-    <View bg={"$gray1"} flex={1} padding={CONTAINER_PADDING} {...rest}>
+    <View flex={1} padding={CONTAINER_PADDING} {...rest}>
       {children}
     </View>
   );

@@ -1,11 +1,8 @@
-import { Link, Tabs } from "expo-router";
-import { Button, Text, View, useTheme } from "tamagui";
-import { Atom, AudioWaveform } from "@tamagui/lucide-icons";
-import { tokens } from "@tamagui/config/v3";
+import { Tabs } from "expo-router";
+import { Text, View, useTheme } from "tamagui";
 import Octicons from "@expo/vector-icons/Octicons";
 import Ionicons from "@expo/vector-icons/Ionicons";
 import Feather from "@expo/vector-icons/Feather";
-import FontAwesome5 from "@expo/vector-icons/FontAwesome5";
 
 export default function TabLayout() {
   const theme = useTheme();
@@ -13,6 +10,7 @@ export default function TabLayout() {
   return (
     <Tabs
       screenOptions={{
+        headerShown: false,
         tabBarActiveTintColor: theme.primary.val,
         tabBarStyle: {
           backgroundColor: theme.primary.val,
@@ -27,11 +25,13 @@ export default function TabLayout() {
         },
         tabBarInactiveTintColor: "#fff",
       }}
+      initialRouteName="more"
     >
       <Tabs.Screen
         name="index"
         options={{
           title: "Tab One",
+          headerShown: true,
           tabBarIcon: renderHomeIcon,
         }}
       />

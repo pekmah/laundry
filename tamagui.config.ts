@@ -1,9 +1,11 @@
 import { config as configBase, themes, tokens } from "@tamagui/config/v3";
+import { COLORS } from "constants/Colors";
 import { createFont, createTamagui } from "tamagui";
 
 const commonColors = {
-  primary: "#3D4EB0",
-  c_grey: "#6E6F79",
+  primary: COLORS.primary,
+  primary_light: COLORS.primary_light,
+  c_grey: COLORS.c_grey,
 };
 
 const poppinsFont = {
