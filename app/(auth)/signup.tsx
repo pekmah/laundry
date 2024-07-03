@@ -1,7 +1,7 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useToastController } from "@tamagui/toast";
 import { useMutation } from "@tanstack/react-query";
-import { Link, useRouter } from "expo-router";
+import { Link } from "expo-router";
 import { useForm } from "react-hook-form";
 import { Keyboard } from "react-native";
 import { ScrollView, Text, YStack } from "tamagui";

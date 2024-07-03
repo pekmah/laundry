@@ -3,9 +3,12 @@ import { StyleSheet } from "react-native";
 import { Avatar, Button, Paragraph, Text, View, YStack } from "tamagui";
 import { LinearGradient } from "expo-linear-gradient";
 import Feather from "@expo/vector-icons/Feather";
+import { useAuthStore } from "lib/storage/useAuthStore";
+import { get } from "react-native/Libraries/TurboModule/TurboModuleRegistry";
 const CARD_HEIGHT = SCREEN_HEIGHT * 0.3;
 
 const Card = () => {
+  const { user } = useAuthStore();
   return (
     <View bg={"$primary"} minHeight={CARD_HEIGHT}>
       <LinearGradient
@@ -29,16 +32,16 @@ const Card = () => {
               fontWeight={"800"}
               letterSpacing={2}
             >
-              EP
+              {getNameAbbreviation(user?.name || "User")}
             </Text>
           </Avatar>
 
           <View>
             <Text lineHeight={25} fontWeight={"600"} fontSize={16}>
-              Eric Pekmah
+              {user?.name || ""}
             </Text>
-            <Paragraph fontSize={12} color={"$gray2Light"}>
-              +254 712 345 678
+            <Paragraph fontSize={12} textAlign="center" color={"$gray2Light"}>
+              {user?.phone || ""}
             </Paragraph>
           </View>
 
@@ -56,6 +59,14 @@ const Card = () => {
 };
 
 export default Card;
+
+const getNameAbbreviation = (name: string) => {
+  const names = name.split(" ");
+  const first = names[0][0];
+  if (names.length === 1) return `${first}${names[0][1]}`.toUpperCase();
+  const last = names[1][0];
+  return `${first}${last}`.toUpperCase();
+};
 
 const styles = StyleSheet.create({
   background: {

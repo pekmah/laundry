@@ -50,6 +50,7 @@ export type UserType = {
   updatedAt: string;
   phone: string;
   activated: boolean | null;
+  name: string;
 };
 
 export type tokenType = string;

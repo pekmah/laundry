@@ -4,15 +4,14 @@ import { Button, H4, XStack, YStack, isWeb } from "tamagui";
 
 export function CurrentToast() {
   const currentToast = useToastState();
-
-  if (!currentToast || currentToast.isHandledNatively) return null;
-
   const theme = useMemo(() => {
     if (currentToast?.type === "error") return "red";
     if (currentToast?.type === "success") return "green";
     if (currentToast?.type === "warning") return "yellow";
     return "blue";
   }, [currentToast?.type]);
+
+  if (!currentToast || currentToast.isHandledNatively) return null;
 
   return (
     <Toast
