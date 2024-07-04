@@ -1,6 +1,5 @@
 import { TouchableOpacity, TouchableOpacityProps } from "react-native";
 import { Avatar, Text, View, XStack, useTheme } from "tamagui";
-import MaterialCommunityIcons from "@expo/vector-icons/MaterialCommunityIcons";
 import Feather from "@expo/vector-icons/Feather";
 
 export type MoreItemProps = {
