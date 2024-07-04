@@ -1,11 +1,10 @@
 import { Image, Text, View } from "tamagui";
 import OfferImg from "assets/images/offer.jpg";
+import { SectionTitle } from "components/common";
 const Offers = () => {
   return (
     <View my={"$3"}>
-      <Text col={"black"} fontWeight={"600"} fontSize={15} mb={"$2"}>
-        Latest Offers
-      </Text>
+      <SectionTitle title="Latest Offers" />
 
       <View overflow="hidden" borderRadius={"$4"} position="relative">
         <Image
