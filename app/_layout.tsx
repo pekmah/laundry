@@ -2,7 +2,7 @@ import "../tamagui-web.css";
 
 import { useEffect } from "react";
 import { useFonts } from "expo-font";
-import { Redirect, Slot, SplashScreen, Stack } from "expo-router";
+import { Slot, SplashScreen } from "expo-router";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 
 import { Provider } from "./Provider";
@@ -33,6 +33,7 @@ export default function RootLayout() {
     PopinsExtraLight: require("../assets/fonts/Poppins-ExtraLight.ttf"),
     PopinsExtraBold: require("../assets/fonts/Poppins-ExtraBold.ttf"),
     PoppinsBlack: require("../assets/fonts/Poppins-Black.ttf"),
+    praise: require("../assets/fonts/Praise-Regular.ttf"),
   });
 
   const { removeUser } = useAuthStore();

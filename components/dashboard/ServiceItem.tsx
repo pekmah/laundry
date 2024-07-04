@@ -6,16 +6,16 @@ const ServiceItem = ({ icon, name }: Service) => {
     <View
       p={"$1"}
       alignItems="center"
-      h={65}
-      w={70}
+      h={55}
+      w={60}
       bg={"$primary_light"}
       mx={"$2"}
       borderRadius={"$4"}
     >
       <Image
         m={"auto"}
-        h={30}
-        w={30}
+        h={25}
+        w={25}
         resizeMode="contain"
         resizeMethod="resize"
         source={icon}

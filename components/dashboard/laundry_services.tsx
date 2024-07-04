@@ -11,7 +11,7 @@ import shoes from "assets/icons/shoes.png";
 const Services = () => {
   return (
     <View py={"$2"}>
-      <Text col={"black"} fontWeight={"600"} fontSize={15}>
+      <Text col={"black"} fontWeight={"600"} fontSize={15} mb={"$2"}>
         Services offered
       </Text>
 

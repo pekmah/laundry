@@ -1,5 +1,9 @@
 import { CStatusBar, Container } from "components/common";
-import { DashboardHeader, LaundryServices } from "components/dashboard";
+import {
+  DashboardHeader,
+  LaundryOffers,
+  LaundryServices,
+} from "components/dashboard";
 import { Stack } from "expo-router";
 import { ScrollView } from "tamagui";
 
@@ -17,6 +21,11 @@ export default function Dashboard() {
       <Container bg={"white"} py={"$1"}>
         <ScrollView>
           <LaundryServices />
+
+          {/* Offers */}
+          <LaundryOffers />
+
+          {/* recent orders */}
         </ScrollView>
       </Container>
     </>
