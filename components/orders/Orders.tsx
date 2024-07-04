@@ -7,7 +7,6 @@ const Orders = ({ ...rest }: Partial<FlatListProps<any>>) => {
     <FlatList
       data={orders}
       renderItem={({ item }) => <OrderItem key={item.id} {...item} />}
-      keyExtractor={(item) => item.name}
       scrollEnabled={false}
       {...rest}
     />

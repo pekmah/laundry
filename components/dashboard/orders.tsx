@@ -1,7 +1,8 @@
 import { Anchor, View, XStack } from "tamagui";
 import { SectionTitle } from "components/common";
+import { Orders } from "components/orders";
 
-const Orders = () => {
+const RecentOrders = () => {
   return (
     <View my={"$2"}>
       <XStack justifyContent="space-between">
@@ -22,4 +23,4 @@ const Orders = () => {
   );
 };
 
-export default Orders;
+export default RecentOrders;
