@@ -10,15 +10,19 @@ import { MoreCard, MoreItem } from "components/more";
 import { MoreItemProps } from "components/more/MoreItem";
 import { COLORS } from "constants/Colors";
 import { useAuthStore } from "lib/storage/useAuthStore";
+import { useRouter } from "expo-router";
 
 const more = () => {
-  const { removeUser, token } = useAuthStore();
+  const { removeUser } = useAuthStore();
+  const router = useRouter();
 
   const handleSignout = () => {
     removeUser();
   };
 
-  console.log(token);
+  const handleNavigate = (path) => {
+    router.push(path);
+  };
 
   return (
     <View style={styles.safeArea}>
@@ -33,7 +37,7 @@ const more = () => {
                 key={index}
                 title={item.title}
                 icon={item.icon}
-                handlePress={() => {}}
+                handlePress={() => handleNavigate(item?.screen)}
               />
             ))}
 
@@ -72,6 +76,7 @@ const moreItems: MoreItemProps[] = [
   {
     title: "Pricing",
     icon: <Ionicons color={COLORS.primary} name="pricetag-sharp" size={20} />,
+    screen: "/(app)/(more)/pricing/create",
   },
   {
     title: "Services",

@@ -6,6 +6,7 @@ import Feather from "@expo/vector-icons/Feather";
 export type MoreItemProps = {
   title: string;
   icon: React.ReactNode;
+  screen?: string;
   handlePress?: () => void;
 } & TouchableOpacityProps;
 

@@ -1,3 +1,4 @@
+import { screenOptionsWithHeader } from "app/(app)/_layout";
 import { Redirect, Stack } from "expo-router";
 import { useAuthStore } from "lib/storage/useAuthStore";
 
@@ -23,10 +24,3 @@ export default function AppLayout() {
     </Stack>
   );
 }
-export const screenOptionsWithHeader = {
-  headerStyle: {
-    backgroundColor: "white",
-  },
-  headerShadowVisible: false,
-  headerShown: true,
-};

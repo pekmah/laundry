@@ -16,6 +16,7 @@ const CInput = ({ label, error, ...rest }: Props) => {
         borderWidth={1}
         borderColor={error?.message ? "$red10Light" : "$gray6Light"}
         color={"black"}
+        fontSize={13}
         {...rest}
       />
       <Text h={"auto"} fontSize={12} fontWeight={"500"} color={"$red10Light"}>

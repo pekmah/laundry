@@ -16,6 +16,12 @@ export default function AppLayout() {
           headerShown: false,
         }}
       />
+      <Stack.Screen
+        name="(more)"
+        options={{
+          headerShown: false,
+        }}
+      />
     </Stack>
   );
 }
@@ -24,5 +30,9 @@ export const screenOptionsWithHeader = {
     backgroundColor: "white",
   },
   headerShadowVisible: false,
+  headerTitleStyle: {
+    fontFamily: "Poppins-SemiBold",
+    fontSize: 18,
+  },
   headerShown: true,
 };
