@@ -19,6 +19,7 @@ export default {
 };
 
 export const COLORS = {
+  primary_dark: "rgba(15,19,48,1)",
   primary: "#3D4EB0",
   primary_light: "#E3E5F5",
   c_grey: "#6E6F79",

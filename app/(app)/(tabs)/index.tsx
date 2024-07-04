@@ -1,18 +1,24 @@
-import { DashboardHeader } from "components/dashboard";
+import { CStatusBar, Container } from "components/common";
+import { DashboardHeader, LaundryServices } from "components/dashboard";
 import { Stack } from "expo-router";
-import { H2, YStack } from "tamagui";
+import { ScrollView } from "tamagui";
 
 export default function Dashboard() {
   return (
     <>
+      <CStatusBar />
+
       <Stack.Screen
         options={{
           header: renderHeader,
         }}
       />
-      <YStack f={1} ai="center" gap="$8" px="$10" pt="$5">
-        <H2 color={"black"}>Laundry App</H2>
-      </YStack>
+
+      <Container bg={"white"} py={"$1"}>
+        <ScrollView>
+          <LaundryServices />
+        </ScrollView>
+      </Container>
     </>
   );
 }

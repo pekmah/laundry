@@ -15,7 +15,6 @@ const more = () => {
   const { removeUser, token } = useAuthStore();
 
   const handleSignout = () => {
-    console.log("Signout");
     removeUser();
   };
 

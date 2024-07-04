@@ -1,5 +1,5 @@
-import { config as configBase, themes, tokens } from "@tamagui/config/v3";
-import { COLORS } from "constants/Colors";
+import { config as configBase, tokens } from "@tamagui/config/v3";
+import { COLORS } from "./constants/Colors";
 import { createFont, createTamagui } from "tamagui";
 
 const commonColors = {
