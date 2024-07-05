@@ -1,6 +1,6 @@
 export type PricingFormData = {
   name: string;
-  amount: number;
+  amount: number | string;
   unit: string;
 };
 export type PricingType = {

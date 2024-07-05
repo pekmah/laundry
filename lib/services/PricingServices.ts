@@ -21,7 +21,7 @@ const create = async (payload: PricingFormData): Promise<PricingType> => {
 };
 
 /**
- * fetches all pricings
+ * @description fetches all pricings
  */
 const fetchAll = async (): Promise<PricingType[]> => {
   try {
@@ -36,10 +36,34 @@ const fetchAll = async (): Promise<PricingType[]> => {
     throw error;
   }
 };
+/**
+ * @description udpates pricing
+ */
+const update = async ({
+  id,
+  payload,
+}: {
+  id: number;
+  payload: PricingFormData;
+}): Promise<PricingType> => {
+  try {
+    setAuthToken(axios);
+
+    const response = await axios.put(`/pricings/${id}`, { data: payload });
+
+    // remove unnecessary keys
+    const data = flattenAttributes(response.data);
+
+    return data;
+  } catch (error) {
+    throw error;
+  }
+};
 
 const PricingServices = {
   create,
   fetchAll,
+  update,
 };
 
 export default PricingServices;

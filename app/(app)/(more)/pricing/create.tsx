@@ -13,42 +13,81 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { PRICING_QUERY_KEY } from ".";
 import PricingServices from "lib/services/PricingServices";
 import { updateQueryData } from "utils/query";
-import { flattenAttributes } from "utils/strapi";
+import { usePricingStore } from "lib/storage/usePricingStore";
+import { useMemo } from "react";
 
 const pricing = () => {
   const toast = useToastController();
   const queryClient = useQueryClient();
   const router = useRouter();
+  const { pricing, reset } = usePricingStore();
 
-  const { control, handleSubmit } = useForm<PricingFormData>({
+  const { control, handleSubmit, watch } = useForm<PricingFormData>({
     resolver: zodResolver(PricingSchema),
+    defaultValues: {
+      name: pricing?.name || "",
+      amount: pricing?.amount?.toString() || 0,
+      unit: pricing?.unit || "",
+    },
   });
+
+  const isUpdating = useMemo(() => !!pricing?.id, [pricing]);
+  const currentName = watch("name");
+  const currentAmount = watch("amount");
+  const currentUnit = watch("unit");
+
+  const hasDataChanged = useMemo(() => {
+    return (
+      pricing?.name !== currentName ||
+      pricing?.amount?.toString() !== currentAmount ||
+      pricing?.unit !== currentUnit
+    );
+  }, [pricing, currentName, currentAmount, currentUnit]);
+
+  const handleSuccess = (response: PricingType, message: string) => {
+    updateQueryData(PRICING_QUERY_KEY, queryClient, response);
+
+    toast.show("Success", {
+      message: `Pricing item ${message} successfully`,
+      type: "success",
+    });
+    reset();
+    router.back();
+  };
+
+  const handleError = (error) => {
+    toast.show("Error adding pricing", {
+      message: error.message,
+      type: "error",
+    });
+  };
 
   const { mutate, isPending } = useMutation({
     mutationKey: PRICING_QUERY_KEY,
     mutationFn: PricingServices.create,
-    onSuccess: (response) => {
-      const createdPricing: PricingType = flattenAttributes(response);
+    onSuccess: (res) => handleSuccess(res, "created"),
+    onError: handleError,
+  });
 
-      updateQueryData(PRICING_QUERY_KEY, queryClient, createdPricing);
-
-      toast.show("Success", {
-        message: "Pricing item created successfully",
-        type: "success",
-      });
-      router.back();
-    },
-    onError: (error) => {
-      toast.show("Error adding pricing", {
-        message: error.message,
-        type: "error",
-      });
-    },
+  const { mutate: update, isPending: updatePending } = useMutation({
+    mutationKey: PRICING_QUERY_KEY,
+    mutationFn: PricingServices.update,
+    onSuccess: (res) => handleSuccess(res, "updated"),
+    onError: handleError,
   });
 
   const onSubmit = (data: PricingFormData) => {
-    mutate(data);
+    const amount = data.amount.toString();
+
+    if (isUpdating && pricing?.id) {
+      update({
+        id: pricing?.id,
+        payload: { ...data, amount: parseInt(amount, 10) },
+      });
+    } else mutate({ ...data, amount: parseInt(amount, 10) });
   };
+
+  const isLoading = isPending || updatePending;
 
   return (
     <>
@@ -99,7 +138,6 @@ const pricing = () => {
               label="Amount"
               placeholder="price of item"
               keyboardType="numeric"
-              handleChange={(val, onChange) => onChange(parseInt(val, 10))}
             />
             {/* payment amount */}
             <ControlledInput
@@ -110,10 +148,10 @@ const pricing = () => {
             />
             <CButton
               onPress={handleSubmit(onSubmit)}
-              text={isPending ? "saving..." : "Save"}
+              text={isLoading ? "saving..." : isUpdating ? "Update" : "Save"}
               mt="$4"
               letterSpacing={1}
-              disabled={isPending}
+              disabled={isLoading || (isUpdating && !hasDataChanged)}
             />
           </YStack>
         </ScrollView>

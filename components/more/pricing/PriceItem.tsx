@@ -2,10 +2,16 @@ import { CButton } from "components/common";
 import { Text, View, XStack, YStack } from "tamagui";
 import FontAwesome5 from "@expo/vector-icons/FontAwesome5";
 import { COLORS } from "constants/Colors";
+import { usePricingStore } from "lib/storage/usePricingStore";
 
-type Props = { title: string; price: string; unit: string };
+type Props = {
+  title: string;
+  price: string;
+  unit: string;
+  handleEdit: () => void;
+};
 
-const PriceItem = ({ title, price, unit }: Props) => {
+const PriceItem = ({ title, price, unit, handleEdit }: Props) => {
   return (
     <View
       overflow="hidden"
@@ -25,7 +31,7 @@ const PriceItem = ({ title, price, unit }: Props) => {
           <FontAwesome5 name={"tshirt"} size={24} color={COLORS.primary} />
         </View>
 
-        <YStack py={"$2"}>
+        <YStack flex={1} py={"$2"}>
           <Text
             lineHeight={20}
             color={"black"}
@@ -36,7 +42,7 @@ const PriceItem = ({ title, price, unit }: Props) => {
           >
             {title}
           </Text>
-          <XStack gap={"$5"} justifyContent="space-between">
+          <XStack gap={"$5"} justifyContent="space-between" flex={1}>
             <YStack>
               <Text fontSize={12} fontWeight={"500"} color={"$gray10"}>
                 Price: {price}/{unit}
@@ -50,8 +56,15 @@ const PriceItem = ({ title, price, unit }: Props) => {
               py={"$2"}
               justifyContent="flex-end"
               alignItems="flex-end"
+              pr={"$3"}
             >
-              <CButton flexGrow={1} h={"$2.5"} fs={12} mt={"$1"}>
+              <CButton
+                onPress={handleEdit}
+                flexGrow={1}
+                h={"$2.5"}
+                fs={12}
+                mt={"$1"}
+              >
                 <Text
                   letterSpacing={1}
                   fontWeight={"600"}

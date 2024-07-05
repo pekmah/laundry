@@ -9,11 +9,13 @@ import { useQuery } from "@tanstack/react-query";
 import PricingServices from "lib/services/PricingServices";
 import { FlatList } from "react-native";
 import { PricingType } from "types/pricing";
+import { usePricingStore } from "lib/storage/usePricingStore";
 
 export const PRICING_QUERY_KEY = ["pricing"];
 
 const index = () => {
   const router = useRouter();
+  const { editPricing } = usePricingStore();
 
   const handleCreate = () => {
     router.push("pricing/create");
@@ -23,6 +25,16 @@ const index = () => {
     queryKey: PRICING_QUERY_KEY,
     queryFn: PricingServices.fetchAll,
   });
+
+  const handleEdit = (id: number) => {
+    if (!data || !id) return;
+    const currentPricing = data.find((pricing) => pricing.id === id);
+
+    if (currentPricing) {
+      editPricing(currentPricing);
+      router.push("pricing/create");
+    }
+  };
 
   return (
     <Container px={"$3"} py={"$3"}>
@@ -36,6 +48,7 @@ const index = () => {
             title={item.name}
             price={item.amount.toString()}
             unit={item.unit}
+            handleEdit={() => handleEdit(item.id)}
           />
         )}
         scrollEnabled={false}
