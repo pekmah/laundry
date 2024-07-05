@@ -21,6 +21,22 @@ export default function MoreLayout() {
           title: "Manage Pricing ",
         }}
       />
+      <Stack.Screen
+        name="payment-modes/index"
+        options={{
+          ...screenOptionsWithHeader,
+          title: "Manage Payment Modes",
+        }}
+      />
+      <Stack.Screen
+        name="payment-modes/create"
+        options={{
+          ...screenOptionsWithHeader,
+          title: "Add Payment Mode",
+          presentation: "modal",
+          animation: "slide_from_bottom",
+        }}
+      />
     </Stack>
   );
 }

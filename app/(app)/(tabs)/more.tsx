@@ -11,7 +11,6 @@ import { MoreItemProps } from "components/more/MoreItem";
 import { COLORS } from "constants/Colors";
 import { useAuthStore } from "lib/storage/useAuthStore";
 import { useRouter } from "expo-router";
-import { useEffect } from "react";
 
 const more = () => {
   const { removeUser } = useAuthStore();
@@ -80,14 +79,11 @@ const moreItems: MoreItemProps[] = [
     screen: "/(app)/(more)/pricing",
   },
   {
-    title: "Services",
+    title: "Payment Modes",
     icon: (
-      <MaterialIcons
-        color={COLORS.primary}
-        name="local-laundry-service"
-        size={24}
-      />
+      <MaterialIcons color={COLORS.primary} name="attach-money" size={24} />
     ),
+    screen: "/(app)/(more)/payment-modes",
   },
   {
     title: "Offers",

@@ -1,10 +1,8 @@
 import { CButton, Container } from "components/common";
 import { PriceItem } from "components/more/pricing";
-import { Avatar, View } from "tamagui";
+import { View } from "tamagui";
 import MaterialIcons from "@expo/vector-icons/MaterialIcons";
 import { useRouter } from "expo-router";
-import { useEffect } from "react";
-import { flattenAttributes } from "utils/strapi";
 import { useQuery } from "@tanstack/react-query";
 import PricingServices from "lib/services/PricingServices";
 import { FlatList } from "react-native";
