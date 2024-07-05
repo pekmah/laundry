@@ -30,12 +30,14 @@ type ControlledInputProps = {
   control: Control<any, any>;
   rules?: any;
   name: string;
+  handleChange?: (value: string, onChange: (...event: any[]) => void) => void;
 } & Props;
 
 export const ControlledInput = ({
   control,
   rules,
   name,
+  handleChange,
   ...rest
 }: ControlledInputProps) => (
   <Controller
@@ -44,7 +46,11 @@ export const ControlledInput = ({
     render={({ field: { onChange, onBlur, value }, fieldState: { error } }) => (
       <CInput
         {...rest}
-        onChangeText={onChange}
+        onChangeText={(val) => {
+          if (handleChange) {
+            handleChange(val, onChange);
+          } else onChange(val);
+        }}
         onBlur={onBlur}
         value={value}
         error={error}

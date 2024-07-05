@@ -25,7 +25,7 @@ export default function TabLayout() {
         },
         tabBarInactiveTintColor: "#fff",
       }}
-      // initialRouteName="more"
+      initialRouteName="more"
     >
       <Tabs.Screen
         name="index"

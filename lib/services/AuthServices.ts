@@ -1,11 +1,6 @@
 import axios from "./AxiosServices";
 
-import {
-  RegistrationPayload,
-  SigninFormData,
-  UserType,
-  tokenType,
-} from "lib/types/auth";
+import { RegistrationPayload, SigninFormData, UserType } from "lib/types/auth";
 
 /**
  * signs in user

@@ -11,6 +11,7 @@ import { MoreItemProps } from "components/more/MoreItem";
 import { COLORS } from "constants/Colors";
 import { useAuthStore } from "lib/storage/useAuthStore";
 import { useRouter } from "expo-router";
+import { useEffect } from "react";
 
 const more = () => {
   const { removeUser } = useAuthStore();
@@ -76,7 +77,7 @@ const moreItems: MoreItemProps[] = [
   {
     title: "Pricing",
     icon: <Ionicons color={COLORS.primary} name="pricetag-sharp" size={20} />,
-    screen: "/(app)/(more)/pricing/create",
+    screen: "/(app)/(more)/pricing",
   },
   {
     title: "Services",

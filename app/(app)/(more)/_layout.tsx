@@ -9,7 +9,16 @@ export default function MoreLayout() {
         name="pricing/create"
         options={{
           ...screenOptionsWithHeader,
-          title: "Pricing Setup",
+          title: "Add Pricing",
+          presentation: "modal",
+          animation: "slide_from_bottom",
+        }}
+      />
+      <Stack.Screen
+        name="pricing/index"
+        options={{
+          ...screenOptionsWithHeader,
+          title: "Manage Pricing ",
         }}
       />
     </Stack>

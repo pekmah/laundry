@@ -1,5 +1,6 @@
 import axios from "axios";
 import { BASE_URL } from "constants/Configs";
+import { ZustandStorage } from "lib/storage/mmkv";
 
 const AxiosUtility = axios.create({
   baseURL: `${BASE_URL}`,
@@ -9,20 +10,18 @@ const AxiosUtility = axios.create({
   },
 });
 
-// export const setAuthToken = async instance => {
-//   const mmkvToken = JSON.parse(ZustandStorage.getItem('_state_auth'))?.state
-//     ?.state?.user?.token;
-//   const {token: AsyncToken} =
-//     !mmkvToken && (await JSON.parse(await AsyncStorageService.getData('user')));
-//   const token = mmkvToken || AsyncToken;
+export const setAuthToken = async (instance) => {
+  const token =
+    JSON.parse(ZustandStorage.getItem("_state_auth") ?? "{}")?.state?.token ??
+    null;
 
-//   if (instance?.defaults) {
-//     if (token) {
-//       instance.defaults.headers.common['Authorization'] = `Bearer ${token}`;
-//     } else {
-//       delete instance.defaults.headers.common['Authorization'];
-//     }
-//   }
-// };
+  if (instance?.defaults) {
+    if (token) {
+      instance.defaults.headers.common["Authorization"] = `Bearer ${token}`;
+    } else {
+      delete instance.defaults.headers.common["Authorization"];
+    }
+  }
+};
 
 export default AxiosUtility;
