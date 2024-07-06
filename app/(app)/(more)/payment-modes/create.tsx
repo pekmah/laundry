@@ -1,20 +1,14 @@
-import { Stack, useRouter } from "expo-router";
-import { View, Text, YStack, ScrollView } from "tamagui";
-import FontAwesome5 from "@expo/vector-icons/FontAwesome5";
+import { useRouter } from "expo-router";
+import { Text, YStack, ScrollView } from "tamagui";
 import { useForm } from "react-hook-form";
 
 import { CButton, Container } from "components/common";
 import { ControlledInput } from "components/common/input";
-import { PricingFormData, PricingType } from "types/pricing";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { PricingSchema } from "lib/types/pricing";
 import { useToastController } from "@tamagui/toast";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 
 import PricingServices from "lib/services/PricingServices";
-import { updateQueryData } from "utils/query";
-import { usePricingStore } from "lib/storage/usePricingStore";
-import { useMemo } from "react";
 import { PaymentFormData } from "types/payment";
 
 import { insertPaymentMode } from "lib/sqlite/paymentModes";

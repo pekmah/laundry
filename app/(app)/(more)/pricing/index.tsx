@@ -8,6 +8,7 @@ import PricingServices from "lib/services/PricingServices";
 import { FlatList } from "react-native";
 import { PricingType } from "types/pricing";
 import { usePricingStore } from "lib/storage/usePricingStore";
+import { renderEmpty } from "../payment-modes";
 
 export const PRICING_QUERY_KEY = ["pricing"];
 
@@ -41,6 +42,7 @@ const index = () => {
         onRefresh={refetch}
         ItemSeparatorComponent={() => <View style={{ height: 10 }} />}
         data={data || []}
+        ListEmptyComponent={renderEmpty}
         renderItem={({ item }) => (
           <PriceItem
             title={item.name}

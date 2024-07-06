@@ -3,6 +3,7 @@ import { Text, View, useTheme } from "tamagui";
 import Octicons from "@expo/vector-icons/Octicons";
 import Ionicons from "@expo/vector-icons/Ionicons";
 import Feather from "@expo/vector-icons/Feather";
+import { screenOptionsWithHeader } from "../_layout";
 
 export default function TabLayout() {
   const theme = useTheme();
@@ -25,7 +26,7 @@ export default function TabLayout() {
         },
         tabBarInactiveTintColor: "#fff",
       }}
-      initialRouteName="more"
+      initialRouteName="create_order"
     >
       <Tabs.Screen
         name="index"
@@ -45,8 +46,9 @@ export default function TabLayout() {
       <Tabs.Screen
         name="create_order"
         options={{
-          title: "Create",
           tabBarIcon: renderCreateTabBarIcon,
+          ...screenOptionsWithHeader,
+          title: "Create Order",
         }}
       />
 

@@ -22,6 +22,15 @@ export default function AppLayout() {
           headerShown: false,
         }}
       />
+      <Stack.Screen
+        name="add_laundry"
+        options={{
+          ...screenOptionsWithHeader,
+          presentation: "modal",
+          animation: "slide_from_bottom",
+          title: "Add Laundry",
+        }}
+      />
     </Stack>
   );
 }

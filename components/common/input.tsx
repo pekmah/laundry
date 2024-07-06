@@ -12,11 +12,12 @@ const CInput = ({ label, error, ...rest }: Props) => {
         </Label>
       ) : null}
       <Input
-        backgroundColor={error?.message ? "$red1Light" : "$gray3Light"}
+        backgroundColor={error?.message ? "$red1Light" : "$white1"}
         borderWidth={1}
         borderColor={error?.message ? "$red10Light" : "$gray6Light"}
         color={"black"}
         fontSize={13}
+        placeholderTextColor={"$gray8Light"}
         {...rest}
       />
       <Text h={"auto"} fontSize={12} fontWeight={"500"} color={"$red10Light"}>
