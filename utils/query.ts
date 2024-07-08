@@ -30,6 +30,7 @@ export const updateQueryData = (
   newData: any
 ) =>
   queryClient.setQueryData(queryKeys, (prev: any[]) => {
+    if (!prev) return [newData];
     // check if newData already exists in the cache
     const exists = prev.find((item) => item.id === newData.id);
 

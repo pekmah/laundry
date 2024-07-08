@@ -31,6 +31,15 @@ export default function AppLayout() {
           title: "Add Laundry",
         }}
       />
+      <Stack.Screen
+        name="pay_order"
+        options={{
+          ...screenOptionsWithHeader,
+          presentation: "modal",
+          animation: "slide_from_bottom",
+          title: "Pay Order",
+        }}
+      />
     </Stack>
   );
 }

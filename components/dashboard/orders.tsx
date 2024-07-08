@@ -1,8 +1,15 @@
 import { Anchor, View, XStack } from "tamagui";
+
 import { SectionTitle } from "components/common";
 import { Orders } from "components/orders";
+import useOrders from "hooks/useOrders";
+import { renderEmpty } from "app/(app)/(more)/payment-modes";
 
 const RecentOrders = () => {
+  const { orders, isPending, refetch } = useOrders();
+
+  const recentOrders = orders?.slice(0, 5);
+
   return (
     <View my={"$2"}>
       <XStack justifyContent="space-between">
@@ -18,7 +25,12 @@ const RecentOrders = () => {
         </Anchor>
       </XStack>
 
-      <Orders />
+      <Orders
+        refreshing={isPending}
+        onRefresh={refetch}
+        orders={recentOrders || []}
+        ListEmptyComponent={renderEmpty}
+      />
     </View>
   );
 };

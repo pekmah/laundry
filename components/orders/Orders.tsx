@@ -1,8 +1,10 @@
 import { FlatList, FlatListProps } from "react-native";
-import { OrderType } from "types/order";
+
+import { LaundryOrderType } from "types/laundry";
 import OrderItem from "./OrderItem";
 
-const Orders = ({ ...rest }: Partial<FlatListProps<any>>) => {
+type Props = { orders: LaundryOrderType[] } & Partial<FlatListProps<any>>;
+const Orders = ({ orders = [], ...rest }: Props) => {
   return (
     <FlatList
       data={orders}
@@ -14,38 +16,5 @@ const Orders = ({ ...rest }: Partial<FlatListProps<any>>) => {
 };
 
 export default Orders;
-
-const orders: OrderType[] = [
-  {
-    id: 1,
-    name: "John Doe",
-    stage: "processing",
-    date: new Date(),
-  },
-  {
-    id: 2,
-    name: "John Doe",
-    stage: "create",
-    date: new Date(),
-  },
-  {
-    id: 3,
-    name: "John Smith",
-    stage: "complete",
-    date: new Date(),
-  },
-  {
-    id: 4,
-    name: "Jane Smith",
-    stage: "processing",
-    date: new Date(),
-  },
-  {
-    id: 5,
-    name: "Ben Ten",
-    stage: "processing",
-    date: new Date(),
-  },
-];
 
 // status: create, processing, complete, cancelled, collected

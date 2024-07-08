@@ -1,34 +1,75 @@
 import { CButton, Container } from "components/common";
-import {
-  Avatar,
-  ScrollView,
-  Text,
-  useTheme,
-  View,
-  XStack,
-  YStack,
-} from "tamagui";
+import { ScrollView, Text, View, XStack, YStack } from "tamagui";
 import { ControlledInput } from "components/common/input";
 import { useForm } from "react-hook-form";
 import { FlatList } from "react-native";
-import { FontAwesome } from "@expo/vector-icons";
 import { Feather } from "@expo/vector-icons";
 import { useRouter } from "expo-router";
 import { useLaundryStore } from "lib/storage/useLaundryStorage";
-import { LaundryFormData } from "types/laundry";
+import { LaundryFormData, LaundryOrderFormData } from "types/laundry";
 import {
   EmptyLaundryList,
   LaundryItem,
   LaundryListFooter,
 } from "components/create_order";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { LaundryOrderSchema } from "lib/types/laundry";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import OrderServices from "lib/services/OrderServices";
+import { useToastController } from "@tamagui/toast";
+import { updateQueryData } from "utils/query";
 
 const create_order = () => {
+  const toast = useToastController();
   const router = useRouter();
-  const { control, handleSubmit, watch } = useForm({});
-  const { laundry } = useLaundryStore();
+  const queryClient = useQueryClient();
+
+  const { control, handleSubmit, reset } = useForm<LaundryOrderFormData>({
+    resolver: zodResolver(LaundryOrderSchema),
+  });
+  const { laundry, reset: resetLaundryStore } = useLaundryStore();
 
   const handleAddLaundry = () => {
     router.push("/(app)/add_laundry");
+  };
+  const handlePay = () => {
+    router.push("/(app)/pay_order");
+  };
+
+  const handleSuccess = (response) => {
+    // append the created order to current list of orders
+    updateQueryData(["orders"], queryClient, response);
+    reset();
+    resetLaundryStore();
+    toast.show("Success", {
+      message: `Order created successfully`,
+      type: "success",
+    });
+    // navigate to payment page
+    handlePay();
+  };
+  const handleError = (error) => {
+    // console.log("ERROR: ", JSON.stringify(error));
+    toast.show("Error creating order.", {
+      message: error.message,
+      type: "error",
+    });
+  };
+
+  const { mutate: createOrder, isPending } = useMutation({
+    mutationKey: ["create_order"],
+    mutationFn: OrderServices.create,
+    onSuccess: handleSuccess,
+    onError: handleError,
+  });
+
+  const onSubmit = (payload: LaundryOrderFormData) => {
+    const totalLaundryAmount = laundry.reduce(
+      (acc, item) => acc + (item?.price ?? 0),
+      0
+    );
+
+    createOrder({ ...payload, amount: totalLaundryAmount, laundry });
   };
 
   return (
@@ -37,7 +78,7 @@ const create_order = () => {
         <YStack>
           {/* item name */}
           <ControlledInput
-            name="customerName"
+            name="customer_name"
             control={control}
             label="Customer Name"
             placeholder="name of customer"
@@ -45,7 +86,7 @@ const create_order = () => {
 
           {/* payment amount */}
           <ControlledInput
-            name="customerPhone"
+            name="customer_phone"
             control={control}
             label="Customer Phone"
             placeholder="07XX XXXXXX"
@@ -75,27 +116,18 @@ const create_order = () => {
                 ListEmptyComponent={renderEmpty}
                 data={laundry ?? []}
                 renderItem={renderLaundryItem}
-                ListFooterComponent={renderFooter}
+                // ListFooterComponent={renderFooter}
                 scrollEnabled={false}
               />
             </View>
           </View>
 
-          <ControlledInput
-            name="amount"
-            control={control}
-            label="Amount"
-            placeholder="Enter amount to be paid by customer"
-            keyboardType="numeric"
-          />
-
           <CButton
-            // onPress={handleSubmit(onSubmit)}
-            // text={isLoading ? "saving..." : isUpdating ? "Update" : "Save"}
-            text={"Save"}
+            onPress={handleSubmit(onSubmit)}
+            text={isPending ? "saving..." : "Save"}
             mt="$4"
             letterSpacing={1}
-            // disabled={isLoading || (isUpdating && !hasDataChanged)}
+            disabled={isPending}
           />
         </YStack>
       </ScrollView>
