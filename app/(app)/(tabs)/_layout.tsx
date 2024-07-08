@@ -40,8 +40,9 @@ export default function TabLayout() {
       <Tabs.Screen
         name="orders"
         options={{
-          title: "Orders",
           tabBarIcon: renderOrdersIcon,
+          ...screenOptionsWithHeader,
+          title: "Orders",
         }}
       />
       <Tabs.Screen

@@ -14,8 +14,10 @@ const OrderItem = ({
     <View
       marginVertical={"$1.5"}
       padding={"$2"}
-      backgroundColor={"$gray3Light"}
+      backgroundColor={"$white1"}
       borderRadius={"$3"}
+      borderColor={"$gray6Light"}
+      borderWidth={1}
     >
       <XStack gap={"$3"}>
         <Avatar size={40} borderRadius={"$2"} bg={"$primary_light"}>
