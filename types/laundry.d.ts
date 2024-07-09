@@ -26,6 +26,6 @@ export type LaundryOrderType = {
   amount: number;
   createdAt: Date;
   updatedAt: Date;
-  laundry: string; //json
+  laundry: LaundryFormData[]; //json
   status: OrderStatus;
 };

@@ -1,24 +1,23 @@
-import { useLaundryStore } from "lib/storage/useLaundryStorage";
 import { Text, View, XStack } from "tamagui";
 
-const Footer = () => {
-  const { laundry } = useLaundryStore();
-
-  const laundryItemsAmountSum = laundry.reduce(
-    (acc, item) => acc + (item?.price ?? 0),
-    0
-  );
+const Footer = ({
+  hideActions,
+  totalOrderAmount = 0,
+}: {
+  hideActions?: boolean;
+  totalOrderAmount: number;
+}) => {
   return (
-    <XStack pt={"$3"} justifyContent="space-between">
+    <XStack pt={"$2"} justifyContent="space-between">
       <View flex={1}>
         <Text fontSize={13} fontWeight={"600"} col={"black"}>
           Total Amount
         </Text>
       </View>
 
-      <View flex={0.5}>
+      <View flex={!hideActions ? 0.5 : "unset"}>
         <Text fontSize={13} fontWeight={"600"} col={"black"}>
-          KES {laundryItemsAmountSum}
+          KES {totalOrderAmount}
         </Text>
       </View>
     </XStack>

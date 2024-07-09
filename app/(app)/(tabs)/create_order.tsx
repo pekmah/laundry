@@ -7,11 +7,7 @@ import { Feather } from "@expo/vector-icons";
 import { useRouter } from "expo-router";
 import { useLaundryStore } from "lib/storage/useLaundryStorage";
 import { LaundryFormData, LaundryOrderFormData } from "types/laundry";
-import {
-  EmptyLaundryList,
-  LaundryItem,
-  LaundryListFooter,
-} from "components/create_order";
+import { EmptyLaundryList, LaundryItem } from "components/create_order";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { LaundryOrderSchema } from "lib/types/laundry";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
@@ -32,8 +28,11 @@ const create_order = () => {
   const handleAddLaundry = () => {
     router.push("/(app)/add_laundry");
   };
-  const handlePay = () => {
-    router.push("/(app)/pay_order");
+  const handlePay = (id: number = 3) => {
+    router.push({
+      pathname: "/(app)/pay_order",
+      params: { order: id },
+    });
   };
 
   const handleSuccess = (response) => {
@@ -46,7 +45,7 @@ const create_order = () => {
       type: "success",
     });
     // navigate to payment page
-    handlePay();
+    handlePay(response?.id);
   };
   const handleError = (error) => {
     // console.log("ERROR: ", JSON.stringify(error));
@@ -64,6 +63,7 @@ const create_order = () => {
   });
 
   const onSubmit = (payload: LaundryOrderFormData) => {
+    return handlePay();
     const totalLaundryAmount = laundry.reduce(
       (acc, item) => acc + (item?.price ?? 0),
       0
@@ -113,7 +113,7 @@ const create_order = () => {
             <View px={"$2"} py={"$3"}>
               <FlatList
                 ItemSeparatorComponent={() => <View style={{ height: 10 }} />}
-                ListEmptyComponent={renderEmpty}
+                ListEmptyComponent={renderEmptyLaundryList}
                 data={laundry ?? []}
                 renderItem={renderLaundryItem}
                 // ListFooterComponent={renderFooter}
@@ -123,7 +123,8 @@ const create_order = () => {
           </View>
 
           <CButton
-            onPress={handleSubmit(onSubmit)}
+            // onPress={handleSubmit(onSubmit)}
+            onPress={onSubmit}
             text={isPending ? "saving..." : "Save"}
             mt="$4"
             letterSpacing={1}
@@ -137,8 +138,7 @@ const create_order = () => {
 
 export default create_order;
 
-const renderEmpty = () => <EmptyLaundryList />;
-const renderFooter = () => <LaundryListFooter />;
+export const renderEmptyLaundryList = () => <EmptyLaundryList />;
 
 const renderLaundryItem = ({ item }: { item: LaundryFormData }) => {
   return <LaundryItem item={item} />;
