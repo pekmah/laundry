@@ -9,8 +9,6 @@ import { Orders } from "components/orders";
 const orders = () => {
   const { isPending, orders, refetch } = useOrders();
 
-  console.log(orders?.at(0));
-
   return (
     <>
       <Stack.Screen

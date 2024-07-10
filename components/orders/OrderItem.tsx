@@ -1,15 +1,30 @@
-import { Avatar, Text, useTheme, View, XStack, YStack } from "tamagui";
+import { Avatar, Label, Text, useTheme, View, XStack, YStack } from "tamagui";
 import { MaterialIcons } from "@expo/vector-icons";
 import moment from "moment";
 import { LaundryOrderType } from "types/laundry";
+import { useRouter } from "expo-router";
 
 const OrderItem = ({
   customer_name,
   status,
   createdAt,
   amount,
+  id,
+  payments = [],
 }: LaundryOrderType) => {
+  const router = useRouter();
   const theme = useTheme();
+
+  const hasInitialPayment = payments.length > 0;
+  const handlePress = () => {
+    if (hasInitialPayment) {
+      // handle pay
+      router.push({
+        pathname: "/(app)/pay_order",
+        params: { order: id },
+      });
+    }
+  };
   return (
     <View
       marginVertical={"$1.5"}
@@ -42,9 +57,15 @@ const OrderItem = ({
               {/* badge */}
             </XStack>
 
-            <Text fontWeight={"500"} color={"$primary"} fontSize={12}>
-              {status}
-            </Text>
+            <Label
+              lineHeight={20}
+              fontWeight={"500"}
+              color={"$primary"}
+              fontSize={12}
+              onPress={handlePress}
+            >
+              {hasInitialPayment ? status : "Pay"}
+            </Label>
           </YStack>
         </XStack>
         <XStack flex={1}>

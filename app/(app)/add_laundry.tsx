@@ -69,6 +69,11 @@ const AddLaundry = () => {
             data={data}
             isPending={isPending}
             value={laundry}
+            placeholder={
+              isPending
+                ? "Fetching laundry items..."
+                : "--Choose laundry item--"
+            }
           />
         </View>
 

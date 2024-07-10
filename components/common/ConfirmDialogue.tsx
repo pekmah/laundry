@@ -1,4 +1,6 @@
+import { useState } from "react";
 import { AlertDialog, Button, XStack, YStack } from "tamagui";
+import { set } from "zod";
 
 type Props = {
   title?: string;
@@ -13,8 +15,19 @@ export default function ConfirmDialogue({
   handleAccept,
   children,
 }: Props) {
+  const [open, setOpen] = useState(false);
+
+  const handleClose = () => {
+    setOpen(false);
+  };
+
+  const handleOkay = () => {
+    handleAccept();
+    handleClose();
+  };
+
   return (
-    <AlertDialog>
+    <AlertDialog open={open} onOpenChange={setOpen}>
       <AlertDialog.Trigger asChild>{children}</AlertDialog.Trigger>
 
       <AlertDialog.Portal theme={"blue_surface4"}>
@@ -52,7 +65,7 @@ export default function ConfirmDialogue({
               <AlertDialog.Cancel asChild>
                 <Button>Cancel</Button>
               </AlertDialog.Cancel>
-              <AlertDialog.Action onPress={handleAccept} asChild>
+              <AlertDialog.Action onPress={handleOkay} asChild>
                 <Button theme="active">Accept</Button>
               </AlertDialog.Action>
             </XStack>

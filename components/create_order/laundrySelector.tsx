@@ -12,14 +12,14 @@ import {
 
 import { Check, ChevronDown, ChevronUp } from "@tamagui/lucide-icons";
 import { LinearGradient } from "tamagui/linear-gradient";
-import { PricingType } from "types/pricing";
 import { Control, Controller, FieldError } from "react-hook-form";
 
 type Props = {
   value: string;
   error?: FieldError;
-  data?: PricingType[];
+  data?: any[];
   isPending?: boolean;
+  placeholder?: string;
   handleChange?: (value: string) => void;
 } & SelectProps;
 
@@ -30,6 +30,7 @@ const LaundrySelector = ({
   error,
   data,
   isPending,
+  placeholder,
   handleChange = () => {},
   ...rest
 }: Props) => {
@@ -49,14 +50,7 @@ const LaundrySelector = ({
           color={"$gray11Light"}
           disabled={isPending}
         >
-          <Select.Value
-            color={"black"}
-            placeholder={
-              isPending
-                ? "Fetching laundry items..."
-                : "--Choose laundry item--"
-            }
-          />
+          <Select.Value color={"$gray11Light"} placeholder={placeholder} />
         </Select.Trigger>
 
         <Adapt when="sm" platform="touch">

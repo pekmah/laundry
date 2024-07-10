@@ -14,6 +14,7 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import OrderServices from "lib/services/OrderServices";
 import { useToastController } from "@tamagui/toast";
 import { updateQueryData } from "utils/query";
+import moment from "moment";
 
 const create_order = () => {
   const toast = useToastController();
@@ -63,13 +64,19 @@ const create_order = () => {
   });
 
   const onSubmit = (payload: LaundryOrderFormData) => {
-    return handlePay();
     const totalLaundryAmount = laundry.reduce(
       (acc, item) => acc + (item?.price ?? 0),
       0
     );
+    const dateCode = moment().format("DDMMHHmmss");
+    const orderCode = `#LDR${dateCode}`;
 
-    createOrder({ ...payload, amount: totalLaundryAmount, laundry });
+    createOrder({
+      ...payload,
+      amount: totalLaundryAmount,
+      laundry,
+      code: orderCode,
+    });
   };
 
   return (
@@ -123,8 +130,7 @@ const create_order = () => {
           </View>
 
           <CButton
-            // onPress={handleSubmit(onSubmit)}
-            onPress={onSubmit}
+            onPress={handleSubmit(onSubmit)}
             text={isPending ? "saving..." : "Save"}
             mt="$4"
             letterSpacing={1}

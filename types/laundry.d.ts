@@ -1,3 +1,5 @@
+import { OrderPaymentType } from "./payment";
+
 export type LaundryFormData = {
   laundry: string;
   quantity: number | string;
@@ -28,4 +30,6 @@ export type LaundryOrderType = {
   updatedAt: Date;
   laundry: LaundryFormData[]; //json
   status: OrderStatus;
+  payments?: OrderPaymentType[];
+  code: string;
 };
