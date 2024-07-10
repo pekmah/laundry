@@ -9,4 +9,5 @@ export const LaundrySchema: ZodType<LaundryFormData> = z.object({
 export const LaundryOrderSchema: ZodType<LaundryOrderFormData> = z.object({
   customer_name: z.string().min(3),
   customer_phone: z.string().min(10).max(13),
+  negotiated_amount: z.string().min(1),
 });

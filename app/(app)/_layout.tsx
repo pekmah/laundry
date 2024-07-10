@@ -40,6 +40,13 @@ export default function AppLayout() {
           title: "Pay Order",
         }}
       />
+      <Stack.Screen
+        name="view_order"
+        options={{
+          ...screenOptionsWithHeader,
+          title: "View Order",
+        }}
+      />
     </Stack>
   );
 }

@@ -1,16 +1,27 @@
 import { Control, Controller, FieldError } from "react-hook-form";
 import { GetProps, Input, Label, View, Text } from "tamagui";
 
-type Props = { label?: string; error?: FieldError } & GetProps<typeof Input>;
+type Props = { label?: string; desc?: string; error?: FieldError } & GetProps<
+  typeof Input
+>;
 
-const CInput = ({ label, error, ...rest }: Props) => {
+const CInput = ({ label, error, desc, ...rest }: Props) => {
   return (
     <View>
-      {label ? (
-        <Label lineHeight={"$6"} fontWeight={"500"} color={"black"}>
-          {label}
-        </Label>
-      ) : null}
+      <View py={"$2"}>
+        {label ? (
+          <Label lineHeight={20} fontWeight={"500"} color={"black"}>
+            {label}
+          </Label>
+        ) : null}
+
+        {desc ? (
+          <Text fontSize={11} fontWeight={"500"} color={"$gray10Light"}>
+            {desc}
+          </Text>
+        ) : null}
+      </View>
+
       <Input
         backgroundColor={error?.message ? "$red1Light" : "$white1"}
         borderWidth={1}

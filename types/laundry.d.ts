@@ -11,6 +11,7 @@ export type LaundryFormData = {
 export type LaundryOrderFormData = {
   customer_name: string;
   customer_phone: string;
+  negotiated_amount: string | number;
 };
 
 export enum OrderStatus {
@@ -32,4 +33,5 @@ export type LaundryOrderType = {
   status: OrderStatus;
   payments?: OrderPaymentType[];
   code: string;
+  negotiated_amount: number; //amount customer will pay(negotiated amount)
 };

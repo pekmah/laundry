@@ -19,12 +19,14 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { OrderPaymentSchema } from "lib/types/payment";
 import OrderServices from "lib/services/OrderServices";
 import { useToastController } from "@tamagui/toast";
+import LogServices from "lib/services/LogServices";
+import { ORDER_STAGES } from "constants/order";
 
 const Pay = () => {
   const params = useLocalSearchParams();
   const toast = useToastController();
-  const { orders, isPending: fetching, refetch } = useOrders();
   const queryClient = useQueryClient();
+  const { orders, isPending: fetching, refetch } = useOrders();
   const { control, handleSubmit, reset, watch } = useForm<OrderPaymentFormData>(
     {
       resolver: zodResolver(OrderPaymentSchema),
@@ -49,13 +51,13 @@ const Pay = () => {
 
   const currentOrderBalance = useMemo(() => {
     if (!order) return 0;
-    if (!order?.payments?.length) return order.amount;
+    if (!order?.payments?.length) return order.negotiated_amount;
 
     const totalPayment = order?.payments?.reduce(
       (acc, item) => acc + parseInt(item.deposit_amount, 10),
       0
     );
-    return order.amount - (totalPayment ?? 0);
+    return order.negotiated_amount - (totalPayment ?? 0);
   }, [currentOrder]);
 
   // fetch payment modes from local storage
@@ -64,7 +66,7 @@ const Pay = () => {
     queryFn: selectAllPaymentModes,
   });
 
-  const handleSuccess = () => {
+  const handleSuccess = (_, variables) => {
     // append the created order to current list of orders
     queryClient.invalidateQueries({ queryKey: ["orders"] });
     reset();
@@ -73,6 +75,13 @@ const Pay = () => {
       message: `Payment successful`,
       type: "success",
     });
+    if (currentOrder?.id)
+      // create log: processing
+      LogServices.create({
+        order: currentOrder.id,
+        stage: ORDER_STAGES[2],
+        description: `KES${variables?.deposit_amount} Deposit  Made and order is processing.`,
+      });
     router.push("orders");
   };
   const handleError = (error) => {
@@ -92,7 +101,8 @@ const Pay = () => {
   const onSubmit = (_payload: OrderPaymentFormData) => {
     if (!currentOrder) return;
 
-    const balance = currentOrderBalance;
+    const balance =
+      currentOrder.negotiated_amount - parseInt(_payload.deposit_amount, 10);
 
     const payload = {
       mode: _payload.mode,
@@ -121,12 +131,17 @@ const Pay = () => {
             ListEmptyComponent={renderEmptyLaundryList}
             data={currentOrder?.laundry ?? []}
             renderItem={renderLaundryItem}
-            ListFooterComponent={() => renderFooter(currentOrder?.amount ?? 0)}
+            ListFooterComponent={() =>
+              renderLaundryFooter(
+                currentOrder?.amount ?? 0,
+                currentOrder?.negotiated_amount ?? 0
+              )
+            }
             scrollEnabled={false}
           />
         </View>
 
-        <YStack mt={"$5"}>
+        <YStack mt={"$3"}>
           {/* item name */}
           <ControlledInput
             name="deposit_amount"
@@ -181,6 +196,13 @@ export default Pay;
 const renderLaundryItem = ({ item }: { item: LaundryFormData }) => {
   return <LaundryItem item={item} hideActions />;
 };
-const renderFooter = (totalOrderAmount: number) => (
-  <LaundryListFooter hideActions totalOrderAmount={totalOrderAmount} />
+const renderLaundryFooter = (
+  totalOrderAmount: number,
+  negotiated_amount?: number
+) => (
+  <LaundryListFooter
+    hideActions
+    totalOrderAmount={totalOrderAmount}
+    negotiated_amount={negotiated_amount ?? 0}
+  />
 );

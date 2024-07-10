@@ -1,83 +1,26 @@
-import { CButton, Container } from "components/common";
 import { ScrollView, Text, View, XStack, YStack } from "tamagui";
-import { ControlledInput } from "components/common/input";
-import { useForm } from "react-hook-form";
 import { FlatList } from "react-native";
 import { Feather } from "@expo/vector-icons";
-import { useRouter } from "expo-router";
-import { useLaundryStore } from "lib/storage/useLaundryStorage";
-import { LaundryFormData, LaundryOrderFormData } from "types/laundry";
-import { EmptyLaundryList, LaundryItem } from "components/create_order";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { LaundryOrderSchema } from "lib/types/laundry";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
-import OrderServices from "lib/services/OrderServices";
-import { useToastController } from "@tamagui/toast";
-import { updateQueryData } from "utils/query";
-import moment from "moment";
+
+import { LaundryFormData } from "types/laundry";
+import { CButton, Container } from "components/common";
+import {
+  EmptyLaundryList,
+  LaundryItem,
+  LaundryListFooter,
+} from "components/create_order";
+import { ControlledInput } from "components/common/input";
+import useCreateOrder from "hooks/useCreateOrder";
 
 const create_order = () => {
-  const toast = useToastController();
-  const router = useRouter();
-  const queryClient = useQueryClient();
-
-  const { control, handleSubmit, reset } = useForm<LaundryOrderFormData>({
-    resolver: zodResolver(LaundryOrderSchema),
-  });
-  const { laundry, reset: resetLaundryStore } = useLaundryStore();
-
-  const handleAddLaundry = () => {
-    router.push("/(app)/add_laundry");
-  };
-  const handlePay = (id: number = 3) => {
-    router.push({
-      pathname: "/(app)/pay_order",
-      params: { order: id },
-    });
-  };
-
-  const handleSuccess = (response) => {
-    // append the created order to current list of orders
-    updateQueryData(["orders"], queryClient, response);
-    reset();
-    resetLaundryStore();
-    toast.show("Success", {
-      message: `Order created successfully`,
-      type: "success",
-    });
-    // navigate to payment page
-    handlePay(response?.id);
-  };
-  const handleError = (error) => {
-    // console.log("ERROR: ", JSON.stringify(error));
-    toast.show("Error creating order.", {
-      message: error.message,
-      type: "error",
-    });
-  };
-
-  const { mutate: createOrder, isPending } = useMutation({
-    mutationKey: ["create_order"],
-    mutationFn: OrderServices.create,
-    onSuccess: handleSuccess,
-    onError: handleError,
-  });
-
-  const onSubmit = (payload: LaundryOrderFormData) => {
-    const totalLaundryAmount = laundry.reduce(
-      (acc, item) => acc + (item?.price ?? 0),
-      0
-    );
-    const dateCode = moment().format("DDMMHHmmss");
-    const orderCode = `#LDR${dateCode}`;
-
-    createOrder({
-      ...payload,
-      amount: totalLaundryAmount,
-      laundry,
-      code: orderCode,
-    });
-  };
+  const {
+    control,
+    totalLaundryAmount,
+    laundry,
+    isPending,
+    handleAddLaundry,
+    handleSubmit,
+  } = useCreateOrder();
 
   return (
     <Container py={"$3"}>
@@ -123,14 +66,27 @@ const create_order = () => {
                 ListEmptyComponent={renderEmptyLaundryList}
                 data={laundry ?? []}
                 renderItem={renderLaundryItem}
-                // ListFooterComponent={renderFooter}
+                ListFooterComponent={() =>
+                  renderLaundryFooter(totalLaundryAmount ?? 0)
+                }
                 scrollEnabled={false}
               />
             </View>
           </View>
 
+          {/* payment amount */}
+          <ControlledInput
+            mt="$2"
+            name="negotiated_amount"
+            control={control}
+            label="Revised Amount"
+            desc="Amount customer will pay after negotiation"
+            placeholder=""
+            keyboardType="numeric"
+          />
+
           <CButton
-            onPress={handleSubmit(onSubmit)}
+            onPress={handleSubmit}
             text={isPending ? "saving..." : "Save"}
             mt="$4"
             letterSpacing={1}
@@ -149,3 +105,13 @@ export const renderEmptyLaundryList = () => <EmptyLaundryList />;
 const renderLaundryItem = ({ item }: { item: LaundryFormData }) => {
   return <LaundryItem item={item} />;
 };
+const renderLaundryFooter = (
+  totalOrderAmount: number,
+  negotiated_amount?: number
+) => (
+  <LaundryListFooter
+    hideActions
+    totalOrderAmount={totalOrderAmount}
+    negotiated_amount={negotiated_amount ?? 0}
+  />
+);
