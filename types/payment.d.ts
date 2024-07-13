@@ -8,7 +8,7 @@ export type PaymentType = {
 } & PaymentFormData;
 
 export type OrderPaymentFormData = {
-  deposit_amount: string;
+  amount: string;
   mode: string;
   other_details?: string | null;
 };

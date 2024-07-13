@@ -31,7 +31,7 @@ export type LaundryOrderType = {
   updatedAt: Date;
   laundry: LaundryFormData[]; //json
   status: OrderStatus;
-  payments?: OrderPaymentType[];
+  payments?: { data: OrderPaymentType[] };
   code: string;
   negotiated_amount: number; //amount customer will pay(negotiated amount)
 };

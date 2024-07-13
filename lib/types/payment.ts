@@ -6,7 +6,7 @@ export const PaymentSchema: ZodType<PaymentFormData> = z.object({
 });
 
 export const OrderPaymentSchema: ZodType<OrderPaymentFormData> = z.object({
-  deposit_amount: z.string().min(1),
+  amount: z.string().min(1),
   mode: z.string().min(1),
   other_details: z.string().nullable().default(""),
 });

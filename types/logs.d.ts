@@ -2,7 +2,7 @@ export type LogType = {
   id: number;
   description: string;
   stage: string;
-  order: number;
+  order?: number;
   createdAt: string;
   updatedAt: string;
 };

@@ -23,12 +23,13 @@ const create = async (payload: LogPayloadData): Promise<LogType[]> => {
 /**
  * @description fetches specific order logs
  */
-const fetchByOrder = async (orderId: number): Promise<[]> => {
+const fetchByOrder = async (orderId: number): Promise<LogType[]> => {
   if (!orderId) return [];
   try {
     setAuthToken(axios);
     const response = await axios.get("/logs", {
       params: {
+        sort: ["createdAt:asc"],
         filters: {
           order: {
             $eq: orderId,

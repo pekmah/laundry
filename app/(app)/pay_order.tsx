@@ -1,24 +1,25 @@
-import { CButton, ConfirmDialogue, Container } from "components/common";
-import { router, useLocalSearchParams } from "expo-router";
-import useOrders from "hooks/useOrders";
 import { useMemo } from "react";
 import { FlatList } from "react-native";
-import { Label, ScrollView, YStack } from "tamagui";
-import { renderEmptyLaundryList } from "./(tabs)/create_order";
-import { LaundryFormData } from "types/laundry";
-import { LaundryItem, LaundryListFooter } from "components/create_order";
+import { router, useLocalSearchParams } from "expo-router";
+import { useToastController } from "@tamagui/toast";
 import { XStack, View, Text } from "tamagui";
-import { ControlledInput } from "components/common/input";
+import { Label, ScrollView, YStack } from "tamagui";
 import { useForm } from "react-hook-form";
-import { ControlledSelect } from "components/create_order/laundrySelector";
-import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { PAYMENT_QUERY_KEY } from "./(more)/payment-modes";
-import { selectAllPaymentModes } from "lib/sqlite/paymentModes";
-import { OrderPaymentFormData } from "types/payment";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+
+import { LaundryFormData } from "types/laundry";
+import { OrderPaymentFormData } from "types/payment";
+import { renderEmptyLaundryList } from "./(tabs)/create_order";
+import useOrders from "hooks/useOrders";
+import { PAYMENT_QUERY_KEY } from "./(more)/payment-modes";
+import { ControlledSelect } from "components/create_order/laundrySelector";
+import { ControlledInput } from "components/common/input";
+import { LaundryItem, LaundryListFooter } from "components/create_order";
+import { CButton, ConfirmDialogue, Container } from "components/common";
+import { selectAllPaymentModes } from "lib/sqlite/paymentModes";
 import { OrderPaymentSchema } from "lib/types/payment";
 import OrderServices from "lib/services/OrderServices";
-import { useToastController } from "@tamagui/toast";
 import LogServices from "lib/services/LogServices";
 import { ORDER_STAGES } from "constants/order";
 
@@ -37,8 +38,9 @@ const Pay = () => {
 
   const orderOnPayment =
     typeof params?.order === "string" ? parseInt(params?.order, 10) : null;
+  const modeOfPayment = typeof params?.mdoe === "string" ? params?.mode : null;
 
-  const { data: order, refetch: refetchOrder } = useQuery({
+  const { refetch: refetchOrder } = useQuery({
     queryKey: ["orders", params?.order],
     queryFn: () => OrderServices.fetchSingle(orderOnPayment),
     enabled: !!params?.order,
@@ -49,16 +51,15 @@ const Pay = () => {
       return orders.find((order) => order.id === orderOnPayment);
   }, [orders, params?.order]);
 
-  const currentOrderBalance = useMemo(() => {
-    if (!order) return 0;
-    if (!order?.payments?.length) return order.negotiated_amount;
+  const totalPaymentMade = useMemo(() => {
+    if (!currentOrder?.payments?.data || !currentOrder?.payments?.data?.length)
+      return 0;
 
-    const totalPayment = order?.payments?.reduce(
-      (acc, item) => acc + parseInt(item.deposit_amount, 10),
+    return currentOrder.payments.data.reduce(
+      (acc, item) => acc + (parseInt(item?.amount, 10) ?? 0),
       0
     );
-    return order.negotiated_amount - (totalPayment ?? 0);
-  }, [currentOrder]);
+  }, [currentOrder?.laundry]);
 
   // fetch payment modes from local storage
   const { data, isPending } = useQuery({
@@ -75,15 +76,21 @@ const Pay = () => {
       message: `Payment successful`,
       type: "success",
     });
-    if (currentOrder?.id)
+    if (currentOrder?.id) {
+      const paymentString =
+        modeOfPayment === "clear"
+          ? `KES ${variables?.amount} Payment Made.`
+          : `KES ${variables?.amount} Payment Made and order is processing.`;
       // create log: processing
       LogServices.create({
         order: currentOrder.id,
         stage: ORDER_STAGES[2],
-        description: `KES${variables?.deposit_amount} Deposit  Made and order is processing.`,
+        description: paymentString,
       });
-    router.push("orders");
+    }
+    modeOfPayment === "clear" ? router.back() : router.push("orders");
   };
+
   const handleError = (error) => {
     toast.show("Error paying for order.", {
       message: error.message,
@@ -102,12 +109,13 @@ const Pay = () => {
     if (!currentOrder) return;
 
     const balance =
-      currentOrder.negotiated_amount - parseInt(_payload.deposit_amount, 10);
+      currentOrder.negotiated_amount -
+      (parseInt(_payload.amount, 10) + totalPaymentMade);
 
     const payload = {
       mode: _payload.mode,
       other_details: _payload?.other_details,
-      deposit_amount: _payload.deposit_amount,
+      amount: _payload.amount,
       balance,
       order: currentOrder.id,
     };
@@ -144,9 +152,9 @@ const Pay = () => {
         <YStack mt={"$3"}>
           {/* item name */}
           <ControlledInput
-            name="deposit_amount"
+            name="amount"
             control={control}
-            label="Deposit amount"
+            label="Paid amount"
             placeholder="customer initial payment"
           />
 
