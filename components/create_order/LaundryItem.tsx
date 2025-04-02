@@ -1,20 +1,20 @@
-import { View, Text, XStack } from "tamagui";
-import { LaundryFormData } from "types/laundry";
-import { CButton } from "components/common";
 import { Feather } from "@expo/vector-icons";
+import { CButton } from "components/common";
 import { useLaundryStore } from "lib/storage/useLaundryStorage";
+import { Text, View, XStack } from "tamagui";
+import { ILaundryItem, LaundryFormData } from "types/laundry";
 
 const LaundryItem = ({
   item,
   hideActions,
 }: {
-  item: LaundryFormData;
+  item: ILaundryItem | LaundryFormData;
   hideActions?: boolean;
 }) => {
   const { removeLaundryItem } = useLaundryStore();
 
   const handleRemoveItemFromCart = () => {
-    if (item.id) removeLaundryItem(item.id);
+    if (item.id) removeLaundryItem(String(item.id));
   };
   return (
     <View>
@@ -22,9 +22,16 @@ const LaundryItem = ({
         <View flex={1}>
           <Text col={"$gray12Light"} fontWeight={"500"} fontSize={13}>
             {item.quantity}
-            {"  "} x{"  "} {item.laundry}{" "}
+            {"  "} x{"  "}{" "}
+            {"laundryCategory" in item
+              ? item.laundryCategory.name
+              : item.laundry}{" "}
             <Text fontWeight={"300"} fontSize={12} color={"$gray11Light"}>
-              ({item?.unit})
+              (
+              {"laundryCategory" in item
+                ? item?.laundryCategory.unit
+                : item?.unit}
+              )
             </Text>
           </Text>
         </View>
@@ -36,7 +43,10 @@ const LaundryItem = ({
           gap={"$2"}
         >
           <Text col={"$gray12Light"} fontWeight={"500"} fontSize={13}>
-            KES {item.price ?? 0}
+            KES{" "}
+            {"laundryCategory" in item
+              ? item.laundryCategory.unitPrice * Number(item.quantity)
+              : item?.price ?? 0}
           </Text>
           {!hideActions ? (
             <CButton

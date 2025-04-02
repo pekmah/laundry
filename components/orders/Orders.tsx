@@ -1,9 +1,9 @@
 import { FlatList, FlatListProps } from "react-native";
 
-import { LaundryOrderType } from "types/laundry";
+import { ILaundryOrder, LaundryOrderType } from "types/laundry";
 import OrderItem from "./OrderItem";
 
-type Props = { orders: LaundryOrderType[] } & Partial<FlatListProps<any>>;
+type Props = { orders: ILaundryOrder[] } & Partial<FlatListProps<any>>;
 const Orders = ({ orders = [], ...rest }: Props) => {
   return (
     <FlatList

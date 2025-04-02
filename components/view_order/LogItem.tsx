@@ -4,10 +4,12 @@ import { Check } from "@tamagui/lucide-icons";
 
 const LogItem = ({
   title,
+  desc,
   time,
   isLast,
 }: {
   title: string;
+  desc?: string;
   time: string;
   isLast?: boolean;
 }) => {
@@ -24,12 +26,18 @@ const LogItem = ({
       >
         <Check color={"white"} size={12} />
       </Avatar>
-      <Text maxWidth={"99%"} color={"black"} fontWeight={"600"} fontSize={13}>
+      <Text
+        maxWidth={"99%"}
+        color={"black"}
+        fontWeight={"600"}
+        textTransform="capitalize"
+        fontSize={12}
+      >
         {title}
       </Text>
 
-      <Paragraph fontSize={12} col={"$gray10Dark"}>
-        {moment(time).format("DD MMM YYYY, hh:mm:ss a")}
+      <Paragraph w={"70%"} fontSize={12} col={"$gray10Dark"}>
+        {desc + "\n"} {moment(time).format("DD MMM YYYY, hh:mm:ss a")}
       </Paragraph>
     </View>
   );

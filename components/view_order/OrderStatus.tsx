@@ -49,7 +49,8 @@ const OrderStatus = () => {
               {logs?.map((log) => (
                 <LogItem
                   key={log.id}
-                  title={log.description}
+                  title={log.stage}
+                  desc={log.description}
                   time={log.createdAt}
                   isLast={log.stage === ORDER_STAGES[4]}
                 />

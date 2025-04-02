@@ -1,3 +1,4 @@
+import { IPaymentType } from "components/view_order/Payment";
 import { openDatabaseAsync } from "expo-sqlite";
 
 const TABLE_NAME = "PAYMENT_MODES";
@@ -29,14 +30,14 @@ export async function insertPaymentMode(name: string) {
 }
 
 // select all from paymentModes
-export async function selectAllPaymentModes() {
+export async function selectAllPaymentModes(): Promise<IPaymentType[]> {
   const DB = await openDatabaseAsync("app.db");
   try {
     await createTable();
 
     const rows = await DB.getAllAsync(`SELECT * FROM ${TABLE_NAME}`);
 
-    return rows;
+    return rows as IPaymentType[];
   } catch (error) {
     throw error;
   }

@@ -3,7 +3,7 @@ import { LaundryItem, LaundryListFooter } from "components/create_order";
 import useViewOrder from "hooks/useViewOrder";
 import { FlatList } from "react-native";
 import { View, Text } from "tamagui";
-import { LaundryFormData } from "types/laundry";
+import { ILaundryItem, LaundryFormData } from "types/laundry";
 
 const Laundry = () => {
   const { currentOrder } = useViewOrder();
@@ -38,10 +38,10 @@ const Laundry = () => {
         <FlatList
           ItemSeparatorComponent={() => <View style={{ height: 10 }} />}
           ListEmptyComponent={renderEmptyLaundryList}
-          data={currentOrder?.laundry ?? []}
+          data={currentOrder?.laundryItems ?? []}
           renderItem={renderLaundryItem}
           ListFooterComponent={() =>
-            renderLaundryFooter(currentOrder?.amount ?? 0)
+            renderLaundryFooter(currentOrder?.paymentAmount ?? 0)
           }
           scrollEnabled={false}
         />
@@ -52,7 +52,7 @@ const Laundry = () => {
 
 export default Laundry;
 
-const renderLaundryItem = ({ item }: { item: LaundryFormData }) => {
+const renderLaundryItem = ({ item }: { item: ILaundryItem }) => {
   return <LaundryItem item={item} hideActions />;
 };
 const renderLaundryFooter = (totalOrderAmount: number) => (

@@ -1,18 +1,21 @@
 import { Avatar, Label, Text, useTheme, View, XStack, YStack } from "tamagui";
 import { MaterialIcons } from "@expo/vector-icons";
 import moment from "moment";
-import { LaundryOrderType } from "types/laundry";
+import { ILaundryOrder, LaundryOrderType } from "types/laundry";
 import { useRouter } from "expo-router";
 import { TouchableOpacity } from "react-native";
+import { PressableImageView } from "components/common";
+import { getRandomImageUrl } from "utils/order";
 
 const OrderItem = ({
-  customer_name,
+  customerName,
   status,
   createdAt,
-  amount,
+  paymentAmount,
   id,
   payments = [],
-}: LaundryOrderType) => {
+  images,
+}: ILaundryOrder) => {
   const router = useRouter();
   const theme = useTheme();
 
@@ -46,12 +49,25 @@ const OrderItem = ({
         borderWidth={1}
       >
         <XStack gap={"$3"}>
-          <Avatar size={40} borderRadius={"$2"} bg={"$primary_light"}>
-            <MaterialIcons
-              name="local-laundry-service"
-              size={24}
-              color={theme.primary.val}
-            />
+          <Avatar size={"$5"} borderRadius={"$2"} bg={"$primary_light"}>
+            {
+              images?.length ? (
+                <PressableImageView
+                  source={{
+                    uri: getRandomImageUrl(images)
+                  }}
+                  h={"$5"}
+                  w={"$5"}
+                />
+              ) : (
+                <MaterialIcons
+                  name="local-laundry-service"
+                  size={24}
+                  color={theme.primary.val}
+                />
+              )
+            }
+
           </Avatar>
 
           <XStack flex={1}>
@@ -63,7 +79,7 @@ const OrderItem = ({
                   color={"black"}
                   fontWeight={"600"}
                 >
-                  {customer_name}{" "}
+                  {customerName}{" "}
                 </Text>
                 {/* badge */}
               </XStack>
@@ -75,7 +91,7 @@ const OrderItem = ({
                 fontSize={12}
                 onPress={handlePay}
               >
-                {hasNoInitialPayment ? status : "Pay"}
+                {!hasNoInitialPayment ? status : "Pay"}
               </Label>
             </YStack>
           </XStack>
@@ -93,7 +109,7 @@ const OrderItem = ({
               </XStack>
 
               <Text fontWeight={"600"} color={"$gray12Light"} fontSize={12}>
-                KES {amount}
+                KES {paymentAmount}
               </Text>
             </YStack>
           </XStack>

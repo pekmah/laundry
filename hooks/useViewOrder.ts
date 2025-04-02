@@ -1,8 +1,6 @@
 import { useLocalSearchParams, useRouter } from "expo-router";
 import { useMemo } from "react";
 import useOrders from "./useOrders";
-import { useQuery } from "@tanstack/react-query";
-import LogServices from "lib/services/LogServices";
 
 const useViewOrder = () => {
   const params = useLocalSearchParams();
@@ -18,20 +16,13 @@ const useViewOrder = () => {
   }, [orders, params?.order]);
 
   const totalPaymentMade = useMemo(() => {
-    if (!currentOrder?.payments?.data || !currentOrder?.payments?.data?.length)
-      return 0;
+    if (!currentOrder?.payments || !currentOrder?.payments?.length) return 0;
 
-    return currentOrder.payments.data.reduce(
-      (acc, item) => acc + (parseInt(item?.amount, 10) ?? 0),
+    return currentOrder.payments.reduce(
+      (acc, item) => acc + (item?.amount ?? 0),
       0
     );
-  }, [currentOrder?.laundry]);
-
-  const { data: logs } = useQuery({
-    queryKey: ["logs", params?.order],
-    queryFn: () => LogServices.fetchByOrder(orderOnPayment ?? 0),
-    enabled: !!orderOnPayment,
-  });
+  }, [currentOrder]);
 
   const handlePay = () => {
     router.push({
@@ -40,7 +31,13 @@ const useViewOrder = () => {
     });
   };
 
-  return { currentOrder, fetching, logs, totalPaymentMade, handlePay };
+  return {
+    currentOrder,
+    fetching,
+    logs: currentOrder?.logs,
+    totalPaymentMade,
+    handlePay,
+  };
 };
 
 export default useViewOrder;

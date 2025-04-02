@@ -1,11 +1,12 @@
 export type PricingFormData = {
   name: string;
-  amount: number | string;
+  unitPrice: number | string;
   unit: string;
 };
 export type PricingType = {
   id: number;
-  createdAt: string;
-  publishedAt: string;
-  updatedAt: string;
-} & PricingFormData;
+  name: string;
+  unit: string;
+  unitPrice: number;
+  createdAt: string | null;
+};

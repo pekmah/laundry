@@ -27,7 +27,7 @@ const signin = () => {
     mutationFn: AuthServices.signIn,
     onSuccess: (data) => {
       // save user to global store
-      saveUser(data.user, data.jwt);
+      saveUser(data.user, data.token);
       // reset form to empty
       reset();
       router.replace("/");
@@ -54,10 +54,10 @@ const signin = () => {
         <YStack mt={"$5"} gap={"$3"}>
           {/* email or phone */}
           <ControlledInput
-            name="identifier"
+            name="email"
             control={control}
-            label="Email or Phone"
-            placeholder="email or phone"
+            label="Email"
+            placeholder="email"
           />
 
           {/* password */}

@@ -13,12 +13,10 @@ export default function TabLayout() {
       screenOptions={{
         tabBarHideOnKeyboard: true,
         headerShown: false,
-        tabBarActiveTintColor: theme.primary.val,
+        tabBarActiveTintColor: "#fff",
         tabBarStyle: {
           backgroundColor: theme.primary.val,
           height: 70,
-          borderTopRightRadius: 25,
-          borderTopLeftRadius: 25,
           paddingHorizontal: 10,
         },
         tabBarLabelStyle: {
@@ -106,23 +104,23 @@ type TabBarProps = {
   isFocused?: boolean;
 };
 const TabBarIcon = ({ color, title, icon, isFocused }: TabBarProps) => {
-  if (!isFocused) {
-    return icon;
-  }
-
   return (
     <View
-      flexDirection="row"
+      flexDirection="column"
       paddingVertical={"$1.5"}
       paddingHorizontal={"$2"}
-      backgroundColor={"#fff"}
-      borderRadius={"$12"}
+      backgroundColor={"transparent"}
+      borderRadius={"$1"}
       alignItems="center"
     >
       {icon}
-      <Text fontWeight={"600"} color={color} fontSize={12} ml={"$2"} mt={2}>
+      <Text fontWeight={"600"} color={color} fontSize={11} mt={2}>
         {title}
       </Text>
+
+      {isFocused ? (
+        <View borderRadius={"$3"} bg={"white"} h={4} w={"$2"} mt="$1" />
+      ) : null}
     </View>
   );
 };

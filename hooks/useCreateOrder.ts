@@ -5,10 +5,10 @@ import { ORDER_STAGES } from "constants/order";
 import { useRouter } from "expo-router";
 import LogServices from "lib/services/LogServices";
 import OrderServices from "lib/services/OrderServices";
+import { uploadImage } from "lib/storage/cloudinary";
 import { useLaundryStore } from "lib/storage/useLaundryStorage";
 import { LaundryOrderSchema } from "lib/types/laundry";
-import moment from "moment";
-import { useEffect, useMemo } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { useForm } from "react-hook-form";
 import { LaundryOrderFormData } from "types/laundry";
 import { updateQueryData } from "utils/query";
@@ -21,6 +21,8 @@ const useCreateOrder = () => {
     useForm<LaundryOrderFormData>({
       resolver: zodResolver(LaundryOrderSchema),
     });
+  const [images, setImages] = useState<string[]>([]);
+  const [uploadedImages, setUploadedImages] = useState<object[]>([]);
 
   const { laundry, reset: resetLaundryStore } = useLaundryStore();
 
@@ -59,31 +61,107 @@ const useCreateOrder = () => {
   };
 
   const handleError = (error) => {
-    // console.log("ERROR: ", JSON.stringify(error));
+    console.log("ERROR: ", JSON.stringify(error));
     toast.show("Error creating order.", {
       message: error.message,
       type: "error",
     });
   };
 
+  const uploadImages = async (imgs: string[]) => {
+    const uploadPromises = imgs.map((image, index) => {
+      const toastId = `upload-image-${index + 1}`;
+
+      // Show initial uploading toast
+      toast.show("Uploading Image", {
+        id: toastId,
+        message: `Uploading image ${index + 1} of ${imgs.length}...`,
+        type: "info",
+      });
+
+      return uploadImage(image)
+        .then((response) => {
+          // Update toast to success
+          toast.show("Success", {
+            id: toastId, // Same toast ID to update it
+            message: `Image ${index + 1} uploaded successfully.`,
+            type: "success",
+          });
+
+          return {
+            publicId: response.public_id,
+            url: response.secure_url,
+          };
+        })
+        .catch((error) => {
+          // Update toast to error
+          toast.show("Error", {
+            id: toastId,
+            message: `Failed to upload image ${index + 1}.`,
+            type: "error",
+          });
+          return { error, index }; // Return error instead of stopping execution
+        });
+    });
+
+    const results = await Promise.allSettled(uploadPromises);
+
+    // Filter out successfully uploaded images
+    const uploadedResponses = results
+      .filter((result) => result.status === "fulfilled")
+      .map((result) => (result as PromiseFulfilledResult<object>).value);
+
+    setUploadedImages(uploadedResponses);
+
+    return uploadedResponses;
+  };
+
+  const uploadImageMutation = useMutation({
+    mutationKey: ["upload_image"],
+    mutationFn: async () => await uploadImages(images),
+
+    onError: (error) => {
+      console.log("ERROR: ", JSON.stringify(error, null, 2));
+      toast.show("Error uploading image.", {
+        message: error.message,
+        type: "error",
+      });
+    },
+  });
+
+  const handleCreateOrder = async (newOrder) => {
+    const uploadedImages = await uploadImageMutation.mutateAsync();
+
+    return await OrderServices.create({
+      ...newOrder,
+      images: uploadedImages,
+    });
+  };
+
   const { mutate: createOrder, isPending } = useMutation({
     mutationKey: ["create_order"],
-    mutationFn: OrderServices.create,
+    mutationFn: handleCreateOrder,
+    // mutationFn: OrderServices.create,
     onSuccess: handleSuccess,
+    onSettled: () => {
+      console.log("Uploaded image::", uploadedImages);
+    },
     onError: handleError,
   });
 
   const onSubmit = (payload: LaundryOrderFormData) => {
-    const dateCode = moment().format("DDMMHHmmss");
-    const orderCode = `#LDR${dateCode}`;
-    console.log("Payload", payload);
-    createOrder({
-      ...payload,
-      amount: totalLaundryAmount,
-      laundry,
-      code: orderCode,
-      negotiated_amount: payload.negotiated_amount,
-    });
+    let newOrder = {
+      customerName: payload.customer_name,
+      customerPhone: payload.customer_phone,
+      totalAmount: totalLaundryAmount,
+      paymentAmount: Number(payload.negotiated_amount),
+      laundryItems: laundry.map((item) => ({
+        laundryCategoryId: Number(item.id),
+        quantity: Number(item.quantity),
+      })),
+    };
+
+    createOrder(newOrder);
   };
 
   //   update the value of the negotiated amount to the total laundry amount
@@ -100,13 +178,16 @@ const useCreateOrder = () => {
     isPending,
     laundry,
     totalLaundryAmount,
+    images,
 
+    uploadImageMutation,
     handleSubmit: handleSubmit(onSubmit),
     reset,
     handleAddLaundry,
     handlePay,
     onSubmit,
     resetLaundryStore,
+    setImages,
   };
 };
 

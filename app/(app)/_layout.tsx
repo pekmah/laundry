@@ -3,6 +3,8 @@ import { useAuthStore } from "lib/storage/useAuthStore";
 
 export default function AppLayout() {
   const { token } = useAuthStore();
+
+  console.log("TOKEN IS:::", token);
   if (!token) {
     return <Redirect href={"/(auth)"} />;
   }

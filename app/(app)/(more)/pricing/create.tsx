@@ -22,24 +22,24 @@ const pricing = () => {
   const router = useRouter();
   const { pricing, reset } = usePricingStore();
 
-  const { control, handleSubmit, watch } = useForm<PricingFormData>({
+  const { control, handleSubmit, watch, formState } = useForm<PricingFormData>({
     resolver: zodResolver(PricingSchema),
     defaultValues: {
       name: pricing?.name || "",
-      amount: pricing?.amount?.toString() || 0,
+      unitPrice: pricing?.unitPrice?.toString() || 0,
       unit: pricing?.unit || "",
     },
   });
 
   const isUpdating = useMemo(() => !!pricing?.id, [pricing]);
   const currentName = watch("name");
-  const currentAmount = watch("amount");
+  const currentAmount = watch("unitPrice");
   const currentUnit = watch("unit");
 
   const hasDataChanged = useMemo(() => {
     return (
       pricing?.name !== currentName ||
-      pricing?.amount?.toString() !== currentAmount ||
+      pricing?.unitPrice?.toString() !== currentAmount ||
       pricing?.unit !== currentUnit
     );
   }, [pricing, currentName, currentAmount, currentUnit]);
@@ -77,14 +77,14 @@ const pricing = () => {
   });
 
   const onSubmit = (data: PricingFormData) => {
-    const amount = data.amount.toString();
+    const amount = data.unitPrice.toString();
 
     if (isUpdating && pricing?.id) {
       update({
         id: pricing?.id,
-        payload: { ...data, amount: parseInt(amount, 10) },
+        payload: { ...data, unitPrice: parseInt(amount, 10) },
       });
-    } else mutate({ ...data, amount: parseInt(amount, 10) });
+    } else mutate({ ...data, unitPrice: parseInt(amount, 10) });
   };
 
   const isLoading = isPending || updatePending;
@@ -133,10 +133,10 @@ const pricing = () => {
 
             {/* payment amount */}
             <ControlledInput
-              name="amount"
+              name="unitPrice"
               control={control}
               label="Amount"
-              placeholder="price of item"
+              placeholder="price of item per unit"
               keyboardType="numeric"
             />
             {/* payment amount */}

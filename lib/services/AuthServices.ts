@@ -1,15 +1,17 @@
 import axios from "./AxiosServices";
 
-import { RegistrationPayload, SigninFormData, UserType } from "lib/types/auth";
+import {
+  AuthResponse,
+  RegistrationPayload,
+  SigninFormData,
+} from "lib/types/auth";
 
 /**
  * signs in user
  */
-const signIn = async (
-  payload: SigninFormData
-): Promise<{ user: UserType; jwt: string }> => {
+const signIn = async (payload: SigninFormData): Promise<AuthResponse> => {
   try {
-    const response = await axios.post("/auth/local", payload);
+    const response = await axios.post("/auth/login", payload);
     return response.data;
   } catch (error) {
     throw error;
@@ -21,9 +23,9 @@ const signIn = async (
  */
 const register = async (
   payload: RegistrationPayload
-): Promise<{ user: UserType; jwt: string }> => {
+): Promise<AuthResponse> => {
   try {
-    const response = await axios.post("/auth/local/register", payload);
+    const response = await axios.post("/auth/signup", payload);
     return response.data;
   } catch (error) {
     throw error;

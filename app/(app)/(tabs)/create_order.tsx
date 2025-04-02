@@ -1,16 +1,17 @@
-import { ScrollView, Text, View, XStack, YStack } from "tamagui";
-import { FlatList } from "react-native";
 import { Feather } from "@expo/vector-icons";
+import { FlatList } from "react-native";
+import { ScrollView, Text, View, XStack, YStack } from "tamagui";
 
-import { LaundryFormData } from "types/laundry";
 import { CButton, Container } from "components/common";
+import { ControlledInput } from "components/common/input";
 import {
   EmptyLaundryList,
   LaundryItem,
   LaundryListFooter,
 } from "components/create_order";
-import { ControlledInput } from "components/common/input";
+import PickImage from "components/modals/pick-image";
 import useCreateOrder from "hooks/useCreateOrder";
+import { LaundryFormData } from "types/laundry";
 
 const create_order = () => {
   const {
@@ -20,12 +21,28 @@ const create_order = () => {
     isPending,
     handleAddLaundry,
     handleSubmit,
+    setImages,
+    images, uploadImageMutation
   } = useCreateOrder();
 
   return (
-    <Container py={"$3"}>
-      <ScrollView>
+    <Container py={0}>
+      <ScrollView
+        contentContainerStyle={{ py: "$3" }}
+        showsVerticalScrollIndicator={false}
+      >
         <YStack>
+          {/* upload images section */}
+          <View>
+            <Text fontWeight={"500"} fontSize={14} color={"black"}>
+              Upload Image
+            </Text>
+
+            <XStack paddingVertical={"$1"} paddingHorizontal={"$2"}>
+              <PickImage images={images} setState={setImages} />
+            </XStack>
+          </View>
+
           {/* item name */}
           <ControlledInput
             name="customer_name"
@@ -87,10 +104,10 @@ const create_order = () => {
 
           <CButton
             onPress={handleSubmit}
-            text={isPending ? "saving..." : "Save"}
+            text={uploadImageMutation?.isPending ? "Uploading images..." : (isPending) ? "saving..." : "Save"}
             mt="$4"
             letterSpacing={1}
-            disabled={isPending}
+            disabled={uploadImageMutation?.isPending || isPending}
           />
         </YStack>
       </ScrollView>

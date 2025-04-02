@@ -1,12 +1,12 @@
 import { z, ZodType } from "zod";
 
 export type SigninFormData = {
-  identifier: string;
+  email: string;
   password: string;
 };
 
 export const SigninSchema: ZodType<SigninFormData> = z.object({
-  identifier: z.string().min(2),
+  email: z.string().min(2),
   password: z.string().min(6),
 });
 
@@ -41,16 +41,14 @@ export const RegistrationSchema: ZodType<RegistrationFormData> = z
 
 export type UserType = {
   id: number;
-  username: string;
-  email: string;
-  provider: string;
-  confirmed: boolean;
-  blocked: boolean;
-  createdAt: string;
-  updatedAt: string;
-  phone: string;
-  activated: boolean | null;
   name: string;
+  email: string;
+  createdAt: string;
 };
 
 export type tokenType = string;
+
+export type AuthResponse = {
+  token: string;
+  user: UserType;
+};

@@ -1,27 +1,26 @@
-import { useMemo } from "react";
-import { FlatList } from "react-native";
-import { router, useLocalSearchParams } from "expo-router";
-import { useToastController } from "@tamagui/toast";
-import { XStack, View, Text } from "tamagui";
-import { Label, ScrollView, YStack } from "tamagui";
-import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useToastController } from "@tamagui/toast";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { router, useLocalSearchParams } from "expo-router";
+import { useMemo } from "react";
+import { useForm } from "react-hook-form";
+import { FlatList } from "react-native";
+import { Label, ScrollView, Text, View, XStack, YStack } from "tamagui";
 
-import { LaundryFormData } from "types/laundry";
-import { OrderPaymentFormData } from "types/payment";
-import { renderEmptyLaundryList } from "./(tabs)/create_order";
-import useOrders from "hooks/useOrders";
-import { PAYMENT_QUERY_KEY } from "./(more)/payment-modes";
-import { ControlledSelect } from "components/create_order/laundrySelector";
+import { CButton, ConfirmDialogue, Container } from "components/common";
 import { ControlledInput } from "components/common/input";
 import { LaundryItem, LaundryListFooter } from "components/create_order";
-import { CButton, ConfirmDialogue, Container } from "components/common";
+import { ControlledSelect } from "components/create_order/laundrySelector";
+import { ORDER_STAGES } from "constants/order";
+import useOrders from "hooks/useOrders";
+import LogServices from "lib/services/LogServices";
+import OrderServices from "lib/services/OrderServices";
 import { selectAllPaymentModes } from "lib/sqlite/paymentModes";
 import { OrderPaymentSchema } from "lib/types/payment";
-import OrderServices from "lib/services/OrderServices";
-import LogServices from "lib/services/LogServices";
-import { ORDER_STAGES } from "constants/order";
+import { ILaundryItem } from "types/laundry";
+import { OrderPaymentFormData } from "types/payment";
+import { PAYMENT_QUERY_KEY } from "./(more)/payment-modes";
+import { renderEmptyLaundryList } from "./(tabs)/create_order";
 
 const Pay = () => {
   const params = useLocalSearchParams();
@@ -52,14 +51,13 @@ const Pay = () => {
   }, [orders, params?.order]);
 
   const totalPaymentMade = useMemo(() => {
-    if (!currentOrder?.payments?.data || !currentOrder?.payments?.data?.length)
-      return 0;
+    if (!currentOrder?.payments || !currentOrder?.payments?.length) return 0;
 
-    return currentOrder.payments.data.reduce(
-      (acc, item) => acc + (parseInt(item?.amount, 10) ?? 0),
+    return currentOrder.payments.reduce(
+      (acc, item) => acc + (item?.amount ?? 0),
       0
     );
-  }, [currentOrder?.laundry]);
+  }, [currentOrder]);
 
   // fetch payment modes from local storage
   const { data, isPending } = useQuery({
@@ -67,7 +65,7 @@ const Pay = () => {
     queryFn: selectAllPaymentModes,
   });
 
-  const handleSuccess = (_, variables) => {
+  const handleSuccess = (_) => {
     // append the created order to current list of orders
     queryClient.invalidateQueries({ queryKey: ["orders"] });
     reset();
@@ -76,19 +74,6 @@ const Pay = () => {
       message: `Payment successful`,
       type: "success",
     });
-    if (currentOrder?.id) {
-      const paymentString =
-        modeOfPayment === "clear"
-          ? `KES ${variables?.amount} Payment Made.`
-          : `KES ${variables?.amount} Payment Made and order is processing.`;
-      // create log: processing
-      LogServices.create({
-        order: currentOrder.id,
-        stage: ORDER_STAGES[2],
-        description: paymentString,
-      });
-    }
-    modeOfPayment === "clear" ? router.back() : router.push("orders");
   };
 
   const handleError = (error) => {
@@ -108,16 +93,11 @@ const Pay = () => {
   const onSubmit = (_payload: OrderPaymentFormData) => {
     if (!currentOrder) return;
 
-    const balance =
-      currentOrder.negotiated_amount -
-      (parseInt(_payload.amount, 10) + totalPaymentMade);
-
     const payload = {
-      mode: _payload.mode,
-      other_details: _payload?.other_details,
-      amount: _payload.amount,
-      balance,
-      order: currentOrder.id,
+      paymentMethod: _payload.mode,
+      otherDetails: _payload?.other_details,
+      amount: Number(_payload.amount),
+      orderNumber: currentOrder.orderNumber,
     };
     payOrder(payload);
   };
@@ -137,12 +117,12 @@ const Pay = () => {
             onRefresh={refetch}
             ItemSeparatorComponent={() => <View style={{ height: 10 }} />}
             ListEmptyComponent={renderEmptyLaundryList}
-            data={currentOrder?.laundry ?? []}
+            data={currentOrder?.laundryItems ?? []}
             renderItem={renderLaundryItem}
             ListFooterComponent={() =>
               renderLaundryFooter(
-                currentOrder?.amount ?? 0,
-                currentOrder?.negotiated_amount ?? 0
+                currentOrder?.totalAmount ?? 0,
+                currentOrder?.paymentAmount ?? 0
               )
             }
             scrollEnabled={false}
@@ -201,7 +181,7 @@ const Pay = () => {
 
 export default Pay;
 
-const renderLaundryItem = ({ item }: { item: LaundryFormData }) => {
+const renderLaundryItem = ({ item }: { item: ILaundryItem }) => {
   return <LaundryItem item={item} hideActions />;
 };
 const renderLaundryFooter = (

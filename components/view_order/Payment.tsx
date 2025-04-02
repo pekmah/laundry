@@ -1,12 +1,34 @@
+import { useQuery } from "@tanstack/react-query";
+import { PAYMENT_QUERY_KEY } from "app/(app)/(more)/payment-modes";
 import { CButton } from "components/common";
 import useViewOrder from "hooks/useViewOrder";
+import { selectAllPaymentModes } from "lib/sqlite/paymentModes";
 import moment from "moment";
 import { View, Text, YStack, XStack } from "tamagui";
+
+
+export interface IPaymentType {
+  id: number;
+  name: string;
+}
 
 const Payment = () => {
   const { currentOrder, totalPaymentMade, handlePay } = useViewOrder();
 
-  const balance = (currentOrder?.negotiated_amount ?? 0) - totalPaymentMade;
+
+
+  const { data, isPending } = useQuery<IPaymentType[]>({
+    queryKey: PAYMENT_QUERY_KEY,
+    queryFn: selectAllPaymentModes,
+  });
+
+  const getPaymentType = (id) => {
+    const paymentType = data?.find((item) => item.id === id);
+    return paymentType?.name;
+  }
+
+  console.log(data)
+  const balance = (currentOrder?.paymentAmount ?? 0) - totalPaymentMade;
 
   return (
     <>
@@ -37,7 +59,7 @@ const Payment = () => {
           </Text>
         </View>
 
-        {currentOrder?.payments?.data?.length && (
+        {currentOrder?.payments?.length ? (
           <YStack
             gap={"$2"}
             py={"$3"}
@@ -47,26 +69,27 @@ const Payment = () => {
           >
             <PaymentItem title={"Payments"} value="" />
             {/* payments */}
-            {currentOrder?.payments?.data?.map((payment) => (
+            {currentOrder?.payments?.map((payment) => (
               <PaymentItem
                 key={payment.id}
                 title={payment.amount.toString()}
                 value={moment(payment.createdAt).format("DD MMM YYYY hh:mm A")}
+                desc={payment.otherDetails || ""}
               />
             ))}
           </YStack>
-        )}
+        ) : null}
 
         {/* body */}
         <YStack p={"$3"} gap={"$2"}>
           <PaymentItem
             title={"Total Laundry Amount"}
-            value={currentOrder?.amount?.toString() ?? "0"}
+            value={currentOrder?.totalAmount?.toString() ?? "0"}
             app="KES"
           />
           <PaymentItem
             title={"Amount to Pay"}
-            value={currentOrder?.negotiated_amount?.toString() ?? "0"}
+            value={currentOrder?.paymentAmount?.toString() ?? "0"}
             app="KES"
           />
           <PaymentItem
@@ -109,18 +132,25 @@ export default Payment;
 
 const PaymentItem = ({
   title,
+  desc,
   value,
   app,
 }: {
   title: string;
+  desc?: string;
   value: string;
   app?: string;
 }) => {
   return (
     <XStack justifyContent="space-between">
-      <Text color={"$black1"} fontWeight={"600"}>
-        {title}
-      </Text>
+      <View flex={1}>
+        <Text color={"$black1"} fontWeight={"600"}>
+          {title}
+        </Text>
+        {desc ? <Text fontSize={11} color={"$black1"} fontWeight={"400"}>
+          {desc}
+        </Text> : null}
+      </View>
 
       <Text color={"$black1"} fontWeight={"500"}>
         {app} {value ?? "0"}

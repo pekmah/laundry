@@ -9,12 +9,9 @@ import { PricingFormData, PricingType } from "types/pricing";
 const create = async (payload: PricingFormData): Promise<PricingType> => {
   try {
     setAuthToken(axios);
-    const response = await axios.post("/pricings", { data: payload });
+    const response = await axios.post("/laundry/categories", payload);
 
-    // remove unnecessary keys
-    const data = flattenAttributes(response.data);
-
-    return data;
+    return response.data;
   } catch (error) {
     throw error;
   }
@@ -26,12 +23,11 @@ const create = async (payload: PricingFormData): Promise<PricingType> => {
 const fetchAll = async (): Promise<PricingType[]> => {
   try {
     setAuthToken(axios);
-    const response = await axios.get("/pricings");
+    const response = await axios.get("/laundry/categories");
 
     // remove unnecessary keys
-    const { data } = flattenAttributes(response.data);
 
-    return data;
+    return response.data;
   } catch (error) {
     throw error;
   }

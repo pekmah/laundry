@@ -1,13 +1,13 @@
 import { ScrollView } from "tamagui";
 
 import { Container } from "components/common";
-import useViewOrder from "hooks/useViewOrder";
 import {
   OrderHeader,
   OrderLaundry,
   OrderPayment,
   OrderStatus,
 } from "components/view_order";
+import useViewOrder from "hooks/useViewOrder";
 
 const ViewOrder = () => {
   const { currentOrder } = useViewOrder();
@@ -15,13 +15,16 @@ const ViewOrder = () => {
   return (
     <Container px={"$3"} py={"$3"}>
       <ScrollView>
+
+
         {/* header */}
         <OrderHeader
-          orderID={currentOrder?.code ?? ""}
-          negotiatedAmount={currentOrder?.negotiated_amount ?? 0}
+          orderID={currentOrder?.orderNumber ?? ""}
+          negotiatedAmount={currentOrder?.paymentAmount ?? 0}
           createdAt={currentOrder?.createdAt ?? ""}
-          customerName={currentOrder?.customer_name ?? ""}
-          customerPhone={currentOrder?.customer_phone ?? ""}
+          customerName={currentOrder?.customerName ?? ""}
+          customerPhone={currentOrder?.customerPhone ?? ""}
+          images={currentOrder?.images || []}
         />
 
         {/* order status/stages */}

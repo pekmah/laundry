@@ -38,9 +38,9 @@ const AddLaundry = () => {
         ? parseInt(selected.quantity)
         : selected.quantity;
     const amount =
-      typeof chosenLaundry?.amount === "string"
-        ? parseInt(chosenLaundry.amount)
-        : chosenLaundry?.amount ?? 1;
+      typeof chosenLaundry?.unitPrice === "string"
+        ? parseInt(chosenLaundry.unitPrice)
+        : chosenLaundry?.unitPrice ?? 1;
 
     ToastAndroid.show(`${selected.laundry} added`, ToastAndroid.SHORT);
 
@@ -50,7 +50,7 @@ const AddLaundry = () => {
         laundry: chosenLaundry.name,
         unit: chosenLaundry.unit,
         id: chosenLaundry.id.toString(),
-        price: amount * quantity ?? 1,
+        price: amount * quantity,
       });
     }
     router.back();

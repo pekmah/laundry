@@ -1,6 +1,6 @@
 import { CButton, Container } from "components/common";
 import { PriceItem } from "components/more/pricing";
-import { View } from "tamagui";
+import { Text, View } from "tamagui";
 import MaterialIcons from "@expo/vector-icons/MaterialIcons";
 import { useRouter } from "expo-router";
 import { useQuery } from "@tanstack/react-query";
@@ -41,12 +41,12 @@ const index = () => {
         refreshing={isPending}
         onRefresh={refetch}
         ItemSeparatorComponent={() => <View style={{ height: 10 }} />}
-        data={data || []}
+        data={data}
         ListEmptyComponent={renderEmpty}
         renderItem={({ item }) => (
           <PriceItem
             title={item.name}
-            price={item.amount.toString()}
+            price={item.unitPrice.toString()}
             unit={item.unit}
             handleEdit={() => handleEdit(item.id)}
           />
