@@ -1,3 +1,4 @@
+import { BluetoothEscposPrinter } from "@brooons/react-native-bluetooth-escpos-printer";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useToastController } from "@tamagui/toast";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
@@ -8,9 +9,11 @@ import OrderServices from "lib/services/OrderServices";
 import { uploadImage } from "lib/storage/cloudinary";
 import { useLaundryStore } from "lib/storage/useLaundryStorage";
 import { LaundryOrderSchema } from "lib/types/laundry";
+import moment from "moment";
 import { useEffect, useMemo, useState } from "react";
 import { useForm } from "react-hook-form";
 import { LaundryOrderFormData } from "types/laundry";
+import { handlePrintReceipt } from "utils/print";
 import { updateQueryData } from "utils/query";
 
 const useCreateOrder = () => {
@@ -150,7 +153,8 @@ const useCreateOrder = () => {
   });
 
   const onSubmit = (payload: LaundryOrderFormData) => {
-    let newOrder = {
+    return handlePrintReceipt(payload, laundry, totalLaundryAmount);
+    const newOrder = {
       customerName: payload.customer_name,
       customerPhone: payload.customer_phone,
       totalAmount: totalLaundryAmount,

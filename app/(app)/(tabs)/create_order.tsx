@@ -12,6 +12,7 @@ import {
 import PickImage from "components/modals/pick-image";
 import useCreateOrder from "hooks/useCreateOrder";
 import { LaundryFormData } from "types/laundry";
+import React from "react";
 
 const create_order = () => {
   const {
@@ -22,7 +23,8 @@ const create_order = () => {
     handleAddLaundry,
     handleSubmit,
     setImages,
-    images, uploadImageMutation
+    images,
+    uploadImageMutation,
   } = useCreateOrder();
 
   return (
@@ -104,7 +106,13 @@ const create_order = () => {
 
           <CButton
             onPress={handleSubmit}
-            text={uploadImageMutation?.isPending ? "Uploading images..." : (isPending) ? "saving..." : "Save"}
+            text={
+              uploadImageMutation?.isPending
+                ? "Uploading images..."
+                : isPending
+                ? "saving..."
+                : "Save"
+            }
             mt="$4"
             letterSpacing={1}
             disabled={uploadImageMutation?.isPending || isPending}

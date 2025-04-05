@@ -8,8 +8,6 @@ const Settings = () => {
       {/* section */}
       <SettingsSection title="Bluetooth & Devices">
         <SettingsBtOption />
-
-        {/* Bt connection */}
       </SettingsSection>
     </Container>
   );

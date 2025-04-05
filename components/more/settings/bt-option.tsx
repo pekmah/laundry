@@ -74,7 +74,7 @@ const BtOption = () => {
         <XStack alignItems="center" gap={"$3"} py={"$1"}>
           {/* icon bt */}
           <View>
-            <AntDesign name="printer" size={24} color="black" />
+            <AntDesign name="printer" size={22} color="black" />
           </View>
 
           <View flex={1} gap={"$1"}>
