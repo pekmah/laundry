@@ -1,14 +1,15 @@
 import "../tamagui-web.css";
 
-import { useEffect } from "react";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { useFonts } from "expo-font";
 import { Slot, SplashScreen } from "expo-router";
-import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { useEffect } from "react";
 
-import { Provider } from "./Provider";
-import { useAuthStore } from "lib/storage/useAuthStore";
-import { GestureHandlerRootView } from "react-native-gesture-handler";
 import { BottomSheetModalProvider } from "@gorhom/bottom-sheet";
+import usePermissions from "hooks/usePermissions";
+import { GestureHandlerRootView } from "react-native-gesture-handler";
+import { Provider } from "./Provider";
+import React from "react";
 
 export {
   // Catch any errors thrown by the Layout component.
@@ -38,7 +39,7 @@ export default function RootLayout() {
     praise: require("../assets/fonts/Praise-Regular.ttf"),
   });
 
-  const { removeUser } = useAuthStore();
+  usePermissions();
 
   useEffect(() => {
     if (interLoaded || interError) {
@@ -57,13 +58,13 @@ export default function RootLayout() {
 function RootLayoutNav() {
   return (
     <GestureHandlerRootView style={{ flex: 1 }}>
-      <BottomSheetModalProvider>
-        <QueryClientProvider client={queryClient}>
+      <QueryClientProvider client={queryClient}>
+        <BottomSheetModalProvider>
           <Provider>
             <Slot />
           </Provider>
-        </QueryClientProvider>
-      </BottomSheetModalProvider>
+        </BottomSheetModalProvider>
+      </QueryClientProvider>
     </GestureHandlerRootView>
   );
 }

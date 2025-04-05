@@ -4,6 +4,7 @@ import Octicons from "@expo/vector-icons/Octicons";
 import Ionicons from "@expo/vector-icons/Ionicons";
 import Feather from "@expo/vector-icons/Feather";
 import { screenOptionsWithHeader } from "../_layout";
+import React from "react";
 
 export default function TabLayout() {
   const theme = useTheme();

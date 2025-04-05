@@ -7,50 +7,50 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		1048BEC44A084A65A5189A0E /* Poppins-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 2EDEBDBF2B28435FB3D6AE62 /* Poppins-Regular.ttf */; };
+		0D25B59747DB46F885CE77C2 /* Poppins-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 3304CC8564FD430D90B7BD4D /* Poppins-Regular.ttf */; };
+		0D562C7D73FB4D9EB79E8D87 /* Poppins-Medium.ttf in Resources */ = {isa = PBXBuildFile; fileRef = B8E7F4E7C398431A8F76F8F3 /* Poppins-Medium.ttf */; };
 		13B07FBC1A68108700A75B9A /* AppDelegate.mm in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB01A68108700A75B9A /* AppDelegate.mm */; };
 		13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB51A68108700A75B9A /* Images.xcassets */; };
 		13B07FC11A68108700A75B9A /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB71A68108700A75B9A /* main.m */; };
 		3E461D99554A48A4959DE609 /* SplashScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = AA286B85B6C04FC6940260E9 /* SplashScreen.storyboard */; };
-		421F01A99A2C417485084187 /* Poppins-Light.ttf in Resources */ = {isa = PBXBuildFile; fileRef = AB5D15EAB1164EF2BC7A47B2 /* Poppins-Light.ttf */; };
-		53DE379E55274F399B069658 /* Poppins-ExtraLight.ttf in Resources */ = {isa = PBXBuildFile; fileRef = EB5CCC8DDA254E60821E538F /* Poppins-ExtraLight.ttf */; };
-		55302A8D9E9B481AA2006CD7 /* noop-file.swift in Sources */ = {isa = PBXBuildFile; fileRef = E7AE2BDC05EA47069B497F34 /* noop-file.swift */; };
-		6021EE14E5AC15C738E53BB8 /* PrivacyInfo.xcprivacy in Resources */ = {isa = PBXBuildFile; fileRef = 7B50B0D080936F84D2AE92A0 /* PrivacyInfo.xcprivacy */; };
-		7644614BD8CB46518F8A6274 /* Poppins-Medium.ttf in Resources */ = {isa = PBXBuildFile; fileRef = EFDFABCD557A4EED969CB941 /* Poppins-Medium.ttf */; };
-		92CC890C94DA4A3B8654193B /* Poppins-Black.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 5746FFE5ACC7435B819EE145 /* Poppins-Black.ttf */; };
+		83A1CC69578E717340E75460 /* PrivacyInfo.xcprivacy in Resources */ = {isa = PBXBuildFile; fileRef = 50C1D7C437997B267A25CE77 /* PrivacyInfo.xcprivacy */; };
 		96905EF65AED1B983A6B3ABC /* libPods-exporouterexample.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 58EEBF8E8E6FB1BC6CAF49B5 /* libPods-exporouterexample.a */; };
-		A1EBB0EE178540F0AE1F3DFF /* Poppins-SemiBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 2C5C162A02E544A48849010C /* Poppins-SemiBold.ttf */; };
+		98DE212657964967B853368E /* Poppins-ExtraBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 4C899F535226480387206D80 /* Poppins-ExtraBold.ttf */; };
+		9A2C1367CF4D42649D95571A /* Poppins-Light.ttf in Resources */ = {isa = PBXBuildFile; fileRef = C58F65BFE9384B68B96D982D /* Poppins-Light.ttf */; };
 		B18059E884C0ABDD17F3DC3D /* ExpoModulesProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAC715A2D49A985799AEE119 /* ExpoModulesProvider.swift */; };
+		B72370A334324662866C317B /* Poppins-ExtraLight.ttf in Resources */ = {isa = PBXBuildFile; fileRef = FDCBC3BA758A403ABDCD7AEF /* Poppins-ExtraLight.ttf */; };
 		BB2F792D24A3F905000567C9 /* Expo.plist in Resources */ = {isa = PBXBuildFile; fileRef = BB2F792C24A3F905000567C9 /* Expo.plist */; };
-		CED30A876CD741F6897EB50B /* Poppins-ExtraBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = B7330C70AB7440ECB2188979 /* Poppins-ExtraBold.ttf */; };
-		D8CFD652B7954FC4B87E8C4B /* Poppins-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = A418C41AFDAD4B1F9B2E01D6 /* Poppins-Bold.ttf */; };
+		C8A866F18A2D47EA8C2B5BAC /* Poppins-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 6A5CBC7130A9467E825D93E4 /* Poppins-Bold.ttf */; };
+		CF25945B7FE44004A3483B6D /* noop-file.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F797F9BDEA74BC3BD0ECFB9 /* noop-file.swift */; };
+		DF60872A420D4F02B6EDCF2E /* Poppins-SemiBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 8880F1BF874D4B7899730690 /* Poppins-SemiBold.ttf */; };
+		F102A49ECF934B4C86C4818A /* Poppins-Black.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 15318029CBD546DCAF766D95 /* Poppins-Black.ttf */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		0CB9044D57B54BF2B9735EF0 /* exporouterexample-Bridging-Header.h */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 4; includeInIndex = 0; lastKnownFileType = sourcecode.c.h; name = "exporouterexample-Bridging-Header.h"; path = "exporouterexample/exporouterexample-Bridging-Header.h"; sourceTree = "<group>"; };
 		13B07F961A680F5B00A75B9A /* exporouterexample.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = exporouterexample.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		13B07FAF1A68108700A75B9A /* AppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AppDelegate.h; path = exporouterexample/AppDelegate.h; sourceTree = "<group>"; };
 		13B07FB01A68108700A75B9A /* AppDelegate.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = AppDelegate.mm; path = exporouterexample/AppDelegate.mm; sourceTree = "<group>"; };
 		13B07FB51A68108700A75B9A /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Images.xcassets; path = exporouterexample/Images.xcassets; sourceTree = "<group>"; };
 		13B07FB61A68108700A75B9A /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Info.plist; path = exporouterexample/Info.plist; sourceTree = "<group>"; };
 		13B07FB71A68108700A75B9A /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = main.m; path = exporouterexample/main.m; sourceTree = "<group>"; };
-		2C5C162A02E544A48849010C /* Poppins-SemiBold.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = "Poppins-SemiBold.ttf"; path = "../assets/fonts/Poppins-SemiBold.ttf"; sourceTree = "<group>"; };
-		2EDEBDBF2B28435FB3D6AE62 /* Poppins-Regular.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = "Poppins-Regular.ttf"; path = "../assets/fonts/Poppins-Regular.ttf"; sourceTree = "<group>"; };
-		41745CBAF93A411A97B06266 /* exporouterexample-Bridging-Header.h */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 4; includeInIndex = 0; lastKnownFileType = sourcecode.c.h; name = "exporouterexample-Bridging-Header.h"; path = "exporouterexample/exporouterexample-Bridging-Header.h"; sourceTree = "<group>"; };
-		5746FFE5ACC7435B819EE145 /* Poppins-Black.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = "Poppins-Black.ttf"; path = "../assets/fonts/Poppins-Black.ttf"; sourceTree = "<group>"; };
+		15318029CBD546DCAF766D95 /* Poppins-Black.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = "Poppins-Black.ttf"; path = "../assets/fonts/Poppins-Black.ttf"; sourceTree = "<group>"; };
+		3304CC8564FD430D90B7BD4D /* Poppins-Regular.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = "Poppins-Regular.ttf"; path = "../assets/fonts/Poppins-Regular.ttf"; sourceTree = "<group>"; };
+		4C899F535226480387206D80 /* Poppins-ExtraBold.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = "Poppins-ExtraBold.ttf"; path = "../assets/fonts/Poppins-ExtraBold.ttf"; sourceTree = "<group>"; };
+		50C1D7C437997B267A25CE77 /* PrivacyInfo.xcprivacy */ = {isa = PBXFileReference; includeInIndex = 1; name = PrivacyInfo.xcprivacy; path = exporouterexample/PrivacyInfo.xcprivacy; sourceTree = "<group>"; };
 		58EEBF8E8E6FB1BC6CAF49B5 /* libPods-exporouterexample.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-exporouterexample.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		5F797F9BDEA74BC3BD0ECFB9 /* noop-file.swift */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 4; includeInIndex = 0; lastKnownFileType = sourcecode.swift; name = "noop-file.swift"; path = "exporouterexample/noop-file.swift"; sourceTree = "<group>"; };
+		6A5CBC7130A9467E825D93E4 /* Poppins-Bold.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = "Poppins-Bold.ttf"; path = "../assets/fonts/Poppins-Bold.ttf"; sourceTree = "<group>"; };
 		6C2E3173556A471DD304B334 /* Pods-exporouterexample.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-exporouterexample.debug.xcconfig"; path = "Target Support Files/Pods-exporouterexample/Pods-exporouterexample.debug.xcconfig"; sourceTree = "<group>"; };
 		7A4D352CD337FB3A3BF06240 /* Pods-exporouterexample.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-exporouterexample.release.xcconfig"; path = "Target Support Files/Pods-exporouterexample/Pods-exporouterexample.release.xcconfig"; sourceTree = "<group>"; };
-		7B50B0D080936F84D2AE92A0 /* PrivacyInfo.xcprivacy */ = {isa = PBXFileReference; includeInIndex = 1; name = PrivacyInfo.xcprivacy; path = exporouterexample/PrivacyInfo.xcprivacy; sourceTree = "<group>"; };
-		A418C41AFDAD4B1F9B2E01D6 /* Poppins-Bold.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = "Poppins-Bold.ttf"; path = "../assets/fonts/Poppins-Bold.ttf"; sourceTree = "<group>"; };
+		8880F1BF874D4B7899730690 /* Poppins-SemiBold.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = "Poppins-SemiBold.ttf"; path = "../assets/fonts/Poppins-SemiBold.ttf"; sourceTree = "<group>"; };
 		AA286B85B6C04FC6940260E9 /* SplashScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = SplashScreen.storyboard; path = exporouterexample/SplashScreen.storyboard; sourceTree = "<group>"; };
-		AB5D15EAB1164EF2BC7A47B2 /* Poppins-Light.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = "Poppins-Light.ttf"; path = "../assets/fonts/Poppins-Light.ttf"; sourceTree = "<group>"; };
-		B7330C70AB7440ECB2188979 /* Poppins-ExtraBold.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = "Poppins-ExtraBold.ttf"; path = "../assets/fonts/Poppins-ExtraBold.ttf"; sourceTree = "<group>"; };
+		B8E7F4E7C398431A8F76F8F3 /* Poppins-Medium.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = "Poppins-Medium.ttf"; path = "../assets/fonts/Poppins-Medium.ttf"; sourceTree = "<group>"; };
 		BB2F792C24A3F905000567C9 /* Expo.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Expo.plist; sourceTree = "<group>"; };
-		E7AE2BDC05EA47069B497F34 /* noop-file.swift */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 4; includeInIndex = 0; lastKnownFileType = sourcecode.swift; name = "noop-file.swift"; path = "exporouterexample/noop-file.swift"; sourceTree = "<group>"; };
-		EB5CCC8DDA254E60821E538F /* Poppins-ExtraLight.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = "Poppins-ExtraLight.ttf"; path = "../assets/fonts/Poppins-ExtraLight.ttf"; sourceTree = "<group>"; };
+		C58F65BFE9384B68B96D982D /* Poppins-Light.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = "Poppins-Light.ttf"; path = "../assets/fonts/Poppins-Light.ttf"; sourceTree = "<group>"; };
 		ED297162215061F000B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = System/Library/Frameworks/JavaScriptCore.framework; sourceTree = SDKROOT; };
-		EFDFABCD557A4EED969CB941 /* Poppins-Medium.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = "Poppins-Medium.ttf"; path = "../assets/fonts/Poppins-Medium.ttf"; sourceTree = "<group>"; };
 		FAC715A2D49A985799AEE119 /* ExpoModulesProvider.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = ExpoModulesProvider.swift; path = "Pods/Target Support Files/Pods-exporouterexample/ExpoModulesProvider.swift"; sourceTree = "<group>"; };
+		FDCBC3BA758A403ABDCD7AEF /* Poppins-ExtraLight.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = "Poppins-ExtraLight.ttf"; path = "../assets/fonts/Poppins-ExtraLight.ttf"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -75,9 +75,9 @@
 				13B07FB61A68108700A75B9A /* Info.plist */,
 				13B07FB71A68108700A75B9A /* main.m */,
 				AA286B85B6C04FC6940260E9 /* SplashScreen.storyboard */,
-				E7AE2BDC05EA47069B497F34 /* noop-file.swift */,
-				41745CBAF93A411A97B06266 /* exporouterexample-Bridging-Header.h */,
-				7B50B0D080936F84D2AE92A0 /* PrivacyInfo.xcprivacy */,
+				5F797F9BDEA74BC3BD0ECFB9 /* noop-file.swift */,
+				0CB9044D57B54BF2B9735EF0 /* exporouterexample-Bridging-Header.h */,
+				50C1D7C437997B267A25CE77 /* PrivacyInfo.xcprivacy */,
 			);
 			name = exporouterexample;
 			sourceTree = "<group>";
@@ -107,7 +107,7 @@
 				2D16E6871FA4F8E400B85C8A /* Frameworks */,
 				D65327D7A22EEC0BE12398D9 /* Pods */,
 				D7E4C46ADA2E9064B798F356 /* ExpoModulesProviders */,
-				AE1C78F4BA2849F0B0AD2947 /* Resources */,
+				D23439D19FC64CC0BD49731D /* Resources */,
 			);
 			indentWidth = 2;
 			sourceTree = "<group>";
@@ -130,22 +130,6 @@
 			name = exporouterexample;
 			sourceTree = "<group>";
 		};
-		AE1C78F4BA2849F0B0AD2947 /* Resources */ = {
-			isa = PBXGroup;
-			children = (
-				2EDEBDBF2B28435FB3D6AE62 /* Poppins-Regular.ttf */,
-				A418C41AFDAD4B1F9B2E01D6 /* Poppins-Bold.ttf */,
-				2C5C162A02E544A48849010C /* Poppins-SemiBold.ttf */,
-				EFDFABCD557A4EED969CB941 /* Poppins-Medium.ttf */,
-				AB5D15EAB1164EF2BC7A47B2 /* Poppins-Light.ttf */,
-				EB5CCC8DDA254E60821E538F /* Poppins-ExtraLight.ttf */,
-				5746FFE5ACC7435B819EE145 /* Poppins-Black.ttf */,
-				B7330C70AB7440ECB2188979 /* Poppins-ExtraBold.ttf */,
-			);
-			name = Resources;
-			path = "";
-			sourceTree = "<group>";
-		};
 		BB2F792B24A3F905000567C9 /* Supporting */ = {
 			isa = PBXGroup;
 			children = (
@@ -153,6 +137,22 @@
 			);
 			name = Supporting;
 			path = exporouterexample/Supporting;
+			sourceTree = "<group>";
+		};
+		D23439D19FC64CC0BD49731D /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				3304CC8564FD430D90B7BD4D /* Poppins-Regular.ttf */,
+				6A5CBC7130A9467E825D93E4 /* Poppins-Bold.ttf */,
+				8880F1BF874D4B7899730690 /* Poppins-SemiBold.ttf */,
+				B8E7F4E7C398431A8F76F8F3 /* Poppins-Medium.ttf */,
+				C58F65BFE9384B68B96D982D /* Poppins-Light.ttf */,
+				FDCBC3BA758A403ABDCD7AEF /* Poppins-ExtraLight.ttf */,
+				15318029CBD546DCAF766D95 /* Poppins-Black.ttf */,
+				4C899F535226480387206D80 /* Poppins-ExtraBold.ttf */,
+			);
+			name = Resources;
+			path = "";
 			sourceTree = "<group>";
 		};
 		D65327D7A22EEC0BE12398D9 /* Pods */ = {
@@ -180,13 +180,13 @@
 			buildConfigurationList = 13B07F931A680F5B00A75B9A /* Build configuration list for PBXNativeTarget "exporouterexample" */;
 			buildPhases = (
 				08A4A3CD28434E44B6B9DE2E /* [CP] Check Pods Manifest.lock */,
-				84C55E86B44A237789B015D9 /* [Expo] Configure project */,
+				1DAF3029A4110244D44FA6A5 /* [Expo] Configure project */,
 				13B07F871A680F5B00A75B9A /* Sources */,
 				13B07F8C1A680F5B00A75B9A /* Frameworks */,
 				13B07F8E1A680F5B00A75B9A /* Resources */,
 				00DD1BFF1BD5951E006B06BC /* Bundle React Native code and images */,
 				800E24972A6A228C8D4807E9 /* [CP] Copy Pods Resources */,
-				A257E91234A3F88B07971868 /* [CP] Embed Pods Frameworks */,
+				9433BDEF0773A8DD519C845B /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -236,15 +236,15 @@
 				BB2F792D24A3F905000567C9 /* Expo.plist in Resources */,
 				13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */,
 				3E461D99554A48A4959DE609 /* SplashScreen.storyboard in Resources */,
-				1048BEC44A084A65A5189A0E /* Poppins-Regular.ttf in Resources */,
-				D8CFD652B7954FC4B87E8C4B /* Poppins-Bold.ttf in Resources */,
-				A1EBB0EE178540F0AE1F3DFF /* Poppins-SemiBold.ttf in Resources */,
-				7644614BD8CB46518F8A6274 /* Poppins-Medium.ttf in Resources */,
-				421F01A99A2C417485084187 /* Poppins-Light.ttf in Resources */,
-				53DE379E55274F399B069658 /* Poppins-ExtraLight.ttf in Resources */,
-				92CC890C94DA4A3B8654193B /* Poppins-Black.ttf in Resources */,
-				CED30A876CD741F6897EB50B /* Poppins-ExtraBold.ttf in Resources */,
-				6021EE14E5AC15C738E53BB8 /* PrivacyInfo.xcprivacy in Resources */,
+				0D25B59747DB46F885CE77C2 /* Poppins-Regular.ttf in Resources */,
+				C8A866F18A2D47EA8C2B5BAC /* Poppins-Bold.ttf in Resources */,
+				DF60872A420D4F02B6EDCF2E /* Poppins-SemiBold.ttf in Resources */,
+				0D562C7D73FB4D9EB79E8D87 /* Poppins-Medium.ttf in Resources */,
+				9A2C1367CF4D42649D95571A /* Poppins-Light.ttf in Resources */,
+				B72370A334324662866C317B /* Poppins-ExtraLight.ttf in Resources */,
+				F102A49ECF934B4C86C4818A /* Poppins-Black.ttf in Resources */,
+				98DE212657964967B853368E /* Poppins-ExtraBold.ttf in Resources */,
+				83A1CC69578E717340E75460 /* PrivacyInfo.xcprivacy in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -288,33 +288,7 @@
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
-		800E24972A6A228C8D4807E9 /* [CP] Copy Pods Resources */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-exporouterexample/Pods-exporouterexample-resources.sh",
-				"${PODS_CONFIGURATION_BUILD_DIR}/EXConstants/EXConstants.bundle",
-				"${PODS_CONFIGURATION_BUILD_DIR}/EXConstants/ExpoConstants_privacy.bundle",
-				"${PODS_CONFIGURATION_BUILD_DIR}/ExpoFileSystem/ExpoFileSystem_privacy.bundle",
-				"${PODS_CONFIGURATION_BUILD_DIR}/ExpoSystemUI/ExpoSystemUI_privacy.bundle",
-				"${PODS_CONFIGURATION_BUILD_DIR}/React-Core/RCTI18nStrings.bundle",
-			);
-			name = "[CP] Copy Pods Resources";
-			outputPaths = (
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/EXConstants.bundle",
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/ExpoConstants_privacy.bundle",
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/ExpoFileSystem_privacy.bundle",
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/ExpoSystemUI_privacy.bundle",
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/RCTI18nStrings.bundle",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-exporouterexample/Pods-exporouterexample-resources.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		84C55E86B44A237789B015D9 /* [Expo] Configure project */ = {
+		1DAF3029A4110244D44FA6A5 /* [Expo] Configure project */ = {
 			isa = PBXShellScriptBuildPhase;
 			alwaysOutOfDate = 1;
 			buildActionMask = 2147483647;
@@ -333,7 +307,35 @@
 			shellPath = /bin/sh;
 			shellScript = "# This script configures Expo modules and generates the modules provider file.\nbash -l -c \"./Pods/Target\\ Support\\ Files/Pods-exporouterexample/expo-configure-project.sh\"\n";
 		};
-		A257E91234A3F88B07971868 /* [CP] Embed Pods Frameworks */ = {
+		800E24972A6A228C8D4807E9 /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-exporouterexample/Pods-exporouterexample-resources.sh",
+				"${PODS_CONFIGURATION_BUILD_DIR}/EXConstants/EXConstants.bundle",
+				"${PODS_CONFIGURATION_BUILD_DIR}/EXConstants/ExpoConstants_privacy.bundle",
+				"${PODS_CONFIGURATION_BUILD_DIR}/ExpoDevice/ExpoDevice_privacy.bundle",
+				"${PODS_CONFIGURATION_BUILD_DIR}/ExpoFileSystem/ExpoFileSystem_privacy.bundle",
+				"${PODS_CONFIGURATION_BUILD_DIR}/ExpoSystemUI/ExpoSystemUI_privacy.bundle",
+				"${PODS_CONFIGURATION_BUILD_DIR}/React-Core/RCTI18nStrings.bundle",
+			);
+			name = "[CP] Copy Pods Resources";
+			outputPaths = (
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/EXConstants.bundle",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/ExpoConstants_privacy.bundle",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/ExpoDevice_privacy.bundle",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/ExpoFileSystem_privacy.bundle",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/ExpoSystemUI_privacy.bundle",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/RCTI18nStrings.bundle",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-exporouterexample/Pods-exporouterexample-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		9433BDEF0773A8DD519C845B /* [CP] Embed Pods Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -363,7 +365,7 @@
 				13B07FBC1A68108700A75B9A /* AppDelegate.mm in Sources */,
 				13B07FC11A68108700A75B9A /* main.m in Sources */,
 				B18059E884C0ABDD17F3DC3D /* ExpoModulesProvider.swift in Sources */,
-				55302A8D9E9B481AA2006CD7 /* noop-file.swift in Sources */,
+				CF25945B7FE44004A3483B6D /* noop-file.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

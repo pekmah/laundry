@@ -1,10 +1,10 @@
 import { Redirect, Stack } from "expo-router";
 import { useAuthStore } from "lib/storage/useAuthStore";
+import React from "react";
 
 export default function AppLayout() {
   const { token } = useAuthStore();
 
-  console.log("TOKEN IS:::", token);
   if (!token) {
     return <Redirect href={"/(auth)"} />;
   }

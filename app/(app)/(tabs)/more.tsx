@@ -4,6 +4,7 @@ import MaterialCommunityIcons from "@expo/vector-icons/MaterialCommunityIcons";
 import FontAwesome6 from "@expo/vector-icons/FontAwesome6";
 import Ionicons from "@expo/vector-icons/Ionicons";
 import MaterialIcons from "@expo/vector-icons/MaterialIcons";
+import React from "react";
 
 import { ConfirmDialogue, Container } from "components/common";
 import { MoreCard, MoreItem } from "components/more";
@@ -90,5 +91,12 @@ const moreItems: MoreItemProps[] = [
     icon: (
       <MaterialCommunityIcons color={COLORS.primary} name="offer" size={24} />
     ),
+  },
+  {
+    title: "Settings",
+    icon: (
+      <Ionicons color={COLORS.primary} name="settings-outline" size={24} />
+    ),
+    screen: "/(app)/(more)/settings",
   },
 ];

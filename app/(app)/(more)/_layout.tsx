@@ -1,5 +1,6 @@
 import { Stack } from "expo-router";
 import { screenOptionsWithHeader } from "../_layout";
+import React from "react";
 
 export default function MoreLayout() {
   // This layout can be deferred because it's not the root layout.
@@ -34,6 +35,14 @@ export default function MoreLayout() {
           ...screenOptionsWithHeader,
           title: "Add Payment Mode",
           presentation: "modal",
+          animation: "slide_from_bottom",
+        }}
+      />
+      <Stack.Screen
+        name="settings"
+        options={{
+          ...screenOptionsWithHeader,
+          title: "Settings",
           animation: "slide_from_bottom",
         }}
       />

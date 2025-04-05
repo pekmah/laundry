@@ -3,6 +3,7 @@ import { TamaguiProvider, type TamaguiProviderProps } from "tamagui";
 import { ToastProvider, ToastViewport } from "@tamagui/toast";
 import { CurrentToast } from "./CurrentToast";
 import { config } from "../tamagui.config";
+import React from "react";
 
 export function Provider({
   children,

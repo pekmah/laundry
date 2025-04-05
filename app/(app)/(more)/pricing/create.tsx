@@ -2,6 +2,8 @@ import { Stack, useRouter } from "expo-router";
 import { View, Text, YStack, ScrollView } from "tamagui";
 import FontAwesome5 from "@expo/vector-icons/FontAwesome5";
 import { useForm } from "react-hook-form";
+import React from "react";
+
 
 import { CButton, Container } from "components/common";
 import { ControlledInput } from "components/common/input";
@@ -22,7 +24,7 @@ const pricing = () => {
   const router = useRouter();
   const { pricing, reset } = usePricingStore();
 
-  const { control, handleSubmit, watch, formState } = useForm<PricingFormData>({
+  const { control, handleSubmit, watch, } = useForm<PricingFormData>({
     resolver: zodResolver(PricingSchema),
     defaultValues: {
       name: pricing?.name || "",

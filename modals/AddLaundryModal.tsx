@@ -2,13 +2,12 @@ import { StyleSheet } from "react-native";
 import React from "react";
 import CustomBottomSheetWrapper from "./CustomBottomSheetWrapper";
 import { BottomSheetModal, BottomSheetScrollView } from "@gorhom/bottom-sheet";
-import { COLORS } from "constants/Colors";
 import { H4, H5, Text, View, XStack, YStack } from "tamagui";
 import { CButton, Container } from "components/common";
 import { Ionicons, Feather } from "@expo/vector-icons";
 import { LaundrySelector } from "components/create_order";
 
-const AddLaundryModal = (props) => {
+const AddLaundryModal = () => {
   const ref = React.useRef<BottomSheetModal>(null);
 
   const handleOpenModal = () => {
@@ -64,7 +63,7 @@ const AddLaundryModal = (props) => {
 
 export default AddLaundryModal;
 
-const renderSheetHeader = (handleClose) => (
+export const renderSheetHeader = (handleClose) => (
   <XStack py={"$2"} justifyContent={"flex-end"} alignItems={"center"}>
     <View
       m={"auto"}

@@ -1,0 +1,15 @@
+diff --git a/node_modules/@brooons/react-native-bluetooth-escpos-printer/android/build.gradle b/node_modules/@brooons/react-native-bluetooth-escpos-printer/android/build.gradle
+index def666c..7a9ac6d 100644
+--- a/node_modules/@brooons/react-native-bluetooth-escpos-printer/android/build.gradle
++++ b/node_modules/@brooons/react-native-bluetooth-escpos-printer/android/build.gradle
+@@ -20,8 +20,8 @@ buildscript {
+ apply plugin: 'com.android.library'
+ 
+ android {
+-    compileSdkVersion 28
+-    buildToolsVersion "28.0.3"
++    compileSdkVersion 34
++    buildToolsVersion "34.0.0"
+ 
+     defaultConfig {
+         minSdkVersion 16
