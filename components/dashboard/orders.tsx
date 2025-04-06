@@ -1,4 +1,5 @@
 import { Anchor, View, XStack } from "tamagui";
+import React from "react";
 
 import { SectionTitle } from "components/common";
 import { Orders } from "components/orders";

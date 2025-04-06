@@ -1,11 +1,12 @@
 import { useState } from "react";
 import { AlertDialog, Button, XStack, YStack } from "tamagui";
-import { set } from "zod";
+import React from "react";
 
 type Props = {
   title?: string;
   body: string;
   handleAccept: () => void;
+  handleCancel?: () => void; // Optional, in case you want to handle cancel action
   children: React.ReactNode;
 };
 
@@ -13,6 +14,7 @@ export default function ConfirmDialogue({
   title = "Confirm",
   body,
   handleAccept,
+  handleCancel,
   children,
 }: Props) {
   const [open, setOpen] = useState(false);
@@ -23,6 +25,14 @@ export default function ConfirmDialogue({
 
   const handleOkay = () => {
     handleAccept();
+    handleClose();
+  };
+
+  // Optional: handle cancel action if provided
+  const _handleCancel = () => {
+    if (handleCancel) {
+      handleCancel();
+    }
     handleClose();
   };
 
@@ -62,9 +72,10 @@ export default function ConfirmDialogue({
             <AlertDialog.Description>{body}</AlertDialog.Description>
 
             <XStack gap="$3" justifyContent="flex-end">
-              <AlertDialog.Cancel asChild>
+              <AlertDialog.Cancel onPress={_handleCancel} asChild>
                 <Button>Cancel</Button>
               </AlertDialog.Cancel>
+
               <AlertDialog.Action onPress={handleOkay} asChild>
                 <Button theme="active">Accept</Button>
               </AlertDialog.Action>

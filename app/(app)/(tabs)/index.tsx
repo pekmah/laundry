@@ -7,6 +7,7 @@ import {
 } from "components/dashboard";
 import { Stack } from "expo-router";
 import { ScrollView } from "tamagui";
+import React from "react";
 
 export default function Dashboard() {
   return (

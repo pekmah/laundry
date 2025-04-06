@@ -18,12 +18,7 @@ const CButton = ({ text, children, disabled, ...rest }: CButtonProps) => {
       {...rest}
     >
       {text ? (
-        <Text
-          letterSpacing={1}
-          fontWeight={"600"}
-          fontSize={16}
-          color={"whitesmoke"}
-        >
+        <Text fontWeight={"600"} fontSize={14} color={"whitesmoke"}>
           {text}
         </Text>
       ) : (

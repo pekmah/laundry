@@ -1,15 +1,16 @@
-import { BluetoothEscposPrinter } from "@brooons/react-native-bluetooth-escpos-printer";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useToastController } from "@tamagui/toast";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { ORDER_STAGES } from "constants/order";
 import { useRouter } from "expo-router";
 import LogServices from "lib/services/LogServices";
-import OrderServices from "lib/services/OrderServices";
+import OrderServices, {
+  IOrderCreateResponse,
+} from "lib/services/OrderServices";
 import { uploadImage } from "lib/storage/cloudinary";
+import { useBTStoreHook } from "lib/storage/useBtSettings";
 import { useLaundryStore } from "lib/storage/useLaundryStorage";
 import { LaundryOrderSchema } from "lib/types/laundry";
-import moment from "moment";
 import { useEffect, useMemo, useState } from "react";
 import { useForm } from "react-hook-form";
 import { LaundryOrderFormData } from "types/laundry";
@@ -20,14 +21,20 @@ const useCreateOrder = () => {
   const toast = useToastController();
   const router = useRouter();
   const queryClient = useQueryClient();
-  const { control, handleSubmit, reset, watch, setValue } =
+  const { connectedDevice } = useBTStoreHook();
+  const [printOnCreate, setPrintOnCreate] = useState(false);
+
+  const { control, handleSubmit, reset, setValue } =
     useForm<LaundryOrderFormData>({
       resolver: zodResolver(LaundryOrderSchema),
     });
   const [images, setImages] = useState<string[]>([]);
-  const [uploadedImages, setUploadedImages] = useState<object[]>([]);
 
   const { laundry, reset: resetLaundryStore } = useLaundryStore();
+
+  const isPrinterConnected = useMemo(() => {
+    return !!connectedDevice?.address;
+  }, [connectedDevice]);
 
   const totalLaundryAmount = useMemo(() => {
     return laundry.reduce((acc, item) => acc + (item?.price ?? 0), 0);
@@ -43,21 +50,31 @@ const useCreateOrder = () => {
     });
   };
 
-  const handleSuccess = (response) => {
+  const handleSuccess = (response: IOrderCreateResponse) => {
+    // print receipt if the printOnCreate flag is set to true
+    if (printOnCreate && isPrinterConnected) {
+      handlePrintReceipt(response.data);
+    }
     // append the created order to current list of orders
     updateQueryData(["orders"], queryClient, response);
     reset();
     resetLaundryStore();
+
+    console.log(
+      "Order created successfully: ",
+      JSON.stringify(response, null, 2)
+    );
+
     toast.show("Success", {
       message: `Order created successfully`,
       type: "success",
     });
     // navigate to payment page
-    handlePay(response?.id);
+    handlePay(response?.data.id);
     // create log
 
     LogServices.create({
-      order: response.id,
+      order: response.data.id,
       stage: ORDER_STAGES[1],
       description: "Order Created",
     });
@@ -114,8 +131,6 @@ const useCreateOrder = () => {
       .filter((result) => result.status === "fulfilled")
       .map((result) => (result as PromiseFulfilledResult<object>).value);
 
-    setUploadedImages(uploadedResponses);
-
     return uploadedResponses;
   };
 
@@ -145,15 +160,13 @@ const useCreateOrder = () => {
     mutationKey: ["create_order"],
     mutationFn: handleCreateOrder,
     // mutationFn: OrderServices.create,
-    onSuccess: handleSuccess,
-    onSettled: () => {
-      console.log("Uploaded image::", uploadedImages);
-    },
+    onSuccess: (data) => handleSuccess(data),
+    onSettled: () => {},
     onError: handleError,
   });
 
   const onSubmit = (payload: LaundryOrderFormData) => {
-    return handlePrintReceipt(payload, laundry, totalLaundryAmount);
+    console.log("Submitting order with payload: ", payload);
     const newOrder = {
       customerName: payload.customer_name,
       customerPhone: payload.customer_phone,
@@ -166,6 +179,29 @@ const useCreateOrder = () => {
     };
 
     createOrder(newOrder);
+  };
+
+  // method to handle creating order and print receipt
+  const handleCreateOrderAndPrint = () => {
+    setPrintOnCreate(true);
+    // check if a printer is connected before proceeding
+    if (!isPrinterConnected) {
+      toast.show("Error", {
+        message:
+          "No printer connected. Please connect a printer to print the receipt.",
+        type: "error",
+      });
+      // navigate to printer settings screen. add a navigation parameter to ensure app navigates back to this screen after connecting the printer
+      router.push({
+        pathname: "/(app)/(more)/settings",
+        params: { action: "connect-printer" }, // return to create order screen after connecting printer
+      });
+
+      return null;
+    }
+
+    // Call the onSubmit function to create the order
+    handleSubmit(onSubmit)();
   };
 
   //   update the value of the negotiated amount to the total laundry amount
@@ -186,6 +222,7 @@ const useCreateOrder = () => {
 
     uploadImageMutation,
     handleSubmit: handleSubmit(onSubmit),
+    handleCreateOrderAndPrint,
     reset,
     handleAddLaundry,
     handlePay,

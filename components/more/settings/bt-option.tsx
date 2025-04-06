@@ -1,13 +1,16 @@
 import { AntDesign } from "@expo/vector-icons";
 import Ionicons from "@expo/vector-icons/Ionicons";
+import { useLocalSearchParams } from "expo-router";
 import bluetoothManager, { BTState } from "lib/bluetooth-state-manager";
-import { ConnectPrinterModal } from "modals";
-import React, { useEffect, useMemo, useState } from "react";
 import { Switch, Text, View, XStack, YStack } from "tamagui";
+import React, { useEffect, useMemo, useRef, useState } from "react";
+import ConnectPrinterModal, { ConnectPrinterRef } from "modals/connect-printer";
 
 const BtOption = () => {
   const [bluetoothState, setBluetoothState] =
     useState<keyof typeof BTState>("Unknown");
+  const params = useLocalSearchParams();
+  const ref = useRef<ConnectPrinterRef>(null);
 
   const isBtEnabled = useMemo(() => {
     return bluetoothState === BTState.PoweredOn;
@@ -31,6 +34,14 @@ const BtOption = () => {
       bluetoothManager.disableBluetooth();
     }
   };
+
+  // Check route params for "connect-printer" action
+  useEffect(() => {
+    if (params?.action === "connect-printer" && isBtEnabled) {
+      // Open the Connect Printer modal if Bluetooth is enabled
+      ref.current?.openModal();
+    }
+  }, [params?.action, isBtEnabled, bluetoothManager]);
 
   return (
     <YStack py={"$1"} gap={"$3"}>
@@ -94,7 +105,7 @@ const BtOption = () => {
           </View>
 
           {/* Connect button */}
-          <ConnectPrinterModal />
+          <ConnectPrinterModal ref={ref} />
         </XStack>
       ) : null}
     </YStack>

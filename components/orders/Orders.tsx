@@ -1,6 +1,8 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { FlatList, FlatListProps } from "react-native";
+import React from "react";
 
-import { ILaundryOrder, LaundryOrderType } from "types/laundry";
+import { ILaundryOrder } from "types/laundry";
 import OrderItem from "./OrderItem";
 
 type Props = { orders: ILaundryOrder[] } & Partial<FlatListProps<any>>;

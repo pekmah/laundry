@@ -1,6 +1,6 @@
 import { BluetoothEscposPrinter } from "@brooons/react-native-bluetooth-escpos-printer";
 import moment from "moment";
-import { LaundryFormData, LaundryOrderFormData } from "types/laundry";
+import { NewOrder } from "types/order";
 import { formatToKES } from "utils";
 
 async function printNewLines(lines: number) {
@@ -49,11 +49,7 @@ const printFooter = async () => {
   await BluetoothEscposPrinter.cutOnePoint();
 };
 
-export const handlePrintReceipt = async (
-  order: LaundryOrderFormData,
-  laundry: LaundryFormData[],
-  total: number
-) => {
+export const handlePrintReceipt = async (order: NewOrder) => {
   try {
     // Print header
     await printHeader();
@@ -66,18 +62,20 @@ export const handlePrintReceipt = async (
     await printLeftText(`Order ID: #FUA321142`);
     await printNewLines(1);
     await printLeftText(`Customer Details:`);
-    await printLeftText(`Name: ${order.customer_name || "N/A"}`);
-    await printLeftText(`Phone: ${order.customer_phone || "N/A"}`);
+    await printLeftText(`Name: ${order.customerName || "N/A"}`);
+    await printLeftText(`Phone: ${order.customerPhone || "N/A"}`);
     await printNewLines(1);
     // Print laundry items
     await printLeftText("Laundry Items:");
-    for (const item of laundry) {
+    for (const item of order.laundryItems) {
       await printLeftText(
-        `- ${item.quantity} x ${item.laundry} = ${formatToKES(item.price)}`
+        `${item.laundryCategory.name} - ${item.quantity} ${
+          item.laundryCategory.unit
+        }(s) @ ${formatToKES(item.laundryCategory.unitPrice)}`
       );
     }
     await printNewLines(1);
-    await printLeftText(`Total: ${formatToKES(total) || 0}`);
+    await printLeftText(`Total: ${formatToKES(order.totalAmount) || 0}`);
 
     // Footer
     await printNewLines(1);

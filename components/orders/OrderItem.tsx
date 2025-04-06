@@ -1,7 +1,8 @@
 import { Avatar, Label, Text, useTheme, View, XStack, YStack } from "tamagui";
+import React from "react";
 import { MaterialIcons } from "@expo/vector-icons";
 import moment from "moment";
-import { ILaundryOrder, LaundryOrderType } from "types/laundry";
+import { ILaundryOrder } from "types/laundry";
 import { useRouter } from "expo-router";
 import { TouchableOpacity } from "react-native";
 import { PressableImageView } from "components/common";
@@ -31,11 +32,12 @@ const OrderItem = ({
     }
   };
   const handleViewOrder = () => {
-    if (hasNoInitialPayment) handlePay;
-    router.push({
-      pathname: "/(app)/view_order",
-      params: { order: id },
-    });
+    if (hasNoInitialPayment) handlePay();
+    else
+      router.push({
+        pathname: "/(app)/view_order",
+        params: { order: id },
+      });
   };
 
   return (
@@ -50,24 +52,21 @@ const OrderItem = ({
       >
         <XStack gap={"$3"}>
           <Avatar size={"$5"} borderRadius={"$2"} bg={"$primary_light"}>
-            {
-              images?.length ? (
-                <PressableImageView
-                  source={{
-                    uri: getRandomImageUrl(images)
-                  }}
-                  h={"$5"}
-                  w={"$5"}
-                />
-              ) : (
-                <MaterialIcons
-                  name="local-laundry-service"
-                  size={24}
-                  color={theme.primary.val}
-                />
-              )
-            }
-
+            {images?.length ? (
+              <PressableImageView
+                source={{
+                  uri: getRandomImageUrl(images),
+                }}
+                h={"$5"}
+                w={"$5"}
+              />
+            ) : (
+              <MaterialIcons
+                name="local-laundry-service"
+                size={24}
+                color={theme.primary.val}
+              />
+            )}
           </Avatar>
 
           <XStack flex={1}>

@@ -1,8 +1,8 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useToastController } from "@tamagui/toast";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { router, useLocalSearchParams } from "expo-router";
-import { useMemo } from "react";
+import { useLocalSearchParams, useRouter } from "expo-router";
+import React, { useMemo } from "react";
 import { useForm } from "react-hook-form";
 import { FlatList } from "react-native";
 import { Label, ScrollView, Text, View, XStack, YStack } from "tamagui";
@@ -11,9 +11,7 @@ import { CButton, ConfirmDialogue, Container } from "components/common";
 import { ControlledInput } from "components/common/input";
 import { LaundryItem, LaundryListFooter } from "components/create_order";
 import { ControlledSelect } from "components/create_order/laundrySelector";
-import { ORDER_STAGES } from "constants/order";
 import useOrders from "hooks/useOrders";
-import LogServices from "lib/services/LogServices";
 import OrderServices from "lib/services/OrderServices";
 import { selectAllPaymentModes } from "lib/sqlite/paymentModes";
 import { OrderPaymentSchema } from "lib/types/payment";
@@ -25,6 +23,7 @@ import { renderEmptyLaundryList } from "./(tabs)/create_order";
 const Pay = () => {
   const params = useLocalSearchParams();
   const toast = useToastController();
+  const router = useRouter();
   const queryClient = useQueryClient();
   const { orders, isPending: fetching, refetch } = useOrders();
   const { control, handleSubmit, reset, watch } = useForm<OrderPaymentFormData>(
@@ -37,7 +36,6 @@ const Pay = () => {
 
   const orderOnPayment =
     typeof params?.order === "string" ? parseInt(params?.order, 10) : null;
-  const modeOfPayment = typeof params?.mdoe === "string" ? params?.mode : null;
 
   const { refetch: refetchOrder } = useQuery({
     queryKey: ["orders", params?.order],
@@ -50,22 +48,13 @@ const Pay = () => {
       return orders.find((order) => order.id === orderOnPayment);
   }, [orders, params?.order]);
 
-  const totalPaymentMade = useMemo(() => {
-    if (!currentOrder?.payments || !currentOrder?.payments?.length) return 0;
-
-    return currentOrder.payments.reduce(
-      (acc, item) => acc + (item?.amount ?? 0),
-      0
-    );
-  }, [currentOrder]);
-
   // fetch payment modes from local storage
   const { data, isPending } = useQuery({
     queryKey: PAYMENT_QUERY_KEY,
     queryFn: selectAllPaymentModes,
   });
 
-  const handleSuccess = (_) => {
+  const handleSuccess = () => {
     // append the created order to current list of orders
     queryClient.invalidateQueries({ queryKey: ["orders"] });
     reset();
@@ -73,6 +62,11 @@ const Pay = () => {
     toast.show("Success", {
       message: `Payment successful`,
       type: "success",
+    });
+    // push to view order screen
+    router.push({
+      pathname: "/(app)/view_order",
+      params: { order: currentOrder?.id.toString() },
     });
   };
 

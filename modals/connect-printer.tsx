@@ -1,35 +1,51 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import { BottomSheetModal } from "@gorhom/bottom-sheet";
+import { useToastController } from "@tamagui/toast";
+import { useMutation } from "@tanstack/react-query";
 import { CButton, Container } from "components/common";
-import React, { useCallback, useMemo } from "react";
-import { FlatList } from "react-native";
+import { useRouter } from "expo-router";
+import { useBTStoreHook } from "lib/storage/useBtSettings";
+import React, {
+  forwardRef,
+  useCallback,
+  useImperativeHandle,
+  useMemo,
+} from "react";
+import { FlatList, ToastAndroid } from "react-native";
 import { IBLEPrinter } from "react-native-thermal-receipt-printer";
 import { Text, View, XStack } from "tamagui";
+import { getErrorMessage } from "utils";
 import { getBTList, PrinterServices } from "utils/bluetooth";
 import { renderSheetHeader } from "./AddLaundryModal";
 import CustomBottomSheetWrapper from "./CustomBottomSheetWrapper";
-import { useBTStoreHook } from "lib/storage/useBtSettings";
-import { useMutation } from "@tanstack/react-query";
-import { useToastController } from "@tamagui/toast";
-import { getErrorMessage } from "utils";
 
-const ConnectPrinter = () => {
-  const ref = React.useRef<BottomSheetModal>(null);
+// Define and export the ref type
+export interface ConnectPrinterRef {
+  openModal: () => void;
+  closeModal: () => void;
+}
+
+const ConnectPrinter = forwardRef<ConnectPrinterRef>((_, ref) => {
+  const modalRef = React.useRef<BottomSheetModal>(null);
 
   const handleOpenModal = () => {
-    ref?.current?.present();
+    modalRef?.current?.present();
   };
 
   const handleCloseModal = () => {
-    ref?.current?.dismiss();
+    modalRef?.current?.dismiss();
   };
+
+  // Expose modal methods to the parent component
+  useImperativeHandle(ref, () => ({
+    openModal: () => modalRef.current?.present(),
+    closeModal: () => modalRef.current?.dismiss(),
+  }));
 
   const [btDeviceList, setBtDeviceList] = React.useState<IBLEPrinter[]>([]);
 
   React.useEffect(() => {
     const fetchBTList = async () => {
       const list = await getBTList();
-
       setBtDeviceList(list);
     };
     fetchBTList();
@@ -80,8 +96,10 @@ const ConnectPrinter = () => {
         data={btDeviceList}
         renderItem={renderItem}
         snapPoints={["80%", "81%"]}
-        ref={ref}
-        handleComponent={() => renderSheetHeader(handleCloseModal)}
+        ref={modalRef}
+        handleComponent={() =>
+          renderSheetHeader(() => modalRef.current?.dismiss())
+        }
       >
         <Container bg={"white"} py={"$3"}>
           <FlatList
@@ -93,7 +111,9 @@ const ConnectPrinter = () => {
       </CustomBottomSheetWrapper>
     </>
   );
-};
+});
+
+ConnectPrinter.displayName = "ConnectPrinterModal";
 
 export default ConnectPrinter;
 
@@ -105,6 +125,7 @@ interface IBtItem {
 
 export const BtItem = ({ name, address, closeModal }: IBtItem) => {
   const toast = useToastController();
+  const router = useRouter();
 
   const { handleDisconnect, handleConnect, connectedDevice } = useBTStoreHook();
 
@@ -122,27 +143,21 @@ export const BtItem = ({ name, address, closeModal }: IBtItem) => {
     onSuccess: () => {
       if (isConnected) {
         handleDisconnect();
-        toast.show("Success.", {
-          message: `Disconnected ${name} `,
-          type: "info",
-        });
+        ToastAndroid.show(`Disconnected from ${name}`, ToastAndroid.LONG);
       } else {
         handleConnect({ address, name });
+        ToastAndroid.show(`Connected to ${name}`, ToastAndroid.LONG);
         if (closeModal) {
           closeModal();
         }
-        toast.show("Success.", {
-          message: `Connected to ${name}`,
-          type: "success",
-        });
+        router.back();
       }
     },
-    onError: (error: any) => {
-      // Handle error and show a toast message
-      toast.show("Success.", {
+    onError: (error: unknown) => {
+      toast.show("Error.", {
         message: getErrorMessage(
           error,
-          `Failed to ${isConnected ? "Disconnected" : "Connected"} to device: `
+          `Failed to ${isConnected ? "disconnect" : "connect"} to device: `
         ),
         type: "error",
       });

@@ -1,7 +1,7 @@
 import axios, { setAuthToken } from "./AxiosServices";
 
 import { ILaundryOrder, LaundryOrderType } from "types/laundry";
-import { OrderPaymentFormData } from "types/payment";
+import { NewOrder } from "types/order";
 import { flattenAttributes } from "utils/strapi";
 
 interface CreateOrderPayload {
@@ -14,20 +14,21 @@ interface CreateOrderPayload {
     quantity: number;
   }[];
 }
+
+export interface IOrderCreateResponse {
+  message: string;
+  data: NewOrder;
+}
 /**
  * @description creates new order
  */
 const create = async (
   payload: CreateOrderPayload
-): Promise<LaundryOrderType> => {
-  try {
-    setAuthToken(axios);
-    const response = await axios.post("/orders", payload);
+): Promise<IOrderCreateResponse> => {
+  setAuthToken(axios);
+  const response = await axios.post("/orders", payload);
 
-    return response.data;
-  } catch (error) {
-    throw error;
-  }
+  return response.data;
 };
 
 export interface IOrderPaymentPayload {
@@ -42,31 +43,23 @@ export interface IOrderPaymentPayload {
 const pay = async ({
   orderNumber,
   ...payload
-}: IOrderPaymentPayload): Promise<any> => {
-  try {
-    setAuthToken(axios);
-    const response = await axios.post(`/orders/${orderNumber}/payment`, {
-      ...payload,
-    });
+}: IOrderPaymentPayload): Promise<unknown> => {
+  setAuthToken(axios);
+  const response = await axios.post(`/orders/${orderNumber}/payment`, {
+    ...payload,
+  });
 
-    return response.data;
-  } catch (error) {
-    throw error;
-  }
+  return response.data;
 };
 
 /**
  * @description fetches all created orders
  */
 const fetchAll = async (): Promise<ILaundryOrder[]> => {
-  try {
-    setAuthToken(axios);
-    const response = await axios.get("/orders");
+  setAuthToken(axios);
+  const response = await axios.get("/orders");
 
-    return response.data;
-  } catch (error) {
-    throw error;
-  }
+  return response.data;
 };
 
 /**
@@ -75,23 +68,19 @@ const fetchAll = async (): Promise<ILaundryOrder[]> => {
 const fetchSingle = async (
   id: number | null = 0
 ): Promise<LaundryOrderType> => {
-  try {
-    setAuthToken(axios);
-    const response = await axios.get(`/orders/${id}`, {
-      params: {
-        populate: {
-          payments: true,
-        },
+  setAuthToken(axios);
+  const response = await axios.get(`/orders/${id}`, {
+    params: {
+      populate: {
+        payments: true,
       },
-    });
+    },
+  });
 
-    // remove unnecessary keys
-    const data = flattenAttributes(response.data);
+  // remove unnecessary keys
+  const data = flattenAttributes(response.data);
 
-    return data;
-  } catch (error) {
-    throw error;
-  }
+  return data;
 };
 
 const OrderServices = {

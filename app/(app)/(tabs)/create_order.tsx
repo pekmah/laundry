@@ -2,7 +2,7 @@ import { Feather } from "@expo/vector-icons";
 import { FlatList } from "react-native";
 import { ScrollView, Text, View, XStack, YStack } from "tamagui";
 
-import { CButton, Container } from "components/common";
+import { CButton, ConfirmDialogue, Container } from "components/common";
 import { ControlledInput } from "components/common/input";
 import {
   EmptyLaundryList,
@@ -21,6 +21,7 @@ const create_order = () => {
     laundry,
     isPending,
     handleAddLaundry,
+    handleCreateOrderAndPrint,
     handleSubmit,
     setImages,
     images,
@@ -104,19 +105,25 @@ const create_order = () => {
             keyboardType="numeric"
           />
 
-          <CButton
-            onPress={handleSubmit}
-            text={
-              uploadImageMutation?.isPending
-                ? "Uploading images..."
-                : isPending
-                ? "saving..."
-                : "Save"
-            }
-            mt="$4"
-            letterSpacing={1}
-            disabled={uploadImageMutation?.isPending || isPending}
-          />
+          <ConfirmDialogue
+            title="Confirm Save Order"
+            body="Do you want to print a receipt after saving the order?"
+            handleCancel={handleSubmit}
+            handleAccept={handleCreateOrderAndPrint}
+          >
+            <CButton
+              text={
+                uploadImageMutation?.isPending
+                  ? "Uploading images..."
+                  : isPending
+                  ? "saving..."
+                  : "Save"
+              }
+              mt="$4"
+              letterSpacing={1}
+              disabled={uploadImageMutation?.isPending || isPending}
+            />
+          </ConfirmDialogue>
         </YStack>
       </ScrollView>
     </Container>
