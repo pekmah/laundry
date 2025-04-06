@@ -11,7 +11,7 @@ const Orders = ({ orders = [], ...rest }: Props) => {
     <FlatList
       data={orders}
       renderItem={({ item }) => <OrderItem key={item.id} {...item} />}
-      scrollEnabled={false}
+      scrollEnabled={false} // allow scrolling if not explicitly disabled
       {...rest}
     />
   );

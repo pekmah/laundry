@@ -1,5 +1,6 @@
 import { Stack, useRouter } from "expo-router";
 import { Entypo } from "@expo/vector-icons";
+import React from "react";
 
 import useOrders from "hooks/useOrders";
 import { renderEmpty } from "../(more)/payment-modes";
@@ -22,6 +23,8 @@ const orders = () => {
           onRefresh={refetch}
           orders={orders || []}
           ListEmptyComponent={renderEmpty}
+          showsVerticalScrollIndicator={false}
+          scrollEnabled={true}
         />
       </Container>
     </>
