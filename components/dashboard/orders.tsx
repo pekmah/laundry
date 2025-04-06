@@ -1,10 +1,12 @@
-import { Anchor, View, XStack } from "tamagui";
+import { Text, View, XStack } from "tamagui";
 import React from "react";
 
+import { renderEmpty } from "app/(app)/(more)/payment-modes";
 import { SectionTitle } from "components/common";
 import { Orders } from "components/orders";
+import { Link } from "expo-router";
 import useOrders from "hooks/useOrders";
-import { renderEmpty } from "app/(app)/(more)/payment-modes";
+import { TouchableOpacity } from "react-native";
 
 const RecentOrders = () => {
   const { orders, isPending, refetch } = useOrders();
@@ -16,14 +18,13 @@ const RecentOrders = () => {
       <XStack justifyContent="space-between">
         <SectionTitle title="Recent Orders" />
 
-        <Anchor
-          href="/(app)/(tabs)/orders"
-          fontSize={12}
-          fontWeight={"500"}
-          color={"$primary"}
-        >
-          View All
-        </Anchor>
+        <Link href={"/(tabs)/orders"} asChild>
+          <TouchableOpacity>
+            <Text fontSize={12} fontWeight={"500"} color={"$primary"} disabled>
+              View All
+            </Text>
+          </TouchableOpacity>
+        </Link>
       </XStack>
 
       <Orders
