@@ -1,17 +1,16 @@
-import { StyleSheet } from "react-native";
-import { ScrollView, View, YStack } from "tamagui";
-import MaterialCommunityIcons from "@expo/vector-icons/MaterialCommunityIcons";
 import FontAwesome6 from "@expo/vector-icons/FontAwesome6";
 import Ionicons from "@expo/vector-icons/Ionicons";
 import MaterialIcons from "@expo/vector-icons/MaterialIcons";
+import { StyleSheet } from "react-native";
+import { ScrollView, View, YStack } from "tamagui";
 import React from "react";
 
 import { ConfirmDialogue, Container } from "components/common";
 import { MoreCard, MoreItem } from "components/more";
 import { MoreItemProps } from "components/more/MoreItem";
 import { COLORS } from "constants/Colors";
-import { useAuthStore } from "lib/storage/useAuthStore";
 import { useRouter } from "expo-router";
+import { useAuthStore } from "lib/storage/useAuthStore";
 
 const more = () => {
   const { removeUser } = useAuthStore();
@@ -87,16 +86,13 @@ const moreItems: MoreItemProps[] = [
     screen: "/(app)/(more)/payment-modes",
   },
   {
-    title: "Offers",
-    icon: (
-      <MaterialCommunityIcons color={COLORS.primary} name="offer" size={24} />
-    ),
+    title: "Reports",
+    icon: <Ionicons name="analytics-sharp" size={22} color={COLORS.primary} />,
+    screen: "/(app)/(more)/reports",
   },
   {
     title: "Settings",
-    icon: (
-      <Ionicons color={COLORS.primary} name="settings-outline" size={24} />
-    ),
+    icon: <Ionicons color={COLORS.primary} name="settings-outline" size={24} />,
     screen: "/(app)/(more)/settings",
   },
 ];

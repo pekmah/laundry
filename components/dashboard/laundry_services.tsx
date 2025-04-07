@@ -1,5 +1,6 @@
 import { FlatList, ImageSourcePropType } from "react-native";
 import { Text, View } from "tamagui";
+import React from "react";
 
 import ServiceItem from "./ServiceItem";
 import clothes from "assets/icons/clothes.png";

@@ -46,6 +46,13 @@ export default function MoreLayout() {
           animation: "slide_from_bottom",
         }}
       />
+      <Stack.Screen
+        name="reports"
+        options={{
+          ...screenOptionsWithHeader,
+          title: "Report",
+        }}
+      />
     </Stack>
   );
 }

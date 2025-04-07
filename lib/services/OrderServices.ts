@@ -1,3 +1,4 @@
+import { ILaundryOrderReportResponse } from "lib/types/laundry";
 import axios, { setAuthToken } from "./AxiosServices";
 
 import { ILaundryOrder, LaundryOrderType } from "types/laundry";
@@ -83,11 +84,40 @@ const fetchSingle = async (
   return data;
 };
 
+// Get orders report
+export interface OrderReportFilters {
+  from: Date;
+  to: Date;
+}
+/**
+ * @description fetches orders report
+ * @param filters - filters to apply
+ * @param page - page number
+ * @returns - orders report
+ */
+const fetchOrdersReport = async (
+  filters: OrderReportFilters,
+  page: number
+): Promise<ILaundryOrderReportResponse> => {
+  const _page = page || 1;
+  setAuthToken(axios);
+  const url = new URL("/orders/report", axios.defaults.baseURL);
+
+  url.searchParams.append("from", filters.from.toISOString());
+  url.searchParams.append("to", filters.to.toISOString());
+  url.searchParams.append("page", _page.toString());
+
+  const response = await axios.get(url.toString());
+
+  return response.data;
+};
+
 const OrderServices = {
   pay,
   create,
   fetchAll,
   fetchSingle,
+  fetchOrdersReport,
 };
 
 export default OrderServices;
