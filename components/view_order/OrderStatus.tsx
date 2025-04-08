@@ -34,8 +34,9 @@ const OrderStatus = () => {
     },
     onSuccess: () => {
       orderQuery.refetch();
-      toast.show("Order status updated successfully", {
+      toast.show("Update successful!", {
         type: "success",
+        message: "Order status updated successfully.",
       });
     },
     onError: (error) => {

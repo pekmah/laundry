@@ -53,7 +53,7 @@ const useCreateOrder = () => {
   const handleSuccess = (response: IOrderCreateResponse) => {
     // print receipt if the printOnCreate flag is set to true
     if (printOnCreate && isPrinterConnected) {
-      handlePrintReceipt(response.data);
+      handlePrintReceipt(response.data, response.data.paymentAmount ?? 0);
     }
     // append the created order to current list of orders
     updateQueryData(["orders"], queryClient, response);
@@ -81,7 +81,6 @@ const useCreateOrder = () => {
   };
 
   const handleError = (error) => {
-    console.log("ERROR: ", JSON.stringify(error));
     toast.show("Error creating order.", {
       message: error.message,
       type: "error",

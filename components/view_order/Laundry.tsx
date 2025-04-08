@@ -23,6 +23,17 @@ const Laundry = () => {
     return !!connectedDevice?.address;
   }, [connectedDevice]);
 
+  const balance = useMemo(() => {
+    if (!currentOrder) return 0;
+    const totalPaymentMade =
+      currentOrder.payments?.reduce(
+        (acc, item) => acc + (item?.amount ?? 0),
+        0
+      ) ?? 0;
+
+    return (currentOrder.paymentAmount ?? 0) - totalPaymentMade;
+  }, [currentOrder]);
+
   const handlePrint = () => {
     // check if a printer is connected before proceeding
     if (!isPrinterConnected) {
@@ -41,19 +52,8 @@ const Laundry = () => {
     }
 
     // Call the onSubmit function to create the order
-    handlePrintReceipt(currentOrder! as unknown as NewOrder);
+    handlePrintReceipt(currentOrder! as unknown as NewOrder, balance ?? 0);
   };
-
-  const balance = useMemo(() => {
-    if (!currentOrder) return 0;
-    const totalPaymentMade =
-      currentOrder.payments?.reduce(
-        (acc, item) => acc + (item?.amount ?? 0),
-        0
-      ) ?? 0;
-
-    return (currentOrder.paymentAmount ?? 0) - totalPaymentMade;
-  }, [currentOrder]);
 
   return (
     <View

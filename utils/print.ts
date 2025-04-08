@@ -49,7 +49,7 @@ const printFooter = async () => {
   await BluetoothEscposPrinter.cutOnePoint();
 };
 
-export const handlePrintReceipt = async (order: NewOrder) => {
+export const handlePrintReceipt = async (order: NewOrder, balance?: number) => {
   try {
     // Print header
     await printHeader();
@@ -76,6 +76,12 @@ export const handlePrintReceipt = async (order: NewOrder) => {
     }
     await printNewLines(1);
     await printLeftText(`Total: ${formatToKES(order.totalAmount) || 0}`);
+    await printLeftText(
+      `Amount to pay: ${formatToKES(order.paymentAmount || 0)}`
+    );
+    if (balance !== undefined) {
+      await printLeftText(`Balance: ${formatToKES(balance)}`);
+    }
 
     // Footer
     await printNewLines(1);

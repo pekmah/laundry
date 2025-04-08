@@ -127,14 +127,14 @@ const Filter = forwardRef<FilterModalRef, IFilterProps>(
               label="From"
               placeholder="Select From date e.g. 12/1/2025"
               handleChange={handleFromChange}
-              value={moment(filters.from).format("MM/DD/YYYY")}
+              value={moment(_filters.from).format("MM/DD/YYYY")}
             />
 
             <FilterInput
               label="To"
               placeholder="Select to date e.g. 12/4/2025"
               handleChange={handleToChange}
-              value={moment(filters.to).format("MM/DD/YYYY")}
+              value={moment(_filters.to).format("MM/DD/YYYY")}
             />
 
             <CButton
