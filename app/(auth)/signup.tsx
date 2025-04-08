@@ -23,7 +23,7 @@ const signup = () => {
     mutationKey: ["signup"],
     mutationFn: AuthServices.register,
     onSuccess: (data) => {
-      saveUser(data.user, data.jwt);
+      saveUser(data.user, data.token);
       reset();
       toast.show("Success.", {
         message: "Account created successfully, awaiting approval",

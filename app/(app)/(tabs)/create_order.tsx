@@ -12,7 +12,6 @@ import {
 import PickImage from "components/modals/pick-image";
 import useCreateOrder from "hooks/useCreateOrder";
 import { LaundryFormData } from "types/laundry";
-import React from "react";
 
 const create_order = () => {
   const {
@@ -80,6 +79,7 @@ const create_order = () => {
                 <Feather name="plus" size={20} color={"white"} />
               </CButton>
             </XStack>
+
             <View px={"$2"} py={"$3"}>
               <FlatList
                 ItemSeparatorComponent={() => <View style={{ height: 10 }} />}
@@ -145,5 +145,6 @@ const renderLaundryFooter = (
     hideActions
     totalOrderAmount={totalOrderAmount}
     negotiated_amount={negotiated_amount ?? 0}
+    balance={0}
   />
 );

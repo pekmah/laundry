@@ -37,7 +37,8 @@ const LogItem = ({
       </Text>
 
       <Paragraph w={"70%"} fontSize={12} col={"$gray10Dark"}>
-        {desc + "\n"} {moment(time).format("DD MMM YYYY, hh:mm:ss a")}
+        {desc + "\n"}
+        {moment(time).format("DD MMM YYYY, hh:mm:ss a")}
       </Paragraph>
     </View>
   );

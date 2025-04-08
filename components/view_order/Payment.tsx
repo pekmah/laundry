@@ -5,6 +5,7 @@ import useViewOrder from "hooks/useViewOrder";
 import { selectAllPaymentModes } from "lib/sqlite/paymentModes";
 import moment from "moment";
 import { View, Text, YStack, XStack } from "tamagui";
+import FontAwesome5 from "@expo/vector-icons/FontAwesome5";
 
 export interface IPaymentType {
   id: number;
@@ -14,7 +15,7 @@ export interface IPaymentType {
 const Payment = () => {
   const { currentOrder, totalPaymentMade, handlePay } = useViewOrder();
 
-  const { data, isPending } = useQuery<IPaymentType[]>({
+  const { data } = useQuery<IPaymentType[]>({
     queryKey: PAYMENT_QUERY_KEY,
     queryFn: selectAllPaymentModes,
   });
@@ -109,16 +110,19 @@ const Payment = () => {
           />
         </YStack>
 
-        <CButton
-          mx={"$2"}
-          borderRadius={"$5"}
-          fontSize={12}
-          onPress={handlePay}
-        >
-          <Text color={"$white1"} fontWeight={"600"}>
-            Pay Balance
-          </Text>
-        </CButton>
+        {balance ? (
+          <CButton
+            mx={"$2"}
+            borderRadius={"$5"}
+            fontSize={12}
+            onPress={handlePay}
+          >
+            <FontAwesome5 name="cc-amazon-pay" size={16} color="white" />
+            <Text fontSize={13} color={"$white1"} fontWeight={"600"}>
+              Pay Balance
+            </Text>
+          </CButton>
+        ) : null}
       </View>
     </>
   );
@@ -149,7 +153,6 @@ const PaymentItem = ({
           </Text>
         ) : null}
       </View>
-
       <Text color={"$black1"} fontWeight={"500"}>
         {app} {value ?? "0"}
       </Text>

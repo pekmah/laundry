@@ -66,22 +66,12 @@ const fetchAll = async (): Promise<ILaundryOrder[]> => {
 /**
  * @description fetches single created order
  */
-const fetchSingle = async (
-  id: number | null = 0
-): Promise<LaundryOrderType> => {
+const fetchSingle = async (id: string): Promise<LaundryOrderType> => {
   setAuthToken(axios);
-  const response = await axios.get(`/orders/${id}`, {
-    params: {
-      populate: {
-        payments: true,
-      },
-    },
-  });
 
-  // remove unnecessary keys
-  const data = flattenAttributes(response.data);
+  const response = await axios.get(`/orders/${id}`);
 
-  return data;
+  return response.data;
 };
 
 // Get orders report
@@ -112,12 +102,30 @@ const fetchOrdersReport = async (
   return response.data;
 };
 
+/**
+ * @description updates the status of an order
+ * @param orderId - Order number
+ * @param status - completed | collected
+ * @returns - IOrderCreateResponse
+ */
+const updateStatus = async (
+  orderId: string,
+  status: string
+): Promise<IOrderCreateResponse> => {
+  setAuthToken(axios);
+  const response = await axios.put(`/orders/${orderId}/status`, {
+    status,
+  });
+  return response.data;
+};
+
 const OrderServices = {
   pay,
   create,
   fetchAll,
   fetchSingle,
   fetchOrdersReport,
+  updateStatus,
 };
 
 export default OrderServices;

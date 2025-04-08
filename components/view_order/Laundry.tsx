@@ -44,6 +44,17 @@ const Laundry = () => {
     handlePrintReceipt(currentOrder! as unknown as NewOrder);
   };
 
+  const balance = useMemo(() => {
+    if (!currentOrder) return 0;
+    const totalPaymentMade =
+      currentOrder.payments?.reduce(
+        (acc, item) => acc + (item?.amount ?? 0),
+        0
+      ) ?? 0;
+
+    return (currentOrder.paymentAmount ?? 0) - totalPaymentMade;
+  }, [currentOrder]);
+
   return (
     <View
       bg={"white"}
@@ -77,7 +88,11 @@ const Laundry = () => {
           data={currentOrder?.laundryItems ?? []}
           renderItem={renderLaundryItem}
           ListFooterComponent={() =>
-            renderLaundryFooter(currentOrder?.paymentAmount ?? 0)
+            renderLaundryFooter(
+              currentOrder?.paymentAmount ?? 0,
+
+              balance ?? 0
+            )
           }
           scrollEnabled={false}
         />
@@ -90,7 +105,7 @@ const Laundry = () => {
           onPress={handlePrint}
         >
           <AntDesign name="printer" size={18} color="white" />
-          <Text color={"$white1"} fontWeight={"600"}>
+          <Text color={"$white1"} fontWeight={"600"} fontSize={13}>
             Reprint Receipt
           </Text>
         </CButton>
@@ -104,10 +119,11 @@ export default Laundry;
 const renderLaundryItem = ({ item }: { item: ILaundryItem }) => {
   return <LaundryItem item={item} hideActions />;
 };
-const renderLaundryFooter = (totalOrderAmount: number) => (
+const renderLaundryFooter = (totalOrderAmount: number, balance: number) => (
   <LaundryListFooter
     hideActions
     totalOrderAmount={totalOrderAmount}
     negotiated_amount={0}
+    balance={balance}
   />
 );

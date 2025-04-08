@@ -37,17 +37,16 @@ const Pay = () => {
   const orderOnPayment =
     typeof params?.order === "string" ? parseInt(params?.order, 10) : null;
 
-  const { refetch: refetchOrder } = useQuery({
-    queryKey: ["orders", params?.order],
-    queryFn: () => OrderServices.fetchSingle(orderOnPayment),
-    enabled: !!params?.order,
-  });
-
   const currentOrder = useMemo(() => {
     if (orders && orderOnPayment)
       return orders.find((order) => order.id === orderOnPayment);
   }, [orders, params?.order]);
 
+  const { refetch: refetchOrder } = useQuery({
+    queryKey: ["orders", params?.order],
+    queryFn: () => OrderServices.fetchSingle(currentOrder?.orderNumber ?? ""),
+    enabled: !!currentOrder?.orderNumber,
+  });
   // fetch payment modes from local storage
   const { data, isPending } = useQuery({
     queryKey: PAYMENT_QUERY_KEY,
@@ -96,6 +95,18 @@ const Pay = () => {
     payOrder(payload);
   };
 
+  // calculate balance
+  const balance = useMemo(() => {
+    if (!currentOrder) return 0;
+    const totalPaymentMade =
+      currentOrder.payments?.reduce(
+        (acc, item) => acc + (item?.amount ?? 0),
+        0
+      ) ?? 0;
+
+    return (currentOrder.paymentAmount ?? 0) - totalPaymentMade;
+  }, [currentOrder]);
+
   return (
     <Container py={"$3"}>
       <ScrollView>
@@ -116,7 +127,8 @@ const Pay = () => {
             ListFooterComponent={() =>
               renderLaundryFooter(
                 currentOrder?.totalAmount ?? 0,
-                currentOrder?.paymentAmount ?? 0
+                currentOrder?.paymentAmount ?? 0,
+                balance ?? 0
               )
             }
             scrollEnabled={false}
@@ -129,7 +141,8 @@ const Pay = () => {
             name="amount"
             control={control}
             label="Paid amount"
-            placeholder="customer initial payment"
+            placeholder="amount paid"
+            keyboardType="numeric"
           />
 
           <View>
@@ -180,11 +193,13 @@ const renderLaundryItem = ({ item }: { item: ILaundryItem }) => {
 };
 const renderLaundryFooter = (
   totalOrderAmount: number,
-  negotiated_amount?: number
+  negotiated_amount?: number,
+  balance: number = 0
 ) => (
   <LaundryListFooter
     hideActions
     totalOrderAmount={totalOrderAmount}
     negotiated_amount={negotiated_amount ?? 0}
+    balance={balance ?? 0}
   />
 );
