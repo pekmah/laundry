@@ -6,7 +6,6 @@ import { selectAllPaymentModes } from "lib/sqlite/paymentModes";
 import moment from "moment";
 import { View, Text, YStack, XStack } from "tamagui";
 
-
 export interface IPaymentType {
   id: number;
   name: string;
@@ -14,8 +13,6 @@ export interface IPaymentType {
 
 const Payment = () => {
   const { currentOrder, totalPaymentMade, handlePay } = useViewOrder();
-
-
 
   const { data, isPending } = useQuery<IPaymentType[]>({
     queryKey: PAYMENT_QUERY_KEY,
@@ -25,9 +22,8 @@ const Payment = () => {
   const getPaymentType = (id) => {
     const paymentType = data?.find((item) => item.id === id);
     return paymentType?.name;
-  }
+  };
 
-  console.log(data)
   const balance = (currentOrder?.paymentAmount ?? 0) - totalPaymentMade;
 
   return (
@@ -147,9 +143,11 @@ const PaymentItem = ({
         <Text color={"$black1"} fontWeight={"600"}>
           {title}
         </Text>
-        {desc ? <Text fontSize={11} color={"$black1"} fontWeight={"400"}>
-          {desc}
-        </Text> : null}
+        {desc ? (
+          <Text fontSize={11} color={"$black1"} fontWeight={"400"}>
+            {desc}
+          </Text>
+        ) : null}
       </View>
 
       <Text color={"$black1"} fontWeight={"500"}>

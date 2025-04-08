@@ -166,7 +166,6 @@ const useCreateOrder = () => {
   });
 
   const onSubmit = (payload: LaundryOrderFormData) => {
-    console.log("Submitting order with payload: ", payload);
     const newOrder = {
       customerName: payload.customer_name,
       customerPhone: payload.customer_phone,

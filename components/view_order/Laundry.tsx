@@ -1,12 +1,48 @@
 import { renderEmptyLaundryList } from "app/(app)/(tabs)/create_order";
+import { CButton } from "components/common";
 import { LaundryItem, LaundryListFooter } from "components/create_order";
 import useViewOrder from "hooks/useViewOrder";
 import { FlatList } from "react-native";
 import { View, Text } from "tamagui";
-import { ILaundryItem, LaundryFormData } from "types/laundry";
+import { ILaundryItem } from "types/laundry";
+import AntDesign from "@expo/vector-icons/AntDesign";
+import { useBTStoreHook } from "lib/storage/useBtSettings";
+import { useMemo } from "react";
+import { useToastController } from "@tamagui/toast";
+import { useRouter } from "expo-router";
+import { handlePrintReceipt } from "utils/print";
+import { NewOrder } from "types/order";
 
 const Laundry = () => {
   const { currentOrder } = useViewOrder();
+  const { connectedDevice } = useBTStoreHook();
+  const toast = useToastController();
+  const router = useRouter();
+
+  const isPrinterConnected = useMemo(() => {
+    return !!connectedDevice?.address;
+  }, [connectedDevice]);
+
+  const handlePrint = () => {
+    // check if a printer is connected before proceeding
+    if (!isPrinterConnected) {
+      toast.show("Error", {
+        message:
+          "No printer connected. Please connect a printer to print the receipt.",
+        type: "error",
+      });
+      // navigate to printer settings screen. add a navigation parameter to ensure app navigates back to this screen after connecting the printer
+      router.push({
+        pathname: "/(app)/(more)/settings",
+        params: { action: "connect-printer" }, // return to create order screen after connecting printer
+      });
+
+      return null;
+    }
+
+    // Call the onSubmit function to create the order
+    handlePrintReceipt(currentOrder! as unknown as NewOrder);
+  };
 
   return (
     <View
@@ -45,6 +81,19 @@ const Laundry = () => {
           }
           scrollEnabled={false}
         />
+
+        <CButton
+          mx={"$0"}
+          borderRadius={"$5"}
+          fontSize={12}
+          mt={"$2"}
+          onPress={handlePrint}
+        >
+          <AntDesign name="printer" size={18} color="white" />
+          <Text color={"$white1"} fontWeight={"600"}>
+            Reprint Receipt
+          </Text>
+        </CButton>
       </View>
     </View>
   );
