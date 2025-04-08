@@ -19,6 +19,7 @@
     "@brooons/react-native-bluetooth-escpos-printer": "^1.2.0",
     "@gorhom/bottom-sheet": "^4.6.3",
     "@hookform/resolvers": "^3.6.0",
+    "@react-native-community/datetimepicker": "8.0.1",
     "@react-navigation/native": "^6.1.17",
     "@tamagui/config": "^1.101.3",
     "@tamagui/lucide-icons": "^1.101.3",

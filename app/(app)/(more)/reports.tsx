@@ -1,15 +1,19 @@
-import React, { useCallback, useMemo } from "react";
-import { Container } from "components/common";
-import { ScrollView, Text, View, XStack } from "tamagui";
-import { flattenInfiniteQueryData, formatToKES, getNextPrevPage } from "utils";
-import { ActivityIndicator, FlatList } from "react-native";
-import OrderServices, { OrderReportFilters } from "lib/services/OrderServices";
+import AntDesign from "@expo/vector-icons/AntDesign";
 import { useInfiniteQuery } from "@tanstack/react-query";
+import { CButton, Container } from "components/common";
+import { ReportFilterModal } from "components/modals";
+import { FilterModalRef } from "components/modals/filter";
+import { COLORS } from "constants/Colors";
+import OrderServices, { OrderReportFilters } from "lib/services/OrderServices";
 import { ILaundryOrderReport } from "lib/types/laundry";
 import moment from "moment";
-import { COLORS } from "constants/Colors";
+import React, { useCallback, useMemo, useRef } from "react";
+import { ActivityIndicator, FlatList, TouchableOpacity } from "react-native";
+import { Text, View, XStack } from "tamagui";
+import { flattenInfiniteQueryData, formatToKES } from "utils";
 
 const Reports = () => {
+  const ref = useRef<FilterModalRef>(null);
   // Date filters
   const [dateFilters, setDateFilters] = React.useState<OrderReportFilters>({
     from: new Date(new Date().setDate(new Date().getDate() - 90)),
@@ -43,6 +47,10 @@ const Reports = () => {
     },
     initialPageParam: 1,
   });
+
+  const handleFilter = useCallback(() => {
+    ref.current?.openModal();
+  }, []);
 
   // Flatten the paginated data
   const flattenedOrders = useMemo<ILaundryOrderReport[]>(
@@ -105,9 +113,30 @@ const Reports = () => {
     return (
       <View>
         <View>
-          <Text fontWeight={"600"} col={"$gray12Light"} fontSize={15}>
-            Laundry Report
-          </Text>
+          <XStack alignItems="center" justifyContent="space-between">
+            <Text
+              flex={1}
+              fontWeight={"600"}
+              col={"$gray12Light"}
+              fontSize={15}
+            >
+              Laundry Report
+            </Text>
+            <CButton
+              letterSpacing={1}
+              borderRadius={"$2"}
+              minWidth={"$7"}
+              py={"$1"}
+              px={"$2"}
+              height={"$2"}
+              backgroundColor={"$primary"}
+              onPress={handleFilter}
+            >
+              <Text fontWeight={"500"} fontSize={11} color={"whitesmoke"}>
+                Filter
+              </Text>
+            </CButton>
+          </XStack>
           {/* Description */}
           <Text fontWeight={600} col={"$gray10Light"} fontSize={12}>
             From {moment(dateFilters.from).format("MMM DD, YYYY")} to{" "}
@@ -129,11 +158,16 @@ const Reports = () => {
           />
         </XStack>
 
-        <XStack pt={"$3"} pb={"$1"} gap={"$2"} alignItems="center">
-          <View bg={"$primary"} width={4} height={24} borderRadius={"$2"} />
-          <Text mt={5} fontWeight={"700"} col={"$gray12Light"} fontSize={15}>
-            Top Orders
-          </Text>
+        <XStack alignItems="center">
+          <XStack pt={"$3"} pb={"$1"} gap={"$2"} alignItems="center" flex={1}>
+            <View bg={"$primary"} width={4} height={24} borderRadius={"$2"} />
+            <Text mt={5} fontWeight={"700"} col={"$gray12Light"} fontSize={15}>
+              Top Orders
+            </Text>
+          </XStack>
+          <TouchableOpacity onPress={handleFilter}>
+            <AntDesign name="filter" size={20} color="black" />
+          </TouchableOpacity>
         </XStack>
       </View>
     );
@@ -153,22 +187,30 @@ const Reports = () => {
   }, [isFetchingNextPage]);
 
   return (
-    <Container py={"$2"} flex={1} bg={"$gray2Light"}>
-      {/* List of top orders */}
-      <FlatList
-        refreshing={isFetchingNextPage || isPending}
-        onRefresh={refetch}
-        ListHeaderComponent={renderListHeader}
-        data={flattenedOrders}
-        renderItem={renderTopOrderItem}
-        onEndReached={() => {
-          if (hasNextPage) fetchNextPage();
-        }}
-        onEndReachedThreshold={2}
-        ListFooterComponent={renderListFooter}
-        showsVerticalScrollIndicator={false}
+    <>
+      <Container py={"$2"} flex={1} bg={"$gray2Light"}>
+        {/* List of top orders */}
+        <FlatList
+          refreshing={isFetchingNextPage || isPending}
+          onRefresh={refetch}
+          ListHeaderComponent={renderListHeader}
+          data={flattenedOrders}
+          renderItem={renderTopOrderItem}
+          onEndReached={() => {
+            if (hasNextPage) fetchNextPage();
+          }}
+          onEndReachedThreshold={2}
+          ListFooterComponent={renderListFooter}
+          showsVerticalScrollIndicator={false}
+        />
+      </Container>
+
+      <ReportFilterModal
+        ref={ref}
+        setFilters={setDateFilters}
+        filters={dateFilters}
       />
-    </Container>
+    </>
   );
 };
 
