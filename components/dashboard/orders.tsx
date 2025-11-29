@@ -32,7 +32,7 @@ const RecentOrders = () => {
         onRefresh={refetch}
         orders={recentOrders || []}
         ListEmptyComponent={renderEmpty}
-        keyExtractor={(item) => item.id.toString()} // Ensure unique keys for each item
+        keyExtractor={(_, index) => index.toString()} // Ensure unique keys for each item
       />
     </View>
   );

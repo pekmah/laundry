@@ -1,1 +1,1 @@
-export const BASE_URL = "http://api.fua.cruizp.com";
+export const BASE_URL = "https://fua-laundry-api-2.onrender.com";

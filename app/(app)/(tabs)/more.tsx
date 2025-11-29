@@ -7,7 +7,6 @@ import React from "react";
 
 import { ConfirmDialogue, Container } from "components/common";
 import { MoreCard, MoreItem } from "components/more";
-import { MoreItemProps } from "components/more/MoreItem";
 import { COLORS } from "constants/Colors";
 import { useRouter } from "expo-router";
 import { useAuthStore } from "lib/storage/useAuthStore";
@@ -32,21 +31,71 @@ const more = () => {
         {/* more list */}
         <ScrollView>
           <YStack gap={"$2.5"}>
-            {moreItems.map((item, index) => (
-              <MoreItem
-                key={index}
-                title={item.title}
-                icon={item.icon}
-                handlePress={() => handleNavigate(item?.screen)}
-              />
-            ))}
+            <MoreItem
+              title="Account"
+              icon={
+                <FontAwesome6
+                  color={COLORS.primary}
+                  name="user-large"
+                  size={18}
+                />
+              }
+              handlePress={() => handleNavigate(undefined)}
+            />
+
+            <MoreItem
+              title="Pricing"
+              icon={
+                <Ionicons
+                  color={COLORS.primary}
+                  name="pricetag-sharp"
+                  size={20}
+                />
+              }
+              handlePress={() => handleNavigate("/(app)/(more)/pricing")}
+            />
+
+            <MoreItem
+              title="Payment Modes"
+              icon={
+                <MaterialIcons
+                  color={COLORS.primary}
+                  name="attach-money"
+                  size={24}
+                />
+              }
+              handlePress={() => handleNavigate("/(app)/(more)/payment-modes")}
+            />
+
+            <MoreItem
+              title="Reports"
+              icon={
+                <Ionicons
+                  name="analytics-sharp"
+                  size={22}
+                  color={COLORS.primary}
+                />
+              }
+              handlePress={() => handleNavigate("/(app)/(more)/reports")}
+            />
+
+            <MoreItem
+              title="Settings"
+              icon={
+                <Ionicons
+                  color={COLORS.primary}
+                  name="settings-outline"
+                  size={24}
+                />
+              }
+              handlePress={() => handleNavigate("/(app)/(more)/settings")}
+            />
 
             <ConfirmDialogue
               handleAccept={handleSignout}
               body="Are you sure you want to signout?"
             >
               <MoreItem
-                key={"-1"}
                 title={"Sign Out"}
                 icon={
                   <Ionicons color={COLORS.primary} name="log-in" size={26} />
@@ -67,32 +116,3 @@ const styles = StyleSheet.create({
     flex: 1,
   },
 });
-
-const moreItems: MoreItemProps[] = [
-  {
-    title: "Account",
-    icon: <FontAwesome6 color={COLORS.primary} name="user-large" size={18} />,
-  },
-  {
-    title: "Pricing",
-    icon: <Ionicons color={COLORS.primary} name="pricetag-sharp" size={20} />,
-    screen: "/(app)/(more)/pricing",
-  },
-  {
-    title: "Payment Modes",
-    icon: (
-      <MaterialIcons color={COLORS.primary} name="attach-money" size={24} />
-    ),
-    screen: "/(app)/(more)/payment-modes",
-  },
-  {
-    title: "Reports",
-    icon: <Ionicons name="analytics-sharp" size={22} color={COLORS.primary} />,
-    screen: "/(app)/(more)/reports",
-  },
-  {
-    title: "Settings",
-    icon: <Ionicons color={COLORS.primary} name="settings-outline" size={24} />,
-    screen: "/(app)/(more)/settings",
-  },
-];

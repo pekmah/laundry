@@ -35,6 +35,8 @@ const signup = () => {
         message: error.message,
         type: "error",
       });
+
+      console.log(JSON.stringify(error?.response?.data, null, 2));
     },
   });
 
