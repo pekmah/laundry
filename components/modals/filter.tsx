@@ -1,17 +1,16 @@
-import { BottomSheetModal } from "@gorhom/bottom-sheet";
 import { CButton, Container } from "components/common";
 import { OrderReportFilters } from "lib/services/OrderServices";
 import { renderSheetHeader } from "modals/AddLaundryModal";
-import CustomBottomSheetModal from "modals/CustomBottomSheetWrapper";
 import {
   forwardRef,
   useCallback,
   useImperativeHandle,
-  useRef,
   useState,
 } from "react";
 import {
   Platform,
+  Modal,
+  Alert,
   ScrollView,
   TouchableOpacity,
   TouchableOpacityProps,
@@ -31,15 +30,16 @@ interface IFilterProps {
 }
 const Filter = forwardRef<FilterModalRef, IFilterProps>(
   ({ setFilters, filters }, ref) => {
-    const filterRef = useRef<BottomSheetModal>(null);
+    const [visible, setVisible] = useState(false);
     const [_filters, _setFilters] = useState<OrderReportFilters>(filters);
 
     const handlePresentModal = useCallback(() => {
-      filterRef.current?.present();
-    }, []);
+      _setFilters(filters);
+      setVisible(true);
+    }, [filters]);
 
     const handleDismissModal = useCallback(() => {
-      filterRef.current?.dismiss();
+      setVisible(false);
     }, []);
 
     // imperative ref
@@ -52,10 +52,13 @@ const Filter = forwardRef<FilterModalRef, IFilterProps>(
       (duration: number) => {
         const fromDate = new Date();
         fromDate.setDate(fromDate.getDate() - duration);
+        fromDate.setHours(0, 0, 0, 0);
+        const toDate = new Date();
+        toDate.setHours(23, 59, 59, 999);
 
         setFilters({
           from: fromDate,
-          to: new Date(),
+          to: toDate,
         });
 
         handleDismissModal();
@@ -78,16 +81,23 @@ const Filter = forwardRef<FilterModalRef, IFilterProps>(
     }, []);
 
     const handleApplyFilter = useCallback(() => {
-      setFilters(_filters);
+      const from = new Date(_filters.from);
+      const to = new Date(_filters.to);
+      from.setHours(0, 0, 0, 0);
+      to.setHours(23, 59, 59, 999);
+      if (from > to) {
+        Alert.alert("Invalid date range", "The start date must not be after the end date.");
+        return;
+      }
+      setFilters({ from, to });
       handleDismissModal();
     }, [setFilters, _filters, handleDismissModal]);
 
     return (
-      <CustomBottomSheetModal
-        snapPoints={["60%", "61%"]}
-        ref={filterRef}
-        handleComponent={() => renderSheetHeader(handleDismissModal)}
-      >
+      <Modal visible={visible} transparent animationType="slide" onRequestClose={handleDismissModal}>
+        <View flex={1} justifyContent="flex-end" backgroundColor="rgba(0,0,0,0.5)">
+          <View backgroundColor="white" borderTopLeftRadius={20} borderTopRightRadius={20} height="70%">
+            {renderSheetHeader(handleDismissModal)}
         <Container bg={"white"} py={"3"}>
           <View py="1" borderBottomWidth={1} borderColor="gray6Light">
             <H4
@@ -105,6 +115,7 @@ const Filter = forwardRef<FilterModalRef, IFilterProps>(
             <ScrollView horizontal showsHorizontalScrollIndicator={false}>
               {filterBtnOptions?.map((opt) => (
                 <CButton
+                  key={opt.value}
                   letterSpacing={1}
                   borderRadius={"6"}
                   minWidth={"7"}
@@ -151,7 +162,9 @@ const Filter = forwardRef<FilterModalRef, IFilterProps>(
             </CButton>
           </YStack>
         </Container>
-      </CustomBottomSheetModal>
+          </View>
+        </View>
+      </Modal>
     );
   }
 );
@@ -224,7 +237,7 @@ const FilterInput = ({
         <RNDateTimePicker
           mode="date"
           display="default"
-          value={new Date()}
+          value={value && moment(value, "MM/DD/YYYY", true).isValid() ? moment(value, "MM/DD/YYYY").toDate() : new Date()}
           onChange={(_, selectedDate) => {
             setShow(Platform.OS === "ios");
             if (selectedDate) {

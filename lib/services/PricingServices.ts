@@ -1,4 +1,3 @@
-import { flattenAttributes } from "utils/strapi";
 import axios, { setAuthToken } from "./AxiosServices";
 
 import { PricingFormData, PricingType } from "types/pricing";
@@ -45,12 +44,8 @@ const update = async ({
   try {
     setAuthToken(axios);
 
-    const response = await axios.put(`/pricings/${id}`, { data: payload });
-
-    // remove unnecessary keys
-    const data = flattenAttributes(response.data);
-
-    return data;
+    const response = await axios.patch(`/laundry/categories/${id}`, payload);
+    return response.data;
   } catch (error) {
     throw error;
   }

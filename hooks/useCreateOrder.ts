@@ -118,9 +118,8 @@ const useCreateOrder = () => {
     mutationFn: async () => await uploadImages(images),
 
     onError: (error) => {
-      console.log("ERROR: ", JSON.stringify(error, null, 2));
       toast.show("Error uploading image.", {
-        message: error.message,
+        message: error instanceof Error ? error.message : "Please try again.",
         type: "error",
       });
     },
@@ -145,6 +144,13 @@ const useCreateOrder = () => {
   });
 
   const onSubmit = (payload: LaundryOrderFormData) => {
+    if (!laundry.length) {
+      toast.show("Add laundry", {
+        message: "Add at least one laundry item before saving the order.",
+        type: "error",
+      });
+      return;
+    }
     const newOrder = {
       customerName: payload.customer_name,
       customerPhone: payload.customer_phone,
@@ -161,7 +167,6 @@ const useCreateOrder = () => {
 
   // method to handle creating order and print receipt
   const handleCreateOrderAndPrint = () => {
-    setPrintOnCreate(true);
     // check if a printer is connected before proceeding
     if (!isPrinterConnected) {
       toast.show("Error", {
@@ -178,6 +183,7 @@ const useCreateOrder = () => {
       return null;
     }
 
+    setPrintOnCreate(true);
     // Call the onSubmit function to create the order
     handleSubmit(onSubmit)();
   };
@@ -199,7 +205,10 @@ const useCreateOrder = () => {
     images,
 
     uploadImageMutation,
-    handleSubmit: handleSubmit(onSubmit),
+    handleSubmit: () => {
+      setPrintOnCreate(false);
+      void handleSubmit(onSubmit)();
+    },
     handleCreateOrderAndPrint,
     reset,
     handleAddLaundry,

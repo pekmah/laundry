@@ -1,5 +1,5 @@
-import { useRouter } from "expo-router";
-import { Text, YStack, ScrollView } from "tamagui";
+import { useLocalSearchParams, useRouter } from "expo-router";
+import { YStack, ScrollView } from "tamagui";
 import { useForm } from "react-hook-form";
 
 import { CButton, Container } from "components/common";
@@ -8,10 +8,9 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useToastController } from "lib/toast";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 
-import PricingServices from "lib/services/PricingServices";
 import { PaymentFormData } from "types/payment";
 
-import { insertPaymentMode } from "lib/sqlite/paymentModes";
+import { insertPaymentMode, updatePaymentMode } from "lib/sqlite/paymentModes";
 import { PAYMENT_QUERY_KEY } from ".";
 import { PaymentSchema } from "lib/types/payment";
 
@@ -19,22 +18,18 @@ const Create = () => {
   const toast = useToastController();
   const queryClient = useQueryClient();
   const router = useRouter();
+  const params = useLocalSearchParams<{ id?: string; name?: string }>();
+  const isUpdating = !!params.id;
 
-  const { control, handleSubmit, watch } = useForm<PaymentFormData>({
+  const { control, handleSubmit } = useForm<PaymentFormData>({
     resolver: zodResolver(PaymentSchema),
+    defaultValues: { name: params.name || "" },
   });
-
-  //   const isUpdating = useMemo(() => !!pricing?.id, [pricing]);
-  //   const currentName = watch("name");
-
-  //   const hasDataChanged = useMemo(() => {
-  //     return pricing?.name !== currentName;
-  //   }, [pricing, currentName]);
 
   const handleSuccess = (message: string) => {
     queryClient.invalidateQueries({ queryKey: PAYMENT_QUERY_KEY });
     toast.show("Success", {
-      message: `Pricing item ${message} successfully`,
+      message: `Payment mode ${message} successfully`,
       type: "success",
     });
 
@@ -42,7 +37,7 @@ const Create = () => {
   };
 
   const handleError = (error) => {
-    toast.show("Error adding pricing", {
+    toast.show("Error saving payment mode", {
       message: error.message,
       type: "error",
     });
@@ -57,20 +52,14 @@ const Create = () => {
 
   const { mutate: update, isPending: updatePending } = useMutation({
     mutationKey: PAYMENT_QUERY_KEY,
-    mutationFn: PricingServices.update,
+    mutationFn: (data: PaymentFormData) => updatePaymentMode(Number(params.id), data.name.trim()),
     onSuccess: () => handleSuccess("updated"),
     onError: handleError,
   });
 
   const onSubmit = (data: PaymentFormData) => {
-    // if (isUpdating && pricing?.id) {
-    //   update({
-    //     id: pricing?.id,
-    //     payload: { ...data, amount: parseInt(amount, 10) },
-    //   });
-    // } else
-
-    mutate(data.name);
+    if (isUpdating) update(data);
+    else mutate(data.name.trim());
   };
 
   const isLoading = isPending || updatePending;
@@ -93,7 +82,7 @@ const Create = () => {
 
             <CButton
               onPress={() => { void handleSubmit(onSubmit)(); }}
-              text={isLoading ? "saving..." : "Save"}
+              text={isLoading ? "saving..." : isUpdating ? "Update" : "Save"}
               mt="4"
               letterSpacing={1}
               disabled={isLoading}
@@ -106,7 +95,3 @@ const Create = () => {
 };
 
 export default Create;
-
-const renderHeaderRight = () => {
-  return <Text>pricing</Text>;
-};

@@ -7,6 +7,8 @@ type Props = {
   body: string;
   handleAccept: () => void;
   handleCancel?: () => void; // Optional, in case you want to handle cancel action
+  cancelLabel?: string;
+  acceptLabel?: string;
   children: React.ReactNode;
 };
 
@@ -15,6 +17,8 @@ export default function ConfirmDialogue({
   body,
   handleAccept,
   handleCancel,
+  cancelLabel = "Cancel",
+  acceptLabel = "Accept",
   children,
 }: Props) {
   const [open, setOpen] = useState(false);
@@ -62,11 +66,11 @@ export default function ConfirmDialogue({
 
             <XStack gap="3" justifyContent="flex-end">
               <AlertDialog.Cancel onPress={_handleCancel} asChild>
-                <Button>Cancel</Button>
+                <Button>{cancelLabel}</Button>
               </AlertDialog.Cancel>
 
               <AlertDialog.Action onPress={handleOkay} asChild>
-                <Button>Accept</Button>
+                <Button>{acceptLabel}</Button>
               </AlertDialog.Action>
             </XStack>
           </YStack>

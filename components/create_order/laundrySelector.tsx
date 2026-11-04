@@ -20,6 +20,7 @@ type Props = {
   data?: any[];
   isPending?: boolean;
   placeholder?: string;
+  groupLabel?: string;
   handleChange?: (value: string) => void;
 } & SelectProps;
 
@@ -31,6 +32,7 @@ const LaundrySelector = ({
   data,
   isPending,
   placeholder,
+  groupLabel = "Laundry",
   handleChange = () => {},
   ...rest
 }: Props) => {
@@ -100,7 +102,7 @@ const LaundrySelector = ({
             minWidth={200}
           >
             <Select.Group>
-              <Select.Label>Laundry </Select.Label>
+              <Select.Label>{groupLabel}</Select.Label>
               {/* for longer lists memoizing these is useful */}
               {useMemo(
                 () =>

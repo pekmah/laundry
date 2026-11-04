@@ -19,6 +19,7 @@ import { ILaundryItem } from "types/laundry";
 import { OrderPaymentFormData } from "types/payment";
 import { PAYMENT_QUERY_KEY } from "./(more)/payment-modes";
 import { renderEmptyLaundryList } from "./(tabs)/create_order";
+import { getErrorMessage } from "utils";
 
 const Pay = () => {
   const params = useLocalSearchParams();
@@ -71,7 +72,7 @@ const Pay = () => {
 
   const handleError = (error) => {
     toast.show("Error paying for order.", {
-      message: error.message,
+      message: getErrorMessage(error, "Payment could not be saved. "),
       type: "error",
     });
   };
@@ -86,8 +87,14 @@ const Pay = () => {
   const onSubmit = (_payload: OrderPaymentFormData) => {
     if (!currentOrder) return;
 
+    const selectedMode = data?.find((mode) => String(mode.id) === _payload.mode);
+    if (!selectedMode) {
+      toast.show("Payment mode unavailable", { message: "Choose an available payment mode.", type: "error" });
+      return;
+    }
+
     const payload = {
-      paymentMethod: _payload.mode,
+      paymentMethod: selectedMode.name,
       otherDetails: _payload?.other_details,
       amount: Number(_payload.amount),
       orderNumber: currentOrder.orderNumber,
@@ -152,6 +159,7 @@ const Pay = () => {
             <ControlledSelect
               control={control}
               name="mode"
+              groupLabel="Payment modes"
               data={data ?? []}
               isPending={isPending}
               value={paymentMode}

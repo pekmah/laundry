@@ -48,12 +48,12 @@ class BluetoothLeManager {
 
   //   switch bt on
   enableBluetooth = () => {
-    this.bleManager.enable();
+    return this.bleManager.enable();
   };
 
   // disable
   disableBluetooth = () => {
-    this.bleManager.disable();
+    return this.bleManager.disable();
   };
 
   scanForPeripherals = async (
@@ -80,10 +80,11 @@ class BluetoothLeManager {
     onStateChange: (newState: keyof typeof BTState) => void,
     emitCurrentState: boolean = false
   ) => {
-    this.bleManager.onStateChange((state) => {
+    const subscription = this.bleManager.onStateChange((state) => {
       const stateKey = BTState[state] as keyof typeof BTState;
       onStateChange(stateKey);
     }, emitCurrentState);
+    return () => subscription.remove();
   };
 }
 

@@ -2,7 +2,8 @@ import { AntDesign } from "@expo/vector-icons";
 import Ionicons from "@expo/vector-icons/Ionicons";
 import { useLocalSearchParams } from "expo-router";
 import bluetoothManager, { BTState } from "lib/bluetooth-state-manager";
-import { Switch, Text, View, XStack, YStack } from "tamagui";
+import { Text, View, XStack, YStack } from "tamagui";
+import { Linking, Platform, Switch, ToastAndroid } from "react-native";
 import React, { useEffect, useMemo, useRef, useState } from "react";
 import ConnectPrinterModal, { ConnectPrinterRef } from "modals/connect-printer";
 
@@ -27,11 +28,15 @@ const BtOption = () => {
     return unsubscribe;
   }, []);
 
-  const handleSwitchBluetooth = () => {
-    if (bluetoothState === BTState.PoweredOff) {
-      bluetoothManager.enableBluetooth();
-    } else {
-      bluetoothManager.disableBluetooth();
+  const handleSwitchBluetooth = async () => {
+    try {
+      if (Platform.OS === "android") {
+        await Linking.sendIntent("android.settings.BLUETOOTH_SETTINGS");
+      } else {
+        await Linking.openSettings();
+      }
+    } catch {
+      ToastAndroid.show("Open your device settings to change Bluetooth.", ToastAndroid.LONG);
     }
   };
 
@@ -68,17 +73,10 @@ const BtOption = () => {
 
         {/* switch */}
         <Switch
-          checked={isBtEnabled}
-          onCheckedChange={handleSwitchBluetooth}
-          theme={"blue_surface1"}
-          size="2"
-        >
-          <Switch.Thumb
-            backgroundColor="primary_light"
-            transition="quicker"
-            theme={"blue_surface1"}
-          />
-        </Switch>
+          accessibilityLabel="Bluetooth"
+          value={isBtEnabled}
+          onValueChange={() => { void handleSwitchBluetooth(); }}
+        />
       </XStack>
 
       {isBtEnabled ? (

@@ -1,36 +1,17 @@
-import { BottomSheetBackdrop, BottomSheetModal } from "@gorhom/bottom-sheet";
-import {
-  ChevronRight,
-  Delete,
-  Trash,
-  Trash2,
-  XCircle,
-} from "components/icons";
+import { Trash2 } from "components/icons";
 import { ImagePlusSvg } from "assets/svg";
 import { PressableImageView } from "components/common";
 import * as ImagePicker from "expo-image-picker";
-import { useCallback, useRef } from "react";
-import { TouchableOpacity, TouchableOpacityProps } from "react-native";
-import { Text, View, XStack } from "tamagui";
+import { useCallback } from "react";
+import { Alert, TouchableOpacity } from "react-native";
+import { View, XStack } from "tamagui";
 
 interface PickImageProps {
   images: string[];
   setState: React.Dispatch<React.SetStateAction<string[]>>;
 }
 const PickImage = ({ setState, images }: PickImageProps) => {
-  const bottomSheetModalRef = useRef<BottomSheetModal>(null);
-
-  const handlePresentModal = useCallback(() => {
-    bottomSheetModalRef.current?.present();
-  }, []);
-
-  const handleDismissModal = useCallback(() => {
-    bottomSheetModalRef.current?.dismiss();
-  }, []);
-
   const pickImage = useCallback(async () => {
-    handleDismissModal();
-
     // No permissions request is necessary for launching the image library
     let result = await ImagePicker.launchImageLibraryAsync({
       mediaTypes: ImagePicker.MediaTypeOptions.Images,
@@ -54,8 +35,6 @@ const PickImage = ({ setState, images }: PickImageProps) => {
     }
 
     // dismiss modal
-    handleDismissModal();
-
     let result = await ImagePicker.launchCameraAsync({
       mediaTypes: ImagePicker.MediaTypeOptions.Images,
       quality: 0.7,
@@ -69,15 +48,6 @@ const PickImage = ({ setState, images }: PickImageProps) => {
     }
   }, []);
 
-  const renderBackdrop = useCallback((backdropProps: any) => {
-    return (
-      <BottomSheetBackdrop
-        {...backdropProps}
-        appearsOnIndex={1}
-        opacity={0.3}
-      />
-    );
-  }, []);
   const handleDeleteImg = useCallback((ind) => {
     setState((prev) => prev.filter((_, i) => i !== ind));
   }, []);
@@ -96,9 +66,9 @@ const PickImage = ({ setState, images }: PickImageProps) => {
           >
             <PressableImageView
               borderRadius={"3"}
-              h={"6"}
-              w={"6"}
-              src={image}
+              height={64}
+              width={64}
+              source={{ uri: image }}
               key={index}
               images={images}
             />
@@ -112,14 +82,18 @@ const PickImage = ({ setState, images }: PickImageProps) => {
               py="1"
               alignItems="center"
             >
-              <TouchableOpacity onPress={() => handleDeleteImg(index)}>
+              <TouchableOpacity accessibilityLabel={`Remove image ${index + 1}`} onPress={() => handleDeleteImg(index)}>
                 <Trash2 size={18} color="red11Light" />
               </TouchableOpacity>
             </View>
           </View>
         ))}
 
-        <TouchableOpacity onPress={handlePresentModal}>
+        <TouchableOpacity accessibilityLabel="Add order image" onPress={() => Alert.alert("Add image", "Choose an image source", [
+          { text: "Take photo", onPress: () => { void handleTakePhoto(); } },
+          { text: "Choose from gallery", onPress: () => { void pickImage(); } },
+          { text: "Cancel", style: "cancel" },
+        ])}>
           <View
             borderWidth={1}
             borderColor="gray9Light"
@@ -132,52 +106,8 @@ const PickImage = ({ setState, images }: PickImageProps) => {
         </TouchableOpacity>
       </XStack>
 
-      <BottomSheetModal
-        ref={bottomSheetModalRef}
-        backdropComponent={(props) => renderBackdrop(props)}
-        enablePanDownToClose={true}
-        enableContentPanningGesture={false}
-        snapPoints={["26%", "26%"]}
-      >
-        <View px="5">
-          <ActionButton title="Take Photo" onPress={handleTakePhoto} />
-          <ActionButton title="Choose from Gallery" onPress={pickImage} />
-          <ActionButton title="Cancel" isCancel onPress={handleDismissModal} />
-        </View>
-      </BottomSheetModal>
     </>
   );
 };
 
 export default PickImage;
-
-interface ActionButtonProps extends TouchableOpacityProps {
-  title: string;
-  isCancel?: boolean;
-}
-
-const ActionButton = ({ title, isCancel, ...rest }: ActionButtonProps) => (
-  <TouchableOpacity {...rest}>
-    <XStack
-      py="3"
-      px="2"
-      borderBottomWidth={1}
-      borderColor="gray5Light"
-      justifyContent="space-between"
-    >
-      <Text
-        fontWeight={"600"}
-        color={`${isCancel ? "red11Light" : "gray12Light"}`}
-      >
-        {title}
-      </Text>
-
-      {/* icon */}
-      {isCancel ? (
-        <XCircle size={22} color="red11Light" />
-      ) : (
-        <ChevronRight size={22} color="gray12Light" />
-      )}
-    </XStack>
-  </TouchableOpacity>
-);

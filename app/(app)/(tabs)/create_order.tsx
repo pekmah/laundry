@@ -108,6 +108,8 @@ const create_order = () => {
           <ConfirmDialogue
             title="Confirm Save Order"
             body="Do you want to print a receipt after saving the order?"
+            cancelLabel="Save without printing"
+            acceptLabel="Save and print"
             handleCancel={handleSubmit}
             handleAccept={handleCreateOrderAndPrint}
           >

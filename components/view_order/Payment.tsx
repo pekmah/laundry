@@ -71,7 +71,7 @@ const Payment = () => {
                 key={payment.id}
                 title={payment.amount.toString()}
                 value={moment(payment.createdAt).format("DD MMM YYYY hh:mm A")}
-                desc={payment.otherDetails || ""}
+                desc={[payment.paymentMethod, payment.otherDetails].filter(Boolean).join(" · ")}
               />
             ))}
           </YStack>

@@ -17,10 +17,13 @@ const OrderStatus = () => {
   const toast = useToastController();
 
   const currentOrder = orderQuery.data as unknown as ILaundryOrder;
+  const outstandingBalance = Math.max(0, (currentOrder?.paymentAmount ?? 0) -
+    (currentOrder?.payments?.reduce((sum, item) => sum + (item.amount ?? 0), 0) ?? 0));
+  const collectionBlocked = currentOrder?.status === "completed" && outstandingBalance > 0;
 
   const updateStatusMutation = useMutation({
     mutationFn: async () => {
-      currentOrder?.status === "processing"
+      currentOrder?.status === "processing" || currentOrder?.status === "created"
         ? await OrderServices.updateStatus(
             currentOrder.orderNumber,
             "completed"
@@ -50,7 +53,7 @@ const OrderStatus = () => {
   const updateAction = useMemo(
     () => ({
       title:
-        currentOrder?.status === "processing"
+        currentOrder?.status === "processing" || currentOrder?.status === "created"
           ? "Complete Order"
           : currentOrder?.status === "completed"
           ? "Collect Order"
@@ -87,20 +90,20 @@ const OrderStatus = () => {
         </Text>
       </View>
 
-      {!currentOrder.logs?.length ? (
+      {!currentOrder?.logs?.length ? (
         <View py="4">
           <EmptyLaundryList />
         </View>
       ) : (
         <View mt="2">
           <XStack>
-            {currentOrder.logs?.length ? (
+            {currentOrder?.logs?.length ? (
               <View flexDirection="row" justifyContent="center" w="3">
                 <View backgroundColor="primary" w={2} my="3" />
               </View>
             ) : null}
             <YStack gap="3">
-              {currentOrder.logs?.map((log) => (
+              {currentOrder?.logs?.map((log) => (
                 <LogItem
                   key={log.id}
                   title={log.stage}
@@ -118,7 +121,7 @@ const OrderStatus = () => {
         <ConfirmDialogue
           title="Confirm Status Update"
           body={
-            currentOrder?.status === "processing"
+            currentOrder?.status === "processing" || currentOrder?.status === "created"
               ? "Do you want to complete this order?"
               : currentOrder?.status === "completed"
               ? "Do you want to collect this order?"
@@ -127,7 +130,7 @@ const OrderStatus = () => {
           handleAccept={() => updateStatusMutation.mutate()}
         >
           <CButton
-            disabled={updateStatusMutation.isPending}
+            disabled={updateStatusMutation.isPending || collectionBlocked}
             mx={"3"}
             borderRadius={"5"}
             fontSize={12}
@@ -142,6 +145,7 @@ const OrderStatus = () => {
           </CButton>
         </ConfirmDialogue>
       ) : null}
+      {collectionBlocked ? <Text mx="3" mt="2" fontSize={12} color="gray11Light">Clear the outstanding balance before collection.</Text> : null}
     </View>
   );
 };

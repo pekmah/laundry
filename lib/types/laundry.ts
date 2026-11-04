@@ -7,13 +7,13 @@ import { z } from "zod";
 
 export const LaundrySchema = z.object({
   laundry: z.string().min(1),
-  quantity: z.string().min(1),
+  quantity: z.string().regex(/^[1-9]\d*$/, "Enter a whole quantity greater than zero"),
 });
 
 export const LaundryOrderSchema = z.object({
   customer_name: z.string().min(3),
   customer_phone: z.string().min(10).max(13),
-  negotiated_amount: z.string().min(1),
+  negotiated_amount: z.string().regex(/^\d+$/, "Enter a valid amount in whole shillings"),
 });
 
 export interface ILaundryOrderReport {

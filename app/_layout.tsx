@@ -51,11 +51,11 @@ function RootLayoutNav() {
   return (
     <GestureHandlerRootView style={{ flex: 1 }}>
       <QueryClientProvider client={queryClient}>
-        <BottomSheetModalProvider>
-          <Provider>
+        <Provider>
+          <BottomSheetModalProvider>
             <Slot />
-          </Provider>
-        </BottomSheetModalProvider>
+          </BottomSheetModalProvider>
+        </Provider>
       </QueryClientProvider>
     </GestureHandlerRootView>
   );

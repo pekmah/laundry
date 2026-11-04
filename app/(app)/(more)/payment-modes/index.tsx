@@ -2,16 +2,22 @@ import { CButton, Container, EmptyList } from "components/common";
 import { Text, View } from "tamagui";
 import MaterialIcons from "@expo/vector-icons/MaterialIcons";
 import { useRouter } from "expo-router";
-import { FlatList } from "react-native";
-import { useQuery } from "@tanstack/react-query";
+import { Alert, FlatList } from "react-native";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { PaymentType } from "types/payment";
-import { selectAllPaymentModes } from "lib/sqlite/paymentModes";
+import { deletePaymentMode, selectAllPaymentModes } from "lib/sqlite/paymentModes";
 import PaymentItem from "components/payments/payment";
 
 export const PAYMENT_QUERY_KEY = ["payment_modes"];
 
 const Index = () => {
   const router = useRouter();
+  const queryClient = useQueryClient();
+  const remove = useMutation({
+    mutationFn: deletePaymentMode,
+    onSuccess: () => queryClient.invalidateQueries({ queryKey: PAYMENT_QUERY_KEY }),
+    onError: () => Alert.alert("Unable to delete", "The payment mode could not be deleted."),
+  });
 
   const { data, isPending, refetch } = useQuery({
     queryKey: PAYMENT_QUERY_KEY,
@@ -31,7 +37,12 @@ const Index = () => {
         data={data || []}
         ListEmptyComponent={renderEmpty}
         renderItem={({ item }: { item: any }) => (
-          <PaymentItem title={item?.name || ""} />
+          <PaymentItem title={item?.name || ""}
+            onEdit={() => router.push({ pathname: "/(app)/(more)/payment-modes/create", params: { id: String(item.id), name: item.name } })}
+            onDelete={() => Alert.alert("Delete payment mode?", `Delete ${item.name}?`, [
+              { text: "Cancel", style: "cancel" },
+              { text: "Delete", style: "destructive", onPress: () => remove.mutate(item.id) },
+            ])} />
         )}
         scrollEnabled={false}
       />

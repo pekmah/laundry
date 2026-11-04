@@ -5,7 +5,7 @@ import FontAwesome from "@expo/vector-icons/FontAwesome";
 import MaterialCommunityIcons from "@expo/vector-icons/MaterialCommunityIcons";
 import { CButton } from "components/common";
 
-const PaymentItem = ({ title }) => {
+const PaymentItem = ({ title, onEdit, onDelete }: { title: string; onEdit: () => void; onDelete: () => void }) => {
   const theme = useTheme();
 
   return (
@@ -27,11 +27,13 @@ const PaymentItem = ({ title }) => {
         </View>
 
         <XStack gap="2" alignItems="center">
-          <CButton borderRadius={"4"} px={"2"} w={40} h={32}>
+          <CButton onPress={onEdit} accessibilityLabel={`Edit ${title}`} borderRadius={"4"} px={"2"} w={40} h={32}>
             <AntDesign name="edit" size={20} color={theme.white1.val} />
           </CButton>
 
           <CButton
+            onPress={onDelete}
+            accessibilityLabel={`Delete ${title}`}
             bg={"red10Light"}
             borderRadius={"4"}
             px={"2"}

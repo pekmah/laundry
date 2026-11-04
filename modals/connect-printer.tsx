@@ -1,4 +1,3 @@
-import { BottomSheetModal } from "@gorhom/bottom-sheet";
 import { useToastController } from "lib/toast";
 import { useMutation } from "@tanstack/react-query";
 import { CButton, Container } from "components/common";
@@ -10,14 +9,13 @@ import React, {
   useImperativeHandle,
   useMemo,
 } from "react";
-import { FlatList, ToastAndroid } from "react-native";
+import { FlatList, Modal, ToastAndroid } from "react-native";
+import { SafeAreaView } from "react-native-safe-area-context";
 import { IBLEPrinter } from "react-native-thermal-receipt-printer";
 import { Text, View, XStack } from "tamagui";
 import { getErrorMessage } from "utils";
 import { getBTList, PrinterServices } from "utils/bluetooth";
 import { requestBtPermissions } from "utils/bluetooth-permissions";
-import { renderSheetHeader } from "./AddLaundryModal";
-import CustomBottomSheetWrapper from "./CustomBottomSheetWrapper";
 
 // Define and export the ref type
 export interface ConnectPrinterRef {
@@ -26,7 +24,7 @@ export interface ConnectPrinterRef {
 }
 
 const ConnectPrinter = forwardRef<ConnectPrinterRef>((_, ref) => {
-  const modalRef = React.useRef<BottomSheetModal>(null);
+  const [visible, setVisible] = React.useState(false);
 
   const handleOpenModal = async () => {
     if (!(await requestBtPermissions())) {
@@ -35,20 +33,20 @@ const ConnectPrinter = forwardRef<ConnectPrinterRef>((_, ref) => {
     }
     try {
       setBtDeviceList(await getBTList());
-      modalRef.current?.present();
+      setVisible(true);
     } catch {
       ToastAndroid.show("Could not find Bluetooth printers.", ToastAndroid.LONG);
     }
   };
 
   const handleCloseModal = () => {
-    modalRef?.current?.dismiss();
+    setVisible(false);
   };
 
   // Expose modal methods to the parent component
   useImperativeHandle(ref, () => ({
-    openModal: () => modalRef.current?.present(),
-    closeModal: () => modalRef.current?.dismiss(),
+    openModal: () => { void handleOpenModal(); },
+    closeModal: handleCloseModal,
   }));
 
   const [btDeviceList, setBtDeviceList] = React.useState<IBLEPrinter[]>([]);
@@ -94,23 +92,20 @@ const ConnectPrinter = forwardRef<ConnectPrinterRef>((_, ref) => {
         </Text>
       </CButton>
 
-      <CustomBottomSheetWrapper
-        data={btDeviceList}
-        renderItem={renderItem}
-        snapPoints={["80%", "81%"]}
-        ref={modalRef}
-        handleComponent={() =>
-          renderSheetHeader(() => modalRef.current?.dismiss())
-        }
-      >
+      <Modal visible={visible} animationType="slide" onRequestClose={handleCloseModal}>
+        <SafeAreaView style={{ flex: 1, backgroundColor: "white" }}>
         <Container bg={"white"} py={"3"}>
           <FlatList
             data={btDeviceList || []}
             renderItem={renderItem}
+            keyExtractor={(item) => item.inner_mac_address}
             ListHeaderComponent={renderHeader}
+            ListEmptyComponent={<Text>No Bluetooth printers found.</Text>}
           />
+          <CButton text="Close" onPress={handleCloseModal} />
         </Container>
-      </CustomBottomSheetWrapper>
+        </SafeAreaView>
+      </Modal>
     </>
   );
 });
