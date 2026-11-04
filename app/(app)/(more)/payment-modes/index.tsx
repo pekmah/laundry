@@ -19,11 +19,11 @@ const Index = () => {
   });
 
   const handleCreate = () => {
-    router.push("payment-modes/create");
+    router.push("/(app)/(more)/payment-modes/create");
   };
 
   return (
-    <Container bg={"$gray1Light"} px={"$3"} py={"$3"}>
+    <Container bg={"gray1Light"} px={"3"} py={"3"}>
       <FlatList
         refreshing={isPending}
         onRefresh={refetch}
@@ -40,7 +40,7 @@ const Index = () => {
       <CButton
         h={55}
         w={55}
-        padding={"$1"}
+        padding={"1"}
         position="absolute"
         bottom={20}
         right={20}

@@ -16,7 +16,7 @@ import PricingServices from "lib/services/PricingServices";
 
 const AddLaundry = () => {
   const router = useRouter();
-  const { control, handleSubmit, watch } = useForm<LaundryFormData>({
+  const { control, handleSubmit, watch } = useForm<{ laundry: string; quantity: string }>({
     resolver: zodResolver(LaundrySchema),
   });
   const laundry = watch("laundry");
@@ -60,7 +60,7 @@ const AddLaundry = () => {
     <Container>
       <ScrollView keyboardDismissMode="interactive">
         <View>
-          <Label lineHeight={"$6"} fontWeight={"500"} color={"black"}>
+          <Label lineHeight="6" fontWeight={"500"} color={"black"}>
             Select Laundry
           </Label>
           <ControlledSelect
@@ -86,9 +86,9 @@ const AddLaundry = () => {
         />
 
         <CButton
-          onPress={handleSubmit(onSubmit)}
+          onPress={() => { void handleSubmit(onSubmit)(); }}
           text={"Add Laundry"}
-          mt="$4"
+          mt="4"
           letterSpacing={1}
         />
       </ScrollView>

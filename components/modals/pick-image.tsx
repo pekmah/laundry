@@ -5,7 +5,7 @@ import {
   Trash,
   Trash2,
   XCircle,
-} from "@tamagui/lucide-icons";
+} from "components/icons";
 import { ImagePlusSvg } from "assets/svg";
 import { PressableImageView } from "components/common";
 import * as ImagePicker from "expo-image-picker";
@@ -84,20 +84,20 @@ const PickImage = ({ setState, images }: PickImageProps) => {
 
   return (
     <>
-      <XStack flexWrap="wrap" gap={"$2"} paddingVertical={"$1"}>
+      <XStack flexWrap="wrap" gap="2" paddingVertical="1">
         {images?.map((image, index) => (
           <View
             key={index}
             borderWidth={1}
-            borderRadius={"$3"}
-            borderColor={"$gray9Light"}
+            borderRadius="3"
+            borderColor="gray9Light"
             position="relative"
             overflow="hidden"
           >
             <PressableImageView
-              borderRadius={"$3"}
-              h={"$6"}
-              w={"$6"}
+              borderRadius={"3"}
+              h={"6"}
+              w={"6"}
               src={image}
               key={index}
               images={images}
@@ -109,11 +109,11 @@ const PickImage = ({ setState, images }: PickImageProps) => {
               left={0}
               bottom={0}
               backgroundColor={"#00000020"}
-              py={"$1"}
+              py="1"
               alignItems="center"
             >
               <TouchableOpacity onPress={() => handleDeleteImg(index)}>
-                <Trash2 size={18} color={"$red11Light"} />
+                <Trash2 size={18} color="red11Light" />
               </TouchableOpacity>
             </View>
           </View>
@@ -122,10 +122,10 @@ const PickImage = ({ setState, images }: PickImageProps) => {
         <TouchableOpacity onPress={handlePresentModal}>
           <View
             borderWidth={1}
-            borderColor={"$gray9Light"}
-            p={"$4"}
+            borderColor="gray9Light"
+            p="4"
             mr={"auto"}
-            borderRadius={"$3"}
+            borderRadius="3"
           >
             <ImagePlusSvg />
           </View>
@@ -139,7 +139,7 @@ const PickImage = ({ setState, images }: PickImageProps) => {
         enableContentPanningGesture={false}
         snapPoints={["26%", "26%"]}
       >
-        <View px={"$5"}>
+        <View px="5">
           <ActionButton title="Take Photo" onPress={handleTakePhoto} />
           <ActionButton title="Choose from Gallery" onPress={pickImage} />
           <ActionButton title="Cancel" isCancel onPress={handleDismissModal} />
@@ -159,24 +159,24 @@ interface ActionButtonProps extends TouchableOpacityProps {
 const ActionButton = ({ title, isCancel, ...rest }: ActionButtonProps) => (
   <TouchableOpacity {...rest}>
     <XStack
-      py={"$3"}
-      px={"$2"}
+      py="3"
+      px="2"
       borderBottomWidth={1}
-      borderColor={"$gray5Light"}
+      borderColor="gray5Light"
       justifyContent="space-between"
     >
       <Text
         fontWeight={"600"}
-        color={isCancel ? "$red11Light" : "$gray12Light"}
+        color={`${isCancel ? "red11Light" : "gray12Light"}`}
       >
         {title}
       </Text>
 
       {/* icon */}
       {isCancel ? (
-        <XCircle size={22} color={"$red11Light"} />
+        <XCircle size={22} color="red11Light" />
       ) : (
-        <ChevronRight size={22} color={"$gray12Light"} />
+        <ChevronRight size={22} color="gray12Light" />
       )}
     </XStack>
   </TouchableOpacity>

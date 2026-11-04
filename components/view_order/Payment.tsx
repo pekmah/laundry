@@ -32,24 +32,24 @@ const Payment = () => {
       {/* header */}
       <View
         bg={"white"}
-        px={"$2"}
-        py={"$3"}
-        borderColor={"$gray5Light"}
+        px="2"
+        py="3"
+        borderColor="gray5Light"
         borderWidth={1}
-        borderRadius={"$5"}
-        mt={"$3"}
+        borderRadius="5"
+        mt="3"
       >
         <View
-          py={"$2"}
-          px={"$3"}
+          py="2"
+          px="3"
           borderBottomWidth={1}
-          borderBottomColor={"$gray6Light"}
+          borderBottomColor="gray6Light"
         >
           <Text
-            lineHeight={22}
+            lineHeight="22px"
             fontWeight={"700"}
             fontSize={15}
-            color={"$gray7Dark"}
+            color="gray7Dark"
             mr={"auto"}
           >
             Order Payment
@@ -58,11 +58,11 @@ const Payment = () => {
 
         {currentOrder?.payments?.length ? (
           <YStack
-            gap={"$2"}
-            py={"$3"}
-            mx={"$3"}
+            gap="2"
+            py="3"
+            mx="3"
             borderBottomWidth={1}
-            borderBottomColor={"$gray7Light"}
+            borderBottomColor="gray7Light"
           >
             <PaymentItem title={"Payments"} value="" />
             {/* payments */}
@@ -78,7 +78,7 @@ const Payment = () => {
         ) : null}
 
         {/* body */}
-        <YStack p={"$3"} gap={"$2"}>
+        <YStack p="3" gap="2">
           <PaymentItem
             title={"Total Laundry Amount"}
             value={currentOrder?.totalAmount?.toString() ?? "0"}
@@ -97,10 +97,10 @@ const Payment = () => {
 
           <View
             h={1}
-            w={"full"}
+            w="100%"
             borderTopWidth={1}
-            mb={"$1"}
-            borderColor={"$gray7Light"}
+            mb="1"
+            borderColor="gray7Light"
           />
 
           <PaymentItem
@@ -112,13 +112,13 @@ const Payment = () => {
 
         {balance ? (
           <CButton
-            mx={"$2"}
-            borderRadius={"$5"}
+            mx={"2"}
+            borderRadius={"5"}
             fontSize={12}
             onPress={handlePay}
           >
             <FontAwesome5 name="cc-amazon-pay" size={16} color="white" />
-            <Text fontSize={13} color={"$white1"} fontWeight={"600"}>
+            <Text fontSize={13} color="white1" fontWeight={"600"}>
               Pay Balance
             </Text>
           </CButton>
@@ -144,16 +144,16 @@ const PaymentItem = ({
   return (
     <XStack justifyContent="space-between">
       <View flex={1}>
-        <Text color={"$black1"} fontWeight={"600"}>
+        <Text color="black1" fontWeight={"600"}>
           {title}
         </Text>
         {desc ? (
-          <Text fontSize={11} color={"$black1"} fontWeight={"400"}>
+          <Text fontSize={11} color="black1" fontWeight={"400"}>
             {desc}
           </Text>
         ) : null}
       </View>
-      <Text color={"$black1"} fontWeight={"500"}>
+      <Text color="black1" fontWeight={"500"}>
         {app} {value ?? "0"}
       </Text>
     </XStack>

@@ -1,23 +1,21 @@
-import { Image, Text, View } from "tamagui";
+import { Image } from "react-native";
+import { Text, View } from "tamagui";
 import { Service } from "./laundry_services";
 
 const ServiceItem = ({ icon, name }: Service) => {
   return (
     <View
-      p={"$1"}
+      p="1"
       alignItems="center"
       h={55}
       w={60}
-      bg={"$primary_light"}
-      mx={"$2"}
-      borderRadius={"$4"}
+      bg="primary_light"
+      mx="2"
+      borderRadius="4"
     >
       <Image
-        m={"auto"}
-        h={25}
-        w={25}
+        style={{ width: 25, height: 25 }}
         resizeMode="contain"
-        resizeMethod="resize"
         source={icon}
       />
 

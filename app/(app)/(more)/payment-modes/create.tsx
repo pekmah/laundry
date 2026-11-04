@@ -5,7 +5,7 @@ import { useForm } from "react-hook-form";
 import { CButton, Container } from "components/common";
 import { ControlledInput } from "components/common/input";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useToastController } from "@tamagui/toast";
+import { useToastController } from "lib/toast";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 
 import PricingServices from "lib/services/PricingServices";
@@ -77,12 +77,12 @@ const Create = () => {
 
   return (
     <>
-      <Container py={"$3"}>
+      <Container py={"3"}>
         <ScrollView
           keyboardDismissMode="interactive"
           keyboardShouldPersistTaps="handled"
         >
-          <YStack mt={"$1"}>
+          <YStack mt="1">
             {/* item name */}
             <ControlledInput
               name="name"
@@ -92,9 +92,9 @@ const Create = () => {
             />
 
             <CButton
-              onPress={handleSubmit(onSubmit)}
+              onPress={() => { void handleSubmit(onSubmit)(); }}
               text={isLoading ? "saving..." : "Save"}
-              mt="$4"
+              mt="4"
               letterSpacing={1}
               disabled={isLoading}
             />

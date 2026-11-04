@@ -43,22 +43,22 @@ const OrderItem = ({
   return (
     <TouchableOpacity onPress={handleViewOrder}>
       <View
-        marginVertical={"$1.5"}
-        padding={"$2"}
-        backgroundColor={"$white1"}
-        borderRadius={"$3"}
-        borderColor={"$gray6Light"}
+        marginVertical="1-5"
+        padding="2"
+        backgroundColor="white1"
+        borderRadius="3"
+        borderColor="gray6Light"
         borderWidth={1}
       >
-        <XStack gap={"$3"}>
-          <Avatar size={"$5"} borderRadius={"$2"} bg={"$primary_light"}>
+        <XStack gap="3">
+          <Avatar size={"5"} borderRadius="2" bg="primary_light">
             {images?.length ? (
               <PressableImageView
                 source={{
                   uri: getRandomImageUrl(images),
                 }}
-                h={"$5"}
-                w={"$5"}
+                h={"5"}
+                w={"5"}
               />
             ) : (
               <MaterialIcons
@@ -70,11 +70,11 @@ const OrderItem = ({
           </Avatar>
 
           <XStack flex={1}>
-            <YStack gap={"$1.5"} flex={1}>
+            <YStack gap="1-5" flex={1}>
               <XStack justifyContent="space-between">
                 <Text
                   fontSize={13}
-                  lineHeight={25}
+                  lineHeight="25px"
                   color={"black"}
                   fontWeight={"600"}
                 >
@@ -84,9 +84,9 @@ const OrderItem = ({
               </XStack>
 
               <Label
-                lineHeight={20}
+                lineHeight="20px"
                 fontWeight={"500"}
-                color={"$primary"}
+                color="primary"
                 fontSize={12}
                 onPress={handlePay}
               >
@@ -95,19 +95,19 @@ const OrderItem = ({
             </YStack>
           </XStack>
           <XStack flex={1}>
-            <YStack gap={"$1.5"} flex={1}>
+            <YStack gap="1-5" flex={1}>
               <XStack justifyContent="space-between">
                 <Text
-                  lineHeight={25}
+                  lineHeight="25px"
                   fontSize={11}
-                  color={"$gray10Light"}
+                  color="gray10Light"
                   fontWeight={"500"}
                 >
                   {moment(createdAt).format("DD MMM YYYY, HH:mm")}{" "}
                 </Text>
               </XStack>
 
-              <Text fontWeight={"600"} color={"$gray12Light"} fontSize={12}>
+              <Text fontWeight={"600"} color="gray12Light" fontSize={12}>
                 KES {paymentAmount}
               </Text>
             </YStack>

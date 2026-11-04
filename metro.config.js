@@ -11,15 +11,14 @@ const config = getDefaultConfig(__dirname, {
 
 // Enable Tamagui and add nice web support with optimizing compiler + CSS extraction
 const { withTamagui } = require("@tamagui/metro-plugin");
+config.resolver.sourceExts.push("mjs");
+
 module.exports = withTamagui(config, {
   components: ["tamagui"],
   config: "./tamagui.config.ts",
   outputCSS: "./tamagui-web.css",
 });
 
-config.resolver.sourceExts.push("mjs");
-
-module.exports = config;
 
 // REMOVE THIS (just for tamagui internal devs to work in monorepo):
 // if (process.env.IS_TAMAGUI_DEV && __dirname.includes('tamagui')) {

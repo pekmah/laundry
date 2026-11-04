@@ -1,10 +1,9 @@
 import { OTP_LENGTH } from "constants/variables";
 import { useRef, useState } from "react";
 import { Keyboard } from "react-native";
-import { Input } from "tamagui";
 
 const useVerification = () => {
-  const ref = useRef<Input>(null);
+  const ref = useRef<any>(null);
 
   const characters = new Array(OTP_LENGTH).fill(" ");
 

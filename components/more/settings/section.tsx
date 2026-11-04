@@ -7,17 +7,17 @@ interface SectionProps {
 }
 
 const Section = ({ title, children }: SectionProps) => (
-    <View borderBottomWidth={1} borderColor={"$gray6Light"} pb={"$3"} mb={"$3"}>
+    <View borderBottomWidth={1} borderColor="gray6Light" pb="3" mb="3">
         <Text
             fontWeight={"700"}
             fontSize={16}
-            col={"$gray12Light"}
+            col={"gray12Light"}
             textTransform="capitalize"
         >
             {title}
         </Text>
         {/* Add your section content here */}
-        <View py={"$1"} pl={"$2"}>
+        <View py="1" pl="2">
             {children}
         </View>
     </View>

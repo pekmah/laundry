@@ -30,7 +30,7 @@ const more = () => {
       <Container bg={"white"}>
         {/* more list */}
         <ScrollView>
-          <YStack gap={"$2.5"}>
+          <YStack gap="2-5">
             <MoreItem
               title="Account"
               icon={
@@ -40,7 +40,7 @@ const more = () => {
                   size={18}
                 />
               }
-              handlePress={() => handleNavigate(undefined)}
+              handlePress={() => handleNavigate("/(app)/(more)/profile")}
             />
 
             <MoreItem

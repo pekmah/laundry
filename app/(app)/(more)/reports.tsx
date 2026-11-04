@@ -63,21 +63,21 @@ const Reports = () => {
       return (
         <View
           key={item.id}
-          padding={"$2"}
+          padding="2"
           borderBottomWidth={1}
-          borderColor={"$primary_light"}
+          borderColor="primary_light"
         >
-          <Text fontSize={12} col={"$gray10Light"} fontWeight={"600"}>
+          <Text fontSize={12} col={"gray10Light"} fontWeight={"600"}>
             {moment(item.createdAt).format("MMM DD, YYYY")}
           </Text>
 
           <XStack>
-            <Text flex={1} col={"$gray12Light"} fontWeight={"700"}>
+            <Text flex={1} col={"gray12Light"} fontWeight={"700"}>
               Order #{item.orderNumber}
             </Text>
             <Text
               flex={1}
-              col={"$gray12Light"}
+              col={"gray12Light"}
               textTransform="uppercase"
               fontWeight={"700"}
             >
@@ -88,7 +88,7 @@ const Reports = () => {
             <Text
               fontSize={12}
               flex={1}
-              col={"$gray11Light"}
+              col={"gray11Light"}
               fontWeight={"500"}
             >
               {item.customerName}
@@ -96,7 +96,7 @@ const Reports = () => {
             <Text
               fontSize={12}
               flex={1}
-              col={"$gray11Light"}
+              col={"gray11Light"}
               textTransform="uppercase"
               fontWeight={"500"}
             >
@@ -117,19 +117,19 @@ const Reports = () => {
             <Text
               flex={1}
               fontWeight={"600"}
-              col={"$gray12Light"}
+              col={"gray12Light"}
               fontSize={15}
             >
               Laundry Report
             </Text>
             <CButton
               letterSpacing={1}
-              borderRadius={"$2"}
-              minWidth={"$7"}
-              py={"$1"}
-              px={"$2"}
-              height={"$2"}
-              backgroundColor={"$primary"}
+              borderRadius={"2"}
+              minWidth={"7"}
+              py={"1"}
+              px={"2"}
+              height={"2"}
+              backgroundColor={"primary"}
               onPress={handleFilter}
             >
               <Text fontWeight={"500"} fontSize={11} color={"whitesmoke"}>
@@ -138,14 +138,14 @@ const Reports = () => {
             </CButton>
           </XStack>
           {/* Description */}
-          <Text fontWeight={600} col={"$gray10Light"} fontSize={12}>
+          <Text fontWeight={600} col={"gray10Light"} fontSize={12}>
             From {moment(dateFilters.from).format("MMM DD, YYYY")} to{" "}
             {moment(dateFilters.to).format("MMM DD, YYYY")}
             {/* {JSON.stringify(flattenedOrders, null, 2)} */}
           </Text>
         </View>
 
-        <XStack pt={"$2"} gap={"$3"}>
+        <XStack pt="2" gap="3">
           {/* Total sales (based on selected duration) */}
           <StatsItem
             value={formatToKES(data?.pages[0]?.totalAmount || 0)}
@@ -159,9 +159,9 @@ const Reports = () => {
         </XStack>
 
         <XStack alignItems="center">
-          <XStack pt={"$3"} pb={"$1"} gap={"$2"} alignItems="center" flex={1}>
-            <View bg={"$primary"} width={4} height={24} borderRadius={"$2"} />
-            <Text mt={5} fontWeight={"700"} col={"$gray12Light"} fontSize={15}>
+          <XStack pt="3" pb="1" gap="2" alignItems="center" flex={1}>
+            <View bg="primary" width={4} height={24} borderRadius="2" />
+            <Text mt={5} fontWeight={"700"} col={"gray12Light"} fontSize={15}>
               Top Orders
             </Text>
           </XStack>
@@ -177,9 +177,9 @@ const Reports = () => {
     if (!isFetchingNextPage) return null;
 
     return (
-      <XStack justifyContent="center" alignItems="center" gap={"$2"} py={"$3"}>
+      <XStack justifyContent="center" alignItems="center" gap="2" py="3">
         <ActivityIndicator size="small" color={COLORS.primary} />
-        <Text fontWeight={"500"} fontSize={12} color={COLORS.primary}>
+        <Text fontWeight={"500"} fontSize={12} color="primary">
           Loading more . . .
         </Text>
       </XStack>
@@ -188,7 +188,7 @@ const Reports = () => {
 
   return (
     <>
-      <Container py={"$2"} flex={1} bg={"$gray2Light"}>
+      <Container py={"2"} flex={1} bg={"gray2Light"}>
         {/* List of top orders */}
         <FlatList
           refreshing={isFetchingNextPage || isPending}
@@ -224,19 +224,19 @@ const StatsItem = ({
   value: string | number;
 }) => (
   <View
-    bg={"$primary_light"}
+    bg="primary_light"
     flex={1}
-    borderRadius={"$3"}
-    padding={"$3"}
+    borderRadius="3"
+    padding="3"
     px={"0"}
     minHeight={70}
     alignItems="center"
     justifyContent="center"
   >
-    <Text mt={"$2"} fontWeight={700} col={"$gray12Light"} fontSize={16}>
+    <Text mt="2" fontWeight={700} fontSize={16} col={"gray12Light"}>
       {value}
     </Text>
-    <Text fontWeight={"500"} col={"$gray11Light"} fontSize={14}>
+    <Text fontWeight={"500"} col={"gray11Light"} fontSize={14}>
       {title}
     </Text>
   </View>

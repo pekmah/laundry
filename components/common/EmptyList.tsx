@@ -11,8 +11,8 @@ const EmptyList = ({
 }: Props) => {
   const theme = useTheme();
   return (
-    <View h={"$16"} alignItems="center" justifyContent="center">
-      <Avatar backgroundColor={"$gray4Light"} borderRadius={"$12"} size={100}>
+    <View h="16" alignItems="center" justifyContent="center">
+      <Avatar backgroundColor="gray4Light" borderRadius="12" size={100}>
         <FontAwesome
           name={"folder-open"}
           size={50}
@@ -22,14 +22,14 @@ const EmptyList = ({
       <Text
         fontWeight={"600"}
         fontSize={13}
-        col={"$gray9Light"}
         textAlign="center"
-        mt={"$2"}
+        mt="2"
+        col={"gray9Light"}
       >
         {message}
       </Text>
       <Text
-        col={"$gray9Light"}
+        col={"gray9Light"}
         fontWeight={"300"}
         fontSize={11}
         w={"50%"}

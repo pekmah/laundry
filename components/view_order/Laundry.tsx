@@ -8,7 +8,7 @@ import { ILaundryItem } from "types/laundry";
 import AntDesign from "@expo/vector-icons/AntDesign";
 import { useBTStoreHook } from "lib/storage/useBtSettings";
 import { useMemo } from "react";
-import { useToastController } from "@tamagui/toast";
+import { useToastController } from "lib/toast";
 import { useRouter } from "expo-router";
 import { handlePrintReceipt } from "utils/print";
 import { NewOrder } from "types/order";
@@ -58,30 +58,30 @@ const Laundry = () => {
   return (
     <View
       bg={"white"}
-      px={"$2"}
-      py={"$3"}
-      borderColor={"$gray5Light"}
+      px="2"
+      py="3"
+      borderColor="gray5Light"
       borderWidth={1}
-      borderRadius={"$5"}
+      borderRadius="5"
     >
       <View
-        py={"$2"}
-        px={"$3"}
+        py="2"
+        px="3"
         borderBottomWidth={1}
-        borderBottomColor={"$gray6Light"}
+        borderBottomColor="gray6Light"
       >
         <Text
-          lineHeight={22}
+          lineHeight="22px"
           fontWeight={"700"}
           fontSize={15}
-          color={"$gray7Dark"}
+          color="gray7Dark"
           mr={"auto"}
         >
           Order Laundry Items
         </Text>
       </View>
 
-      <View p={"$3"}>
+      <View p="3">
         <FlatList
           ItemSeparatorComponent={() => <View style={{ height: 10 }} />}
           ListEmptyComponent={renderEmptyLaundryList}
@@ -98,14 +98,14 @@ const Laundry = () => {
         />
 
         <CButton
-          mx={"$0"}
-          borderRadius={"$5"}
+          mx={"0"}
+          borderRadius={"5"}
           fontSize={12}
-          mt={"$2"}
+          mt={"2"}
           onPress={handlePrint}
         >
           <AntDesign name="printer" size={18} color="white" />
-          <Text color={"$white1"} fontWeight={"600"} fontSize={13}>
+          <Text color="white1" fontWeight={"600"} fontSize={13}>
             Reprint Receipt
           </Text>
         </CButton>

@@ -4,8 +4,8 @@ import { FontAwesome } from "@expo/vector-icons";
 const Empty = () => {
   const theme = useTheme();
   return (
-    <View h={"$9"} alignItems="center" justifyContent="center">
-      <Avatar backgroundColor={"$gray4Light"} borderRadius={"$12"} size={50}>
+    <View h="9" alignItems="center" justifyContent="center">
+      <Avatar backgroundColor="gray4Light" borderRadius="12" size={50}>
         <FontAwesome
           name={"folder-open"}
           size={30}
@@ -15,14 +15,14 @@ const Empty = () => {
       <Text
         fontWeight={"600"}
         fontSize={13}
-        col={"$gray9Light"}
         textAlign="center"
-        mt={"$2"}
+        mt="2"
+        col={"gray9Light"}
       >
         List Empty
       </Text>
       <Text
-        col={"$gray9Light"}
+        col={"gray9Light"}
         fontWeight={"300"}
         fontSize={11}
         w={"50%"}

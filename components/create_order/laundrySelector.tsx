@@ -10,12 +10,12 @@ import {
   getFontSize,
 } from "tamagui";
 
-import { Check, ChevronDown, ChevronUp } from "@tamagui/lucide-icons";
+import { Check, ChevronDown, ChevronUp } from "components/icons";
 import { LinearGradient } from "tamagui/linear-gradient";
-import { Control, Controller, FieldError } from "react-hook-form";
+import { Control, Controller, FieldError, FieldValues, Path } from "react-hook-form";
 
 type Props = {
-  value: string;
+  value?: string;
   error?: FieldError;
   data?: any[];
   isPending?: boolean;
@@ -43,14 +43,13 @@ const LaundrySelector = ({
         {...rest}
       >
         <Select.Trigger
-          bg={"$gray1Light"}
-          borderColor={"$gray5Light"}
+          bg="gray1Light"
+          borderColor="gray5Light"
           width={"100%"}
-          iconAfter={ChevronDown}
-          color={"$gray11Light"}
           disabled={isPending}
         >
-          <Select.Value color={"$gray11Light"} placeholder={placeholder} />
+          <Select.Value color="gray11Light" placeholder={placeholder} />
+          <ChevronDown size={20} />
         </Select.Trigger>
 
         <Adapt when="sm" platform="touch">
@@ -58,33 +57,27 @@ const LaundrySelector = ({
             native={!!native}
             modal
             dismissOnSnapToBottom
-            animationConfig={{
-              type: "spring",
-              damping: 20,
-              mass: 1.2,
-              stiffness: 250,
-            }}
           >
-            <Sheet.Frame>
+            <Sheet.Container>
+              <Sheet.Background />
               <Sheet.ScrollView>
                 <Adapt.Contents />
               </Sheet.ScrollView>
-            </Sheet.Frame>
+            </Sheet.Container>
             <Sheet.Overlay
-              animation="lazy"
-              enterStyle={{ opacity: 0 }}
-              exitStyle={{ opacity: 0 }}
+              transition="lazy"
+              opacity="enter:0 exit:0"
             />
           </Sheet>
         </Adapt>
 
-        <Select.Content zIndex={200000}>
+        <Select.Content>
           <Select.ScrollUpButton
             alignItems="center"
             justifyContent="center"
             position="relative"
             width="100%"
-            height="$3"
+            height="3"
           >
             <YStack zIndex={10}>
               <ChevronUp size={20} />
@@ -92,9 +85,9 @@ const LaundrySelector = ({
             <LinearGradient
               start={[0, 0]}
               end={[0, 1]}
-              fullscreen
-              colors={["$background", "transparent"]}
-              borderRadius="$4"
+              borderRadius="4"
+              position="absolute" inset={0}
+              colors={["background", "transparent"]}
             />
           </Select.ScrollUpButton>
 
@@ -114,7 +107,6 @@ const LaundrySelector = ({
                   data?.map((item, i) => {
                     return (
                       <Select.Item
-                        index={i}
                         key={item.name}
                         value={item.id.toString()}
                       >
@@ -137,11 +129,11 @@ const LaundrySelector = ({
                 bottom={0}
                 alignItems="center"
                 justifyContent="center"
-                width={"$4"}
+                width="4"
                 pointerEvents="none"
               >
                 <ChevronDown
-                  size={getFontSize((size as FontSizeTokens) ?? "$true")}
+                  size={getFontSize((size as FontSizeTokens) ?? true)}
                 />
               </YStack>
             )}
@@ -152,7 +144,7 @@ const LaundrySelector = ({
             justifyContent="center"
             position="relative"
             width="100%"
-            height="$3"
+            height="3"
           >
             <YStack zIndex={10}>
               <ChevronDown size={20} />
@@ -160,14 +152,14 @@ const LaundrySelector = ({
             <LinearGradient
               start={[0, 0]}
               end={[0, 1]}
-              fullscreen
-              colors={["transparent", "$background"]}
-              borderRadius="$4"
+              borderRadius="4"
+              position="absolute" inset={0}
+              colors={["transparent", "background"]}
             />
           </Select.ScrollDownButton>
         </Select.Content>
       </Select>
-      <Text h={"auto"} fontSize={12} fontWeight={"500"} color={"$red10Light"}>
+      <Text h={"auto"} fontSize={12} fontWeight={"500"} color="red10Light">
         {error?.message}
       </Text>
     </>
@@ -176,20 +168,20 @@ const LaundrySelector = ({
 
 export default LaundrySelector;
 
-type ControlledSelectProps = {
-  control: Control<any, any>;
+type ControlledSelectProps<T extends FieldValues> = {
+  control: Control<T>;
   rules?: any;
-  name: string;
+  name: Path<T>;
   handleChange?: (value: string, onChange: (...event: any[]) => void) => void;
 } & Props;
 
-export const ControlledSelect = ({
+export const ControlledSelect = <T extends FieldValues>({
   control,
   rules,
   name,
   handleChange,
   ...rest
-}: ControlledSelectProps) => (
+}: ControlledSelectProps<T>) => (
   <Controller
     control={control}
     rules={rules}

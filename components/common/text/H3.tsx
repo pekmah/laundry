@@ -4,10 +4,10 @@ import { GetProps } from "@tamagui/core";
 
 type Props = {
   text: string;
-} & GetProps<typeof Text>;
+} & Omit<GetProps<typeof Text>, "text">;
 const H3 = ({ text, ...rest }: Props) => {
   return (
-    <Text fontWeight={"600"} fontSize={"$3"} {...rest}>
+    <Text fontWeight={"600"} fontSize="3" {...rest}>
       {text}
     </Text>
   );

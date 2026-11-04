@@ -20,13 +20,13 @@ const LaundryItem = ({
     <View>
       <XStack justifyContent="space-between">
         <View flex={1}>
-          <Text col={"$gray12Light"} fontWeight={"500"} fontSize={13}>
+          <Text col={"gray12Light"} fontWeight={"500"} fontSize={13}>
             {item.quantity}
             {"  "} x{"  "}{" "}
             {"laundryCategory" in item
               ? item.laundryCategory.name
               : item.laundry}{" "}
-            <Text fontWeight={"300"} fontSize={12} color={"$gray11Light"}>
+            <Text fontWeight={"300"} fontSize={12} color="gray11Light">
               (
               {"laundryCategory" in item
                 ? item?.laundryCategory.unit
@@ -40,9 +40,9 @@ const LaundryItem = ({
           flex={!hideActions ? 0.5 : "unset"}
           justifyContent="space-between"
           alignItems="center"
-          gap={"$2"}
+          gap="2"
         >
-          <Text col={"$gray12Light"} fontWeight={"500"} fontSize={13}>
+          <Text col={"gray12Light"} fontWeight={"500"} fontSize={13}>
             KES{" "}
             {"laundryCategory" in item
               ? item.laundryCategory.unitPrice * Number(item.quantity)
@@ -53,9 +53,9 @@ const LaundryItem = ({
               p={"1"}
               h={20}
               w={20}
-              borderRadius={"$8"}
-              bg={"$red3Light"}
-              borderColor={"$red8Light"}
+              borderRadius={"8"}
+              bg={"red3Light"}
+              borderColor={"red8Light"}
               onPress={handleRemoveItemFromCart}
             >
               <Feather name={"x"} size={16} color={"red"} />

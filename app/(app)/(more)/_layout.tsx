@@ -6,6 +6,7 @@ export default function MoreLayout() {
   // This layout can be deferred because it's not the root layout.
   return (
     <Stack>
+      <Stack.Screen name="profile" options={{ ...screenOptionsWithHeader, title: "Account" }} />
       <Stack.Screen
         name="pricing/create"
         options={{

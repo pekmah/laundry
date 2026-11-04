@@ -1,11 +1,17 @@
-import { View, Text } from "react-native";
+import { Container } from "components/common";
+import { useAuthStore } from "lib/storage/useAuthStore";
+import { Text, YStack } from "tamagui";
 
-const profile = () => {
+export default function Profile() {
+  const { user } = useAuthStore();
   return (
-    <View>
-      <Text>profile</Text>
-    </View>
+    <Container backgroundColor="white" flex={1} py="4">
+      <YStack gap="3">
+        <Text fontWeight="600" fontSize={14}>Name</Text>
+        <Text fontSize={16}>{user?.name || "—"}</Text>
+        <Text fontWeight="600" fontSize={14}>Email</Text>
+        <Text fontSize={16}>{user?.email || "—"}</Text>
+      </YStack>
+    </Container>
   );
-};
-
-export default profile;
+}

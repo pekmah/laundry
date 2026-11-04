@@ -1,10 +1,10 @@
-import { Link, useRouter } from "expo-router";
+import { useRouter } from "expo-router";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Text, YStack } from "tamagui";
+import { YStack } from "tamagui";
 import { useMutation } from "@tanstack/react-query";
-import { useToastController } from "@tamagui/toast";
+import { useToastController } from "lib/toast";
 import { Keyboard } from "react-native";
 
 import { SigninFormData, SigninSchema } from "lib/types/auth";
@@ -46,12 +46,12 @@ const signin = () => {
   };
 
   return (
-    <Container backgroundColor={"$white1"} flex={1} pt={"$5"}>
+    <Container backgroundColor={"white1"} flex={1} pt={"5"}>
       <SafeAreaView>
         {/* signin title */}
         <H1 textAlign="center" text="Sign in" />
 
-        <YStack mt={"$5"} gap={"$3"}>
+        <YStack mt="5" gap="3">
           {/* email or phone */}
           <ControlledInput
             name="email"
@@ -70,40 +70,21 @@ const signin = () => {
           />
 
           <CButton
-            onPress={handleSubmit(onSubmit)}
+            onPress={() => { void handleSubmit(onSubmit)(); }}
             text={isPending ? "signing in..." : "Login"}
-            mt="$4"
+            mt="4"
             letterSpacing={1}
             disabled={isPending}
           />
 
           <Paragraph
-            mt={"$2"}
-            color={"black"}
-            fontSize={14}
-            textAlign="center"
-            col={"$primary"}
-            text="Forgot password?"
-          />
-
-          <Paragraph
-            mt={"$2"}
+            mt={"2"}
             fontWeight={"500"}
             fontSize={14}
             textAlign="center"
             col={"black"}
           >
-            Don't have an account?
-            <Link href={"/signup"}>
-              <Text
-                textDecorationLine={"underline"}
-                color={"$primary"}
-                fontWeight={"600"}
-              >
-                {" "}
-                Sign up
-              </Text>
-            </Link>
+            Need an account? Contact your administrator.
           </Paragraph>
         </YStack>
       </SafeAreaView>

@@ -15,25 +15,25 @@ const PriceItem = ({ title, price, unit, handleEdit }: Props) => {
   return (
     <View
       overflow="hidden"
-      borderRadius={"$4"}
+      borderRadius="4"
       borderWidth={1}
-      borderColor={"$gray5Light"}
+      borderColor="gray5Light"
       bg={"white"}
     >
-      <XStack gap={"$3"}>
+      <XStack gap="3">
         <View
           w={70}
           justifyContent="center"
           alignItems="center"
-          bg={"$primary_light"}
-          borderRadius={"$4"}
+          bg="primary_light"
+          borderRadius="4"
         >
           <FontAwesome5 name={"tshirt"} size={24} color={COLORS.primary} />
         </View>
 
-        <YStack flex={1} py={"$2"}>
+        <YStack flex={1} py="2">
           <Text
-            lineHeight={20}
+            lineHeight="20px"
             color={"black"}
             fontSize={15}
             fontWeight={"700"}
@@ -42,28 +42,27 @@ const PriceItem = ({ title, price, unit, handleEdit }: Props) => {
           >
             {title}
           </Text>
-          <XStack gap={"$5"} justifyContent="space-between" flex={1}>
+          <XStack gap="5" justifyContent="space-between" flex={1}>
             <YStack>
-              <Text fontSize={12} fontWeight={"500"} color={"$gray10"}>
+              <Text fontSize={12} fontWeight={"500"} color="gray10">
                 Price: {price}/{unit}
               </Text>
-              <Text fontSize={12} fontWeight={"500"} color={"$gray10"}>
+              <Text fontSize={12} fontWeight={"500"} color="gray10">
                 Unit: {unit}
               </Text>
             </YStack>
             <View
               flexDirection="row"
-              py={"$2"}
+              py="2"
               justifyContent="flex-end"
               alignItems="flex-end"
-              pr={"$3"}
+              pr="3"
             >
               <CButton
                 onPress={handleEdit}
                 flexGrow={1}
-                h={"$2.5"}
-                fs={12}
-                mt={"$1"}
+                h={"2-5"}
+                mt={"1"}
               >
                 <Text
                   letterSpacing={1}

@@ -1,11 +1,11 @@
-import { z, ZodType } from "zod";
+import { z } from "zod";
 
 export type SigninFormData = {
   email: string;
   password: string;
 };
 
-export const SigninSchema: ZodType<SigninFormData> = z.object({
+export const SigninSchema = z.object({
   email: z.string().min(2),
   password: z.string().min(6),
 });
@@ -15,6 +15,7 @@ export type RegistrationFormData = {
   email: string;
   password: string;
   phone: string;
+  confirmPassword: string;
 };
 
 export type RegistrationPayload = RegistrationFormData & {
@@ -22,7 +23,7 @@ export type RegistrationPayload = RegistrationFormData & {
   active: boolean;
 };
 
-export const RegistrationSchema: ZodType<RegistrationFormData> = z
+export const RegistrationSchema = z
   .object({
     name: z.string().min(3),
     email: z.string().email(),

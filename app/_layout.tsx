@@ -6,9 +6,8 @@ import { Slot, SplashScreen } from "expo-router";
 import { useEffect } from "react";
 
 import { BottomSheetModalProvider } from "@gorhom/bottom-sheet";
-import usePermissions from "hooks/usePermissions";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
-import { Provider } from "./Provider";
+import { Provider } from "../components/Provider";
 import React from "react";
 
 export {
@@ -17,11 +16,6 @@ export {
 } from "expo-router";
 
 const queryClient = new QueryClient();
-
-export const unstable_settings = {
-  // Ensure that reloading on `/modal` keeps a back button present.
-  initialRouteName: "(tabs)",
-};
 
 // Prevent the splash screen from auto-hiding before asset loading is complete.
 SplashScreen.preventAutoHideAsync();
@@ -38,8 +32,6 @@ export default function RootLayout() {
     PoppinsBlack: require("../assets/fonts/Poppins-Black.ttf"),
     praise: require("../assets/fonts/Praise-Regular.ttf"),
   });
-
-  usePermissions();
 
   useEffect(() => {
     if (interLoaded || interError) {

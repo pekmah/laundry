@@ -30,7 +30,7 @@ const create_order = () => {
   return (
     <Container py={0}>
       <ScrollView
-        contentContainerStyle={{ py: "$3" }}
+        contentContainerStyle={{ paddingVertical: 13 }}
         showsVerticalScrollIndicator={false}
       >
         <YStack>
@@ -40,7 +40,7 @@ const create_order = () => {
               Upload Image
             </Text>
 
-            <XStack paddingVertical={"$1"} paddingHorizontal={"$2"}>
+            <XStack paddingVertical="1" paddingHorizontal="2">
               <PickImage images={images} setState={setImages} />
             </XStack>
           </View>
@@ -61,7 +61,7 @@ const create_order = () => {
             placeholder="07XX XXXXXX"
             keyboardType="numeric"
           />
-          <View h={"$0.5"} />
+          <View h="0-5" />
 
           <View>
             <XStack justifyContent="space-between" alignItems="center">
@@ -71,8 +71,8 @@ const create_order = () => {
 
               <CButton
                 onPress={handleAddLaundry}
-                borderRadius={"$4"}
-                p={"$1"}
+                borderRadius={"4"}
+                p={"1"}
                 h={30}
                 w={30}
               >
@@ -80,7 +80,7 @@ const create_order = () => {
               </CButton>
             </XStack>
 
-            <View px={"$2"} py={"$3"}>
+            <View px="2" py="3">
               <FlatList
                 ItemSeparatorComponent={() => <View style={{ height: 10 }} />}
                 ListEmptyComponent={renderEmptyLaundryList}
@@ -96,7 +96,7 @@ const create_order = () => {
 
           {/* payment amount */}
           <ControlledInput
-            mt="$2"
+            mt="2"
             name="negotiated_amount"
             control={control}
             label="Revised Amount"
@@ -119,7 +119,7 @@ const create_order = () => {
                   ? "saving..."
                   : "Save"
               }
-              mt="$4"
+              mt="4"
               letterSpacing={1}
               disabled={uploadImageMutation?.isPending || isPending}
             />

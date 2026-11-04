@@ -1,7 +1,6 @@
 import { CStatusBar, Container } from "components/common";
 import {
   DashboardHeader,
-  LaundryOffers,
   LaundryServices,
   RecentOrders,
 } from "components/dashboard";
@@ -20,12 +19,9 @@ export default function Dashboard() {
         }}
       />
 
-      <Container bg={"white"} py={"$1"}>
+      <Container bg={"white"} py={"1"}>
         <ScrollView showsVerticalScrollIndicator={false}>
           <LaundryServices />
-
-          {/* Offers */}
-          <LaundryOffers />
 
           {/* recent orders */}
           <RecentOrders />

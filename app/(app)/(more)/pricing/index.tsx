@@ -17,7 +17,7 @@ const index = () => {
   const { editPricing } = usePricingStore();
 
   const handleCreate = () => {
-    router.push("pricing/create");
+    router.push("/(app)/(more)/pricing/create");
   };
 
   const { data, isPending, refetch } = useQuery<PricingType[]>({
@@ -31,12 +31,12 @@ const index = () => {
 
     if (currentPricing) {
       editPricing(currentPricing);
-      router.push("pricing/create");
+      router.push("/(app)/(more)/pricing/create");
     }
   };
 
   return (
-    <Container px={"$3"} py={"$3"}>
+    <Container px={"3"} py={"3"}>
       <FlatList
         refreshing={isPending}
         onRefresh={refetch}
@@ -58,7 +58,7 @@ const index = () => {
       <CButton
         h={55}
         w={55}
-        padding={"$1"}
+        padding={"1"}
         position="absolute"
         bottom={20}
         right={20}

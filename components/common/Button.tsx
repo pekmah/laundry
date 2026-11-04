@@ -5,17 +5,17 @@ import { GetProps } from "@tamagui/core";
 type CButtonProps = {
   text?: string;
   children?: React.ReactNode;
-} & GetProps<typeof Button>;
+} & Omit<GetProps<typeof Button>, "text">;
 
 const CButton = ({ text, children, disabled, ...rest }: CButtonProps) => {
   return (
     <Button
-      borderRadius={"$12"}
-      bg={"$primary"}
-      pressStyle={{ backgroundColor: "$primary", opacity: 0.8 }}
-      disabled={disabled}
-      opacity={disabled ? 0.8 : 1}
+      borderRadius="12"
+      bg="primary"
+      backgroundColor="press:primary"
+      opacity={`${disabled ? 0.8 : 1} press:0.8`}
       {...rest}
+      disabled={disabled}
     >
       {text ? (
         <Text fontWeight={"600"} fontSize={14} color={"whitesmoke"}>

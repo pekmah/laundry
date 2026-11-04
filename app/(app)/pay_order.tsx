@@ -1,5 +1,5 @@
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useToastController } from "@tamagui/toast";
+import { useToastController } from "lib/toast";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useLocalSearchParams, useRouter } from "expo-router";
 import React, { useMemo } from "react";
@@ -108,10 +108,10 @@ const Pay = () => {
   }, [currentOrder]);
 
   return (
-    <Container py={"$3"}>
+    <Container py={"3"}>
       <ScrollView>
         <View>
-          <XStack mb={"$2"} justifyContent="space-between" alignItems="center">
+          <XStack mb="2" justifyContent="space-between" alignItems="center">
             <Text fontWeight={"600"} fontSize={14} color={"black"}>
               Laundry Items
             </Text>
@@ -135,7 +135,7 @@ const Pay = () => {
           />
         </View>
 
-        <YStack mt={"$3"}>
+        <YStack mt="3">
           {/* item name */}
           <ControlledInput
             name="amount"
@@ -146,7 +146,7 @@ const Pay = () => {
           />
 
           <View>
-            <Label lineHeight={"$6"} fontWeight={"500"} color={"black"}>
+            <Label lineHeight="6" fontWeight={"500"} color={"black"}>
               Payment Mode
             </Label>
             <ControlledSelect
@@ -167,7 +167,7 @@ const Pay = () => {
             label="Other Details"
             placeholder="i.e. mpesa code."
           />
-          <View h={"$0.5"} />
+          <View h="0-5" />
 
           <ConfirmDialogue
             handleAccept={handleSubmit(onSubmit)}
@@ -175,7 +175,7 @@ const Pay = () => {
           >
             <CButton
               text={isPending ? "saving..." : "Save"}
-              mt="$4"
+              mt="4"
               letterSpacing={1}
               disabled={!currentOrder || isPaying}
             />

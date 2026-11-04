@@ -10,30 +10,31 @@ const PaymentItem = ({ title }) => {
 
   return (
     <View
-      bg={"$gray3Light"}
-      padding={"$2"}
-      paddingVertical={"$2"}
-      borderRadius={"$5"}
+      bg="gray3Light"
+      paddingRight="2"
+      paddingLeft="2"
+      paddingVertical="2"
+      borderRadius="5"
     >
-      <XStack gap="$4" alignItems="center">
-        <Avatar size={40} bg={"$primary_light"} borderRadius={"$4"}>
+      <XStack gap="4" alignItems="center">
+        <Avatar size={40} bg="primary_light" borderRadius="4">
           <FontAwesome name={"money"} size={24} color={theme.primary.val} />
         </Avatar>
         <View flex={1}>
-          <Text col={"$black1"} fontWeight={"500"} fontSize={14}>
+          <Text col={"black1"} fontWeight={"500"} fontSize={14}>
             {title}
           </Text>
         </View>
 
-        <XStack gap={"$2"} alignItems="center">
-          <CButton borderRadius={"$4"} px={"$2"} w={40} h={32}>
+        <XStack gap="2" alignItems="center">
+          <CButton borderRadius={"4"} px={"2"} w={40} h={32}>
             <AntDesign name="edit" size={20} color={theme.white1.val} />
           </CButton>
 
           <CButton
-            bg={"$red10Light"}
-            borderRadius={"$4"}
-            px={"$2"}
+            bg={"red10Light"}
+            borderRadius={"4"}
+            px={"2"}
             w={40}
             h={32}
           >

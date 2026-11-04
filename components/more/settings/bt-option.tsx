@@ -44,24 +44,24 @@ const BtOption = () => {
   }, [params?.action, isBtEnabled, bluetoothManager]);
 
   return (
-    <YStack py={"$1"} gap={"$3"}>
-      <XStack alignItems="center" gap={"$3"} py={"$1"}>
+    <YStack py="1" gap="3">
+      <XStack alignItems="center" gap="3" py="1">
         {/* icon bt */}
         <View>
           <Ionicons color={"black"} name="bluetooth-outline" size={20} />
         </View>
 
-        <View flex={1} gap={"$1"}>
+        <View flex={1} gap="1">
           <Text
             fontWeight={"700"}
             fontSize={14}
-            col={"$gray12Light"}
+            col={"gray12Light"}
             textTransform="capitalize"
           >
             Bluetooth
           </Text>
           {/* description */}
-          <Text fontWeight={"500"} fontSize={12} col={"$gray11Light"}>
+          <Text fontWeight={"500"} fontSize={12} col={"gray11Light"}>
             Manage your Bluetooth devices
           </Text>
         </View>
@@ -70,36 +70,36 @@ const BtOption = () => {
         <Switch
           checked={isBtEnabled}
           onCheckedChange={handleSwitchBluetooth}
-          theme={"blue_surface4"}
-          size="$2"
+          theme={"blue_surface1"}
+          size="2"
         >
           <Switch.Thumb
-            backgroundColor={"$primary_light"}
-            theme={"blue_surface4"}
-            animation="quicker"
+            backgroundColor="primary_light"
+            transition="quicker"
+            theme={"blue_surface1"}
           />
         </Switch>
       </XStack>
 
       {isBtEnabled ? (
-        <XStack alignItems="center" gap={"$3"} py={"$1"}>
+        <XStack alignItems="center" gap="3" py="1">
           {/* icon bt */}
           <View>
             <AntDesign name="printer" size={22} color="black" />
           </View>
 
-          <View flex={1} gap={"$1"}>
+          <View flex={1} gap="1">
             <Text
               fontWeight={"700"}
               fontSize={14}
-              col={"$gray12Light"}
+              col={"gray12Light"}
               textTransform="capitalize"
             >
               Connected Printer
             </Text>
 
             {/* description */}
-            <Text fontWeight={"500"} fontSize={12} col={"$gray11Light"}>
+            <Text fontWeight={"500"} fontSize={12} col={"gray11Light"}>
               Manage your Bluetooth devices
             </Text>
           </View>

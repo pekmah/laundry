@@ -1,5 +1,5 @@
 import { BottomSheetModal } from "@gorhom/bottom-sheet";
-import { useToastController } from "@tamagui/toast";
+import { useToastController } from "lib/toast";
 import { useMutation } from "@tanstack/react-query";
 import { CButton, Container } from "components/common";
 import { useRouter } from "expo-router";
@@ -15,6 +15,7 @@ import { IBLEPrinter } from "react-native-thermal-receipt-printer";
 import { Text, View, XStack } from "tamagui";
 import { getErrorMessage } from "utils";
 import { getBTList, PrinterServices } from "utils/bluetooth";
+import { requestBtPermissions } from "utils/bluetooth-permissions";
 import { renderSheetHeader } from "./AddLaundryModal";
 import CustomBottomSheetWrapper from "./CustomBottomSheetWrapper";
 
@@ -27,8 +28,17 @@ export interface ConnectPrinterRef {
 const ConnectPrinter = forwardRef<ConnectPrinterRef>((_, ref) => {
   const modalRef = React.useRef<BottomSheetModal>(null);
 
-  const handleOpenModal = () => {
-    modalRef?.current?.present();
+  const handleOpenModal = async () => {
+    if (!(await requestBtPermissions())) {
+      ToastAndroid.show("Bluetooth permission is needed to find printers.", ToastAndroid.LONG);
+      return;
+    }
+    try {
+      setBtDeviceList(await getBTList());
+      modalRef.current?.present();
+    } catch {
+      ToastAndroid.show("Could not find Bluetooth printers.", ToastAndroid.LONG);
+    }
   };
 
   const handleCloseModal = () => {
@@ -43,14 +53,6 @@ const ConnectPrinter = forwardRef<ConnectPrinterRef>((_, ref) => {
 
   const [btDeviceList, setBtDeviceList] = React.useState<IBLEPrinter[]>([]);
 
-  React.useEffect(() => {
-    const fetchBTList = async () => {
-      const list = await getBTList();
-      setBtDeviceList(list);
-    };
-    fetchBTList();
-  }, []);
-
   const renderItem = useCallback(
     ({ item }: { item: IBLEPrinter }) => (
       <BtItem
@@ -64,12 +66,12 @@ const ConnectPrinter = forwardRef<ConnectPrinterRef>((_, ref) => {
 
   const renderHeader = () => (
     <View
-      paddingVertical={"$2"}
+      paddingVertical="2"
       borderBottomWidth={1}
-      marginBottom={"$2"}
-      borderColor={"$gray5Light"}
+      marginBottom="2"
+      borderColor="gray5Light"
     >
-      <Text fontSize={15} fontWeight={"700"} color={"$gray12Light"}>
+      <Text fontSize={15} fontWeight={"700"} color="gray12Light">
         {"Available Bluetooth Devices"}
       </Text>
     </View>
@@ -78,13 +80,13 @@ const ConnectPrinter = forwardRef<ConnectPrinterRef>((_, ref) => {
   return (
     <>
       <CButton
-        mt="$4"
+        mt="4"
         letterSpacing={1}
-        borderRadius={"$2"}
-        minWidth={"$8"}
-        py={"$1"}
-        px={"$2"}
-        height={"$3"}
+        borderRadius={"2"}
+        minWidth={"8"}
+        py={"1"}
+        px={"2"}
+        height={"3"}
         onPress={handleOpenModal}
       >
         <Text fontWeight={"600"} fontSize={12} color={"whitesmoke"}>
@@ -101,7 +103,7 @@ const ConnectPrinter = forwardRef<ConnectPrinterRef>((_, ref) => {
           renderSheetHeader(() => modalRef.current?.dismiss())
         }
       >
-        <Container bg={"white"} py={"$3"}>
+        <Container bg={"white"} py={"3"}>
           <FlatList
             data={btDeviceList || []}
             renderItem={renderItem}
@@ -169,31 +171,31 @@ export const BtItem = ({ name, address, closeModal }: IBtItem) => {
   return (
     <XStack>
       <View
-        gap={"$1"}
-        paddingVertical={"$2"}
+        gap="1"
+        paddingVertical="2"
         borderBottomWidth={1}
-        borderColor={"$gray5Light"}
+        borderColor="gray5Light"
         flex={1}
       >
-        <Text fontWeight={"700"} color={"$gray12Light"}>
+        <Text fontWeight={"700"} color="gray12Light">
           {name}
         </Text>
-        <Text fontWeight={"500"} fontSize={13} color={"$gray11Light"}>
+        <Text fontWeight={"500"} fontSize={13} color="gray11Light">
           {address}
         </Text>
       </View>
 
       <CButton
-        mt="$4"
+        mt="4"
         letterSpacing={1}
-        borderRadius={"$2"}
-        minWidth={"$7"}
-        py={"$1"}
-        px={"$2"}
-        height={"$2"}
+        borderRadius={"2"}
+        minWidth={"7"}
+        py={"1"}
+        px={"2"}
+        height={"2"}
         onPress={() => connectMutation.mutate()}
         disabled={connectMutation.isPending}
-        backgroundColor={isConnected ? "$red11Light" : "$primary"}
+        backgroundColor={isConnected ? "red11Light" : "primary"}
       >
         <Text fontWeight={"500"} fontSize={11} color={"whitesmoke"}>
           {connectMutation.isPending

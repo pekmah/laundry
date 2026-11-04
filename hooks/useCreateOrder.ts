@@ -1,9 +1,7 @@
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useToastController } from "@tamagui/toast";
+import { useToastController } from "lib/toast";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { ORDER_STAGES } from "constants/order";
 import { useRouter } from "expo-router";
-import LogServices from "lib/services/LogServices";
 import OrderServices, {
   IOrderCreateResponse,
 } from "lib/services/OrderServices";
@@ -15,7 +13,6 @@ import { useEffect, useMemo, useState } from "react";
 import { useForm } from "react-hook-form";
 import { LaundryOrderFormData } from "types/laundry";
 import { handlePrintReceipt } from "utils/print";
-import { updateQueryData } from "utils/query";
 
 const useCreateOrder = () => {
   const toast = useToastController();
@@ -25,7 +22,7 @@ const useCreateOrder = () => {
   const [printOnCreate, setPrintOnCreate] = useState(false);
 
   const { control, handleSubmit, reset, setValue } =
-    useForm<LaundryOrderFormData>({
+    useForm<{ customer_name: string; customer_phone: string; negotiated_amount: string }>({
       resolver: zodResolver(LaundryOrderSchema),
     });
   const [images, setImages] = useState<string[]>([]);
@@ -56,14 +53,11 @@ const useCreateOrder = () => {
       handlePrintReceipt(response.data, response.data.paymentAmount ?? 0);
     }
     // append the created order to current list of orders
-    updateQueryData(["orders"], queryClient, response);
+    queryClient.invalidateQueries({ queryKey: ["orders"] });
     reset();
     resetLaundryStore();
-
-    console.log(
-      "Order created successfully: ",
-      JSON.stringify(response, null, 2)
-    );
+    setImages([]);
+    setPrintOnCreate(false);
 
     toast.show("Success", {
       message: `Order created successfully`,
@@ -71,13 +65,6 @@ const useCreateOrder = () => {
     });
     // navigate to payment page
     handlePay(response?.data.id);
-    // create log
-
-    LogServices.create({
-      order: response.data.id,
-      stage: ORDER_STAGES[1],
-      description: "Order Created",
-    });
   };
 
   const handleError = (error) => {
@@ -119,18 +106,11 @@ const useCreateOrder = () => {
             message: `Failed to upload image ${index + 1}.`,
             type: "error",
           });
-          return { error, index }; // Return error instead of stopping execution
+          throw error;
         });
     });
 
-    const results = await Promise.allSettled(uploadPromises);
-
-    // Filter out successfully uploaded images
-    const uploadedResponses = results
-      .filter((result) => result.status === "fulfilled")
-      .map((result) => (result as PromiseFulfilledResult<object>).value);
-
-    return uploadedResponses;
+    return Promise.all(uploadPromises);
   };
 
   const uploadImageMutation = useMutation({

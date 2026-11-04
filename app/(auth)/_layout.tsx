@@ -5,7 +5,7 @@ import { useAuthStore } from "lib/storage/useAuthStore";
 export default function AppLayout() {
   const { token } = useAuthStore();
   if (token) {
-    return <Redirect href={"/(app)"} />;
+    return <Redirect href={"/(app)/(tabs)"} />;
   }
 
   // This layout can be deferred because it's not the root layout.

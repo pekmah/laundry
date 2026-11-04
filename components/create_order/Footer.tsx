@@ -15,7 +15,7 @@ const Footer = ({
   if (!totalOrderAmount) return null;
   return (
     <YStack>
-      <XStack pt={"$2"} justifyContent="space-between">
+      <XStack pt="2" justifyContent="space-between">
         <View flex={1}>
           <Text fontSize={13} fontWeight={"600"} col={"black"}>
             Total Amount
@@ -30,7 +30,7 @@ const Footer = ({
       </XStack>
 
       {negotiated_amount ? (
-        <XStack pt={"$2"} justifyContent="space-between">
+        <XStack pt="2" justifyContent="space-between">
           <View flex={1}>
             <Text fontSize={13} fontWeight={"600"} col={"black"}>
               Amount to Pay
@@ -46,7 +46,7 @@ const Footer = ({
       ) : null}
 
       {balance ? (
-        <XStack pt={"$2"} justifyContent="space-between">
+        <XStack pt="2" justifyContent="space-between">
           <View flex={1}>
             <Text fontSize={13} fontWeight={"600"} col={"black"}>
               Balance

@@ -23,7 +23,7 @@ const verify = () => {
   } = useVerification();
 
   return (
-    <Container backgroundColor={"$white1"} flex={1} py={"$0"}>
+    <Container backgroundColor={"white1"} flex={1} py={"0"}>
       {/* signin title */}
       <H1 textAlign="center" text="Verify account" />
       <Paragraph color={"black"} textAlign="center">
@@ -31,7 +31,7 @@ const verify = () => {
         <Text fontWeight={"500"}>email@mail.com</Text>
       </Paragraph>
 
-      <XStack py={"$4"} gap={"$3"}>
+      <XStack py="4" gap="3">
         {new Array(OTP_LENGTH).fill("_").map((_, ind) => {
           if (ind > OTP_LENGTH) return null;
 
@@ -43,16 +43,13 @@ const verify = () => {
               {/* email or phone */}
               <View
                 h={50}
-                w={Math.floor(
-                  (SCREEN_WIDTH - CONTAINER_PADDING * 2) / (OTP_LENGTH + 1)
-                )}
-                //   w={50}
-                bg={isCurrent ? "$blue2Light" : "$gray3Light"}
+                w={Math.floor( (SCREEN_WIDTH - CONTAINER_PADDING * 2) / (OTP_LENGTH + 1) )}
+                bg={`${isCurrent ? "blue2Light" : "gray3Light"}`}
                 justifyContent="center"
                 alignItems="center"
-                borderRadius={"$3"}
+                borderRadius="3"
                 borderWidth={isCurrent ? 2 : 1}
-                borderColor={isCurrent ? "$primary" : "$gray6Light"}
+                borderColor={`${isCurrent ? "primary" : "gray6Light"}`}
               >
                 <Text fontWeight={"500"} color={"black"}>
                   {inputCharacter}
@@ -66,12 +63,12 @@ const verify = () => {
       <CButton
         disabled={!hasReachedValidLength}
         text="Verify"
-        mt="$4"
+        mt="4"
         letterSpacing={1}
       />
 
       <Paragraph
-        mt={"$5"}
+        mt={"5"}
         fontWeight={"500"}
         fontSize={14}
         textAlign="center"
@@ -81,7 +78,7 @@ const verify = () => {
         <Link href={"/signup"}>
           <Text
             textDecorationLine={"underline"}
-            color={"$primary"}
+            color="primary"
             fontWeight={"600"}
           >
             {" "}
@@ -91,11 +88,11 @@ const verify = () => {
       </Paragraph>
 
       <Input
-        // display="none"
+              // display="none"
         height={1}
         w={1}
         position="absolute"
-        bottom={"$-1"}
+        bottom="-1"
         ref={ref}
         maxLength={OTP_LENGTH}
         onChangeText={handleChange}

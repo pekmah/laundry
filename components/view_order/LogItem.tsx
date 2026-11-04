@@ -1,6 +1,6 @@
 import moment from "moment";
 import { Paragraph, View, Text, Avatar } from "tamagui";
-import { Check } from "@tamagui/lucide-icons";
+import { Check } from "components/icons";
 
 const LogItem = ({
   title,
@@ -18,11 +18,11 @@ const LogItem = ({
       <Avatar
         position="absolute"
         left={-28}
-        top={isLast ? "unset" : "$3"}
-        bottom={isLast ? "$3" : "unset"}
-        bg={"$primary"}
-        size={"$1"}
-        borderRadius={"$8"}
+        top={`${isLast ? "unset" : "3"}`}
+        bottom={`${isLast ? "3" : "unset"}`}
+        bg="primary"
+        size={"1"}
+        borderRadius="8"
       >
         <Check color={"white"} size={12} />
       </Avatar>
@@ -36,7 +36,7 @@ const LogItem = ({
         {title}
       </Text>
 
-      <Paragraph w={"70%"} fontSize={12} col={"$gray10Dark"}>
+      <Paragraph w={"70%"} fontSize={12} col={"gray10Dark"}>
         {desc + "\n"}
         {moment(time).format("DD MMM YYYY, hh:mm:ss a")}
       </Paragraph>

@@ -14,17 +14,18 @@ const MoreItem = ({ title, icon, handlePress, ...rest }: MoreItemProps) => {
   return (
     <TouchableOpacity onPress={handlePress} {...rest}>
       <View
-        bg={"$gray2Light"}
-        padding={"$2"}
-        paddingVertical={"$1.5"}
-        borderRadius={"$5"}
+        bg="gray2Light"
+        paddingRight="2"
+        paddingLeft="2"
+        paddingVertical="1-5"
+        borderRadius="5"
       >
-        <XStack gap="$4" alignItems="center">
-          <Avatar size={35} bg={"$primary_light"} borderRadius={"$4"}>
+        <XStack gap="4" alignItems="center">
+          <Avatar size={35} bg="primary_light" borderRadius="4">
             {icon}
           </Avatar>
           <View flex={1}>
-            <Text col={"$black1"} fontWeight={"500"} fontSize={14}>
+            <Text col={"black1"} fontWeight={"500"} fontSize={14}>
               {title}
             </Text>
           </View>

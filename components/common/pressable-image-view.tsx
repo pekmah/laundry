@@ -35,8 +35,8 @@ const PressableImageView: FC<IPressableImageViewProps> = ({
       return source;
     } else if (typeof source === "number") {
       return [source];
-    } else if (typeof source === "object") {
-      return [{ uri: source?.uri || DEFAUlT_IMG }];
+    } else if (source && typeof source === "object" && "uri" in source) {
+      return [{ uri: source.uri || DEFAUlT_IMG }];
     } else {
       return [{ uri: DEFAUlT_IMG }];
     }

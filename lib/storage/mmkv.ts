@@ -1,6 +1,6 @@
-import { MMKV } from "react-native-mmkv";
+import { createMMKV } from "react-native-mmkv";
 
-const storage = new MMKV({
+const storage = createMMKV({
   id: "zustand-storage",
 });
 
@@ -13,6 +13,6 @@ export const ZustandStorage = {
     return value ?? null;
   },
   removeItem: (name) => {
-    return storage.delete(name);
+    storage.remove(name);
   },
 };

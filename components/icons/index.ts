@@ -1,0 +1,8 @@
+export { Check } from './Check'
+export { ChevronDown } from './ChevronDown'
+export { ChevronRight } from './ChevronRight'
+export { ChevronUp } from './ChevronUp'
+export { Delete } from './Delete'
+export { Trash } from './Trash'
+export { Trash2 } from './Trash2'
+export { XCircle } from './XCircle'

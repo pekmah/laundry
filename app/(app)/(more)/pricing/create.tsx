@@ -1,6 +1,5 @@
-import { Stack, useRouter } from "expo-router";
-import { View, Text, YStack, ScrollView } from "tamagui";
-import FontAwesome5 from "@expo/vector-icons/FontAwesome5";
+import { useRouter } from "expo-router";
+import { YStack, ScrollView } from "tamagui";
 import { useForm } from "react-hook-form";
 import React from "react";
 
@@ -10,7 +9,7 @@ import { ControlledInput } from "components/common/input";
 import { PricingFormData, PricingType } from "types/pricing";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { PricingSchema } from "lib/types/pricing";
-import { useToastController } from "@tamagui/toast";
+import { useToastController } from "lib/toast";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { PRICING_QUERY_KEY } from ".";
 import PricingServices from "lib/services/PricingServices";
@@ -24,11 +23,11 @@ const pricing = () => {
   const router = useRouter();
   const { pricing, reset } = usePricingStore();
 
-  const { control, handleSubmit, watch, } = useForm<PricingFormData>({
+  const { control, handleSubmit, watch, } = useForm<{ name: string; unitPrice: string; unit: string }>({
     resolver: zodResolver(PricingSchema),
     defaultValues: {
       name: pricing?.name || "",
-      unitPrice: pricing?.unitPrice?.toString() || 0,
+      unitPrice: pricing?.unitPrice?.toString() || "",
       unit: pricing?.unit || "",
     },
   });
@@ -93,38 +92,12 @@ const pricing = () => {
 
   return (
     <>
-      <Stack.Screen
-        options={{
-          headerRight: renderHeaderRight,
-        }}
-      />
-
-      <Container py={"$3"}>
+      <Container py={"3"}>
         <ScrollView
           keyboardDismissMode="interactive"
           keyboardShouldPersistTaps="handled"
         >
-          <View
-            backgroundColor={"$gray8Light"}
-            height={150}
-            width={"100%"}
-            borderRadius={"$6"}
-            alignItems="center"
-            justifyContent="center"
-          >
-            <FontAwesome5 name={"images"} size={35} color={"white"} />
-            <Text
-              fontWeight={"500"}
-              fontSize={12}
-              position="absolute"
-              bottom={10}
-              color={"white"}
-            >
-              Upload your pricing item image
-            </Text>
-          </View>
-
-          <YStack mt={"$4"}>
+          <YStack mt="4">
             {/* item name */}
             <ControlledInput
               name="name"
@@ -149,9 +122,9 @@ const pricing = () => {
               placeholder="unit of item i.e. kg, piece"
             />
             <CButton
-              onPress={handleSubmit(onSubmit)}
+              onPress={() => { void handleSubmit(onSubmit)(); }}
               text={isLoading ? "saving..." : isUpdating ? "Update" : "Save"}
-              mt="$4"
+              mt="4"
               letterSpacing={1}
               disabled={isLoading || (isUpdating && !hasDataChanged)}
             />
@@ -163,7 +136,3 @@ const pricing = () => {
 };
 
 export default pricing;
-
-const renderHeaderRight = () => {
-  return <Text>pricing</Text>;
-};

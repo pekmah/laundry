@@ -3,10 +3,10 @@ import OfferImg from "assets/images/offer.jpg";
 import { SectionTitle } from "components/common";
 const Offers = () => {
   return (
-    <View my={"$3"}>
+    <View my="3">
       <SectionTitle title="Latest Offers" />
 
-      <View overflow="hidden" borderRadius={"$4"} position="relative">
+      <View overflow="hidden" borderRadius="4" position="relative">
         <Image
           src={OfferImg}
           h={150}
@@ -15,11 +15,11 @@ const Offers = () => {
           maskPosition={"center"}
         />
 
-        <View position="absolute" top={"$1"} left={"$3"}>
+        <View position="absolute" top="1" left="3">
           <Text
             style={{ fontFamily: "praise" }}
             fontSize={24}
-            color={"$gray11Light"}
+            color="gray11Light"
           >
             Special season Offer
           </Text>

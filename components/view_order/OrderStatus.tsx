@@ -9,7 +9,7 @@ import { useMemo } from "react";
 import { Text, View, XStack, YStack } from "tamagui";
 import { ILaundryOrder } from "types/laundry";
 import LogItem from "./LogItem";
-import { useToastController } from "@tamagui/toast";
+import { useToastController } from "lib/toast";
 import { getErrorMessage } from "utils";
 
 const OrderStatus = () => {
@@ -63,24 +63,24 @@ const OrderStatus = () => {
   return (
     <View
       bg={"white"}
-      px={"$2"}
-      py={"$3"}
-      borderColor={"$gray5Light"}
+      px="2"
+      py="3"
+      borderColor="gray5Light"
       borderWidth={1}
-      borderRadius={"$5"}
-      mb={"$3"}
+      borderRadius="5"
+      mb="3"
     >
       <View
-        py={"$2"}
-        px={"$3"}
+        py="2"
+        px="3"
         borderBottomWidth={1}
-        borderBottomColor={"$gray6Light"}
+        borderBottomColor="gray6Light"
       >
         <Text
           letterSpacing={0.5}
           fontWeight={"700"}
           fontSize={15}
-          color={"$gray7Dark"}
+          color="gray7Dark"
           mr={"auto"}
         >
           Order Status
@@ -88,18 +88,18 @@ const OrderStatus = () => {
       </View>
 
       {!currentOrder.logs?.length ? (
-        <View py={"$4"}>
+        <View py="4">
           <EmptyLaundryList />
         </View>
       ) : (
-        <View mt={"$2"}>
+        <View mt="2">
           <XStack>
             {currentOrder.logs?.length ? (
-              <View flexDirection="row" justifyContent="center" w={"$3"}>
-                <View backgroundColor={"$primary"} w={2} my={"$3"} />
+              <View flexDirection="row" justifyContent="center" w="3">
+                <View backgroundColor="primary" w={2} my="3" />
               </View>
             ) : null}
-            <YStack gap={"$3"}>
+            <YStack gap="3">
               {currentOrder.logs?.map((log) => (
                 <LogItem
                   key={log.id}
@@ -128,13 +128,13 @@ const OrderStatus = () => {
         >
           <CButton
             disabled={updateStatusMutation.isPending}
-            mx={"$3"}
-            borderRadius={"$5"}
+            mx={"3"}
+            borderRadius={"5"}
             fontSize={12}
-            mt={"$3"}
+            mt={"3"}
           >
             <MaterialCommunityIcons name="update" size={18} color="white" />
-            <Text fontSize={13} color={"$white1"} fontWeight={"600"}>
+            <Text fontSize={13} color="white1" fontWeight={"600"}>
               {updateStatusMutation?.isPending
                 ? "Updating..."
                 : updateAction.title}

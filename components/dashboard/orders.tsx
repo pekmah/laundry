@@ -14,13 +14,13 @@ const RecentOrders = () => {
   const recentOrders = orders?.slice(0, 5);
 
   return (
-    <View my={"$2"}>
+    <View my="2">
       <XStack justifyContent="space-between">
         <SectionTitle title="Recent Orders" />
 
-        <Link href={"/(tabs)/orders"} asChild>
+        <Link href={"/(app)/(tabs)/orders"} asChild>
           <TouchableOpacity>
-            <Text fontSize={12} fontWeight={"500"} color={"$primary"} disabled>
+            <Text fontSize={12} fontWeight={"500"} color="primary" disabled>
               View All
             </Text>
           </TouchableOpacity>

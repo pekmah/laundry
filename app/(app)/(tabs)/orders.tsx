@@ -17,7 +17,7 @@ const orders = () => {
           headerRight: renderHeaderRight,
         }}
       />
-      <Container p={"$3"} bg={"$gray2Light"}>
+      <Container p={"3"} bg={"gray2Light"}>
         <Orders
           refreshing={isPending}
           onRefresh={refetch}
@@ -38,15 +38,15 @@ const renderHeaderRight = (props) => <HeaderRight {...props} />;
 const HeaderRight = () => {
   const router = useRouter();
   const handleAddOrder = () => {
-    router.push("create_order");
+    router.push("/(app)/(tabs)/create_order");
   };
   return (
     <CButton
-      p={"$2"}
+      p={"2"}
       h={40}
       w={40}
-      bg={"$colorTransparent"}
-      mr={"$3"}
+      bg={"colorTransparent"}
+      mr={"3"}
       onPress={handleAddOrder}
     >
       <Entypo name="plus" size={25} color={"black"} />

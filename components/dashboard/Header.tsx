@@ -24,7 +24,6 @@ const Header = () => {
     <View
       paddingHorizontal={CONTAINER_PADDING}
       paddingTop={top + 10}
-      backgroundColor={"$colorTransparent"}
       paddingBottom={10}
       bg={"white"}
     >
@@ -33,12 +32,12 @@ const Header = () => {
           Hello, {firstName}!
         </H4>
 
-        <XStack gap={"$3"}>
-          <Avatar size={35} borderRadius={"$2"} bg={"$primary_light"}>
+        <XStack gap="3">
+          <Avatar size={35} borderRadius="2" bg="primary_light">
             <Fontiso name="bell" size={20} color={theme.primary.val} />
           </Avatar>
           <TouchableOpacity onPress={handleViewReports}>
-            <Avatar size={35} borderRadius={"$2"} bg={"$primary_light"}>
+            <Avatar size={35} borderRadius="2" bg="primary_light">
               <Ionicons
                 name="analytics-sharp"
                 size={22}

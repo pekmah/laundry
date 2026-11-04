@@ -1,5 +1,5 @@
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useToastController } from "@tamagui/toast";
+import { useToastController } from "lib/toast";
 import { useMutation } from "@tanstack/react-query";
 import { Link } from "expo-router";
 import { useForm } from "react-hook-form";
@@ -26,7 +26,7 @@ const signup = () => {
       saveUser(data.user, data.token);
       reset();
       toast.show("Success.", {
-        message: "Account created successfully, awaiting approval",
+        message: "Account created successfully",
         type: "success",
       });
     },
@@ -36,7 +36,6 @@ const signup = () => {
         type: "error",
       });
 
-      console.log(JSON.stringify(error?.response?.data, null, 2));
     },
   });
 
@@ -46,7 +45,7 @@ const signup = () => {
   };
 
   return (
-    <Container backgroundColor={"$white1"} flex={1} py={"$0"}>
+    <Container backgroundColor={"white1"} flex={1} py={"0"}>
       <ScrollView
         automaticallyAdjustKeyboardInsets
         keyboardDismissMode="interactive"
@@ -56,10 +55,10 @@ const signup = () => {
         <Paragraph
           color={"black"}
           textAlign="center"
-          text="Await account approval once you create account"
+          text="Create an account to continue"
         />
 
-        <YStack mt={"$5"} gap={"$2"}>
+        <YStack mt="5" gap="2">
           {/* Name */}
           <ControlledInput
             name="name"
@@ -104,25 +103,25 @@ const signup = () => {
           />
 
           <CButton
-            onPress={handleSubmit(handleRegister)}
+            onPress={() => { void handleSubmit(handleRegister)(); }}
             text={isPending ? "Creating..." : "Create"}
-            mt="$4"
+            mt="4"
             letterSpacing={1}
             disabled={isPending}
           />
 
           <Paragraph
-            mt={"$2"}
+            mt={"2"}
             fontWeight={"500"}
             fontSize={14}
             textAlign="center"
             col={"black"}
           >
             Have an account?
-            <Link href={"/signin"}>
+            <Link href={"/(auth)"}>
               <Text
                 textDecorationLine={"underline"}
-                color={"$primary"}
+                color="primary"
                 fontWeight={"600"}
               >
                 {" "}
