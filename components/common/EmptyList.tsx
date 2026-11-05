@@ -24,12 +24,12 @@ const EmptyList = ({
         fontSize={13}
         textAlign="center"
         mt="2"
-        col={"gray9Light"}
+        col={"gray11Light"}
       >
         {message}
       </Text>
       <Text
-        col={"gray9Light"}
+        col={"gray11Light"}
         fontWeight={"300"}
         fontSize={11}
         w={"50%"}

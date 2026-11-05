@@ -1,12 +1,12 @@
-import { useColorScheme, StatusBar } from "react-native";
+import { Platform, StatusBar } from "react-native";
 import React from "react";
 
-const CStatusBar = () => {
-  const colorScheme = useColorScheme();
-
-  return (
-    <StatusBar barStyle={colorScheme === "dark" ? "light-content" : "dark-content"} />
-  );
-};
+const CStatusBar = ({ style = "dark" }: { style?: "light" | "dark" }) => (
+  <StatusBar
+    barStyle={style === "light" && !(Platform.OS === "android" && Number(Platform.Version) < 35)
+      ? "light-content"
+      : "dark-content"}
+  />
+);
 
 export default CStatusBar;

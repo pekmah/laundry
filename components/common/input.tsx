@@ -16,7 +16,7 @@ const CInput = ({ label, error, desc, ...rest }: Props) => {
         ) : null}
 
         {desc ? (
-          <Text fontSize={11} fontWeight={"500"} color="gray10Light">
+          <Text fontSize={11} fontWeight={"500"} color="gray11Light">
             {desc}
           </Text>
         ) : null}
@@ -25,10 +25,10 @@ const CInput = ({ label, error, desc, ...rest }: Props) => {
       <Input
         backgroundColor={`${error?.message ? "red1Light" : "white1"}`}
         borderWidth={1}
-        borderColor={`${error?.message ? "red10Light" : "gray6Light"}`}
+        borderColor={`${error?.message ? "red10Light" : "gray9Light"}`}
         color={"black"}
         fontSize={13}
-        placeholderTextColor="gray8Light"
+        placeholderTextColor="gray11Light"
         {...rest}
       />
       <Text h={"auto"} fontSize={12} fontWeight={"500"} color="red10Light">

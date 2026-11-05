@@ -100,7 +100,7 @@ const OrderItem = ({
                 <Text
                   lineHeight="25px"
                   fontSize={11}
-                  color="gray10Light"
+                  color="gray11Light"
                   fontWeight={"500"}
                 >
                   {moment(createdAt).format("DD MMM YYYY, HH:mm")}{" "}

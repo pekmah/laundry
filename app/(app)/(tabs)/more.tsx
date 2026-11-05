@@ -5,15 +5,16 @@ import { StyleSheet } from "react-native";
 import { ScrollView, View, YStack } from "tamagui";
 import React from "react";
 
-import { ConfirmDialogue, Container } from "components/common";
+import { CStatusBar, ConfirmDialogue, Container } from "components/common";
 import { MoreCard, MoreItem } from "components/more";
 import { COLORS } from "constants/Colors";
-import { useRouter } from "expo-router";
+import { useIsFocused, useRouter } from "expo-router";
 import { useAuthStore } from "lib/storage/useAuthStore";
 
 const more = () => {
   const { removeUser } = useAuthStore();
   const router = useRouter();
+  const isFocused = useIsFocused();
 
   const handleSignout = () => {
     removeUser();
@@ -25,6 +26,7 @@ const more = () => {
 
   return (
     <View style={styles.safeArea}>
+      {isFocused && <CStatusBar style="light" />}
       <MoreCard />
 
       <Container bg={"white"}>

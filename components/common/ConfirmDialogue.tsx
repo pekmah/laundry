@@ -1,6 +1,8 @@
-import { useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { AlertDialog, Button, XStack, YStack } from "tamagui";
 import React from "react";
+import { BackHandler } from "react-native";
+import { useFocusEffect } from "expo-router";
 
 type Props = {
   title?: string;
@@ -22,6 +24,17 @@ export default function ConfirmDialogue({
   children,
 }: Props) {
   const [open, setOpen] = useState(false);
+
+  useEffect(() => {
+    if (!open) return;
+    const subscription = BackHandler.addEventListener("hardwareBackPress", () => {
+      setOpen(false);
+      return true;
+    });
+    return () => subscription.remove();
+  }, [open]);
+
+  useFocusEffect(useCallback(() => () => setOpen(false), []));
 
   const handleClose = () => {
     setOpen(false);

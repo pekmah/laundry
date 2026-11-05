@@ -1,4 +1,4 @@
-import { CStatusBar, Container } from "components/common";
+import { Container } from "components/common";
 import {
   DashboardHeader,
   LaundryServices,
@@ -11,8 +11,6 @@ import React from "react";
 export default function Dashboard() {
   return (
     <>
-      <CStatusBar />
-
       <Stack.Screen
         options={{
           header: renderHeader,

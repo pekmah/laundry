@@ -9,6 +9,8 @@ import { BottomSheetModalProvider } from "@gorhom/bottom-sheet";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
 import { Provider } from "../components/Provider";
 import React from "react";
+import { Appearance, Platform } from "react-native";
+import { CStatusBar } from "../components/common";
 
 export {
   // Catch any errors thrown by the Layout component.
@@ -16,6 +18,9 @@ export {
 } from "expo-router";
 
 const queryClient = new QueryClient();
+
+// The current screens use a light palette, regardless of the device theme.
+if (Platform.OS !== "web") Appearance.setColorScheme("light");
 
 // Prevent the splash screen from auto-hiding before asset loading is complete.
 SplashScreen.preventAutoHideAsync();
@@ -52,6 +57,7 @@ function RootLayoutNav() {
     <GestureHandlerRootView style={{ flex: 1 }}>
       <QueryClientProvider client={queryClient}>
         <Provider>
+          <CStatusBar />
           <BottomSheetModalProvider>
             <Slot />
           </BottomSheetModalProvider>

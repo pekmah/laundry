@@ -67,7 +67,7 @@ const Reports = () => {
           borderBottomWidth={1}
           borderColor="primary_light"
         >
-          <Text fontSize={12} col={"gray10Light"} fontWeight={"600"}>
+          <Text fontSize={12} col={"gray11Light"} fontWeight={"600"}>
             {moment(item.createdAt).format("MMM DD, YYYY")}
           </Text>
 
@@ -138,7 +138,7 @@ const Reports = () => {
             </CButton>
           </XStack>
           {/* Description */}
-          <Text fontWeight={600} col={"gray10Light"} fontSize={12}>
+          <Text fontWeight={600} col={"gray11Light"} fontSize={12}>
             From {moment(dateFilters.from).format("MMM DD, YYYY")} to{" "}
             {moment(dateFilters.to).format("MMM DD, YYYY")}
             {/* {JSON.stringify(flattenedOrders, null, 2)} */}
